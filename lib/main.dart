@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     context.read<LanguageProvider>().loadLanguage();
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'KCH PORTFOLIO',
+      title: 'Petto',
       routerConfig: appRouter,
       theme: context.watch<ThemeProvider>().theme,
       locale: Locale(context.watch<LanguageProvider>().language),
