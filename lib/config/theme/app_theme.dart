@@ -14,7 +14,7 @@ class AppTheme {
         surface: lightSurface,
         surfaceVariant: lightSurfaceVariant,
       ),
-      scaffoldBackgroundColor: Colors.white);
+      scaffoldBackgroundColor: lightBackground);
 
   static ThemeData darkTheme() => ThemeData(scaffoldBackgroundColor: Colors.grey);
 }

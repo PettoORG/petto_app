@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color lightBackground = Color(0xFFf9f9f9);
+const Color lightBackground = Color(0xFFFFF7F6);
 const Color lightPrimary = Color(0xFFe68b78);
 const Color lightPrimaryContainer = Color(0xFFffe5e4);
 const Color lightSurface = Color(0xFFce3312);
