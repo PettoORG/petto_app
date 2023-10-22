@@ -1,3 +1,11 @@
 {
-    "helloWorld": "Hola Mundo"
+    "helloWorld": "Hola Mundo",
+    "yourWellCaredPet": "Tu mascota, bien cuidada",
+    "pettips": "Pettips",
+    "skip": "saltar",
+    "letsGo": "vamos",
+    "pettoHelpsYourPet": "Petto te ayuda a que tu mascota esté sana, feliz y bien cuidada.",
+    "essentialReminders": "Recordatorios esenciales",
+    "pettoRemindsYou": "Petto te recuerda el veterinario, las vacunas y otros eventos importantes para tu peludo",
+    "pettoProvidesTips": "Petto te proporciona información útil sobre la salud, nutrición y entrenamiento de tu peludo"
 }

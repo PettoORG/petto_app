@@ -8,6 +8,11 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
     builder: (context, state) => const HomeScreen(),
   ),
   GoRoute(
+    path: '/onboarding',
+    name: OnboardingScreen.name,
+    builder: (context, state) => const OnboardingScreen(),
+  ),
+  GoRoute(
     path: '/splash',
     name: SplashScreen.name,
     builder: (context, state) => const SplashScreen(),

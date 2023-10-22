@@ -3,8 +3,8 @@ import 'package:petto_app/config/theme/app_theme.dart';
 import 'package:petto_app/utils/local_storage.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  bool _isDarkMode = true;
-  ThemeData _theme = AppTheme.darkTheme();
+  bool _isDarkMode = false;
+  ThemeData _theme = AppTheme.lightTheme();
 
   loadTheme() async {
     final themePrefs = LocalStorage.prefs.getBool('isDarkMode');
