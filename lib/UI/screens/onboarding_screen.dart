@@ -68,7 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ],
           ),
           Positioned(
-            bottom: 20,
+            bottom: 2.h,
             right: 0,
             left: 0,
             child: Container(
@@ -214,7 +214,7 @@ class _OnboardingFirstView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 50),
+                      padding: EdgeInsets.only(right: 20.w),
                       child: Text(
                         title,
                         style: Theme.of(context).textTheme.titleLarge,

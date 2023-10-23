@@ -16,7 +16,8 @@ class AppTheme {
             tertiaryContainer: lightTertiaryContainer,
             surface: lightSurface,
             surfaceVariant: lightSurfaceVariant,
-            onBackground: lightIconColor),
+            onBackground: lightIconColor,
+            shadow: lightShadowColor),
         scaffoldBackgroundColor: lightBackground,
         iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
@@ -25,8 +26,19 @@ class AppTheme {
           ),
         ),
         textButtonTheme: TextButtonThemeData(
-            style:
-                ButtonStyle(textStyle: MaterialStatePropertyAll(TextStyle(fontFamily: 'Comfortaa', fontSize: 12.sp)))),
+          style: ButtonStyle(
+            textStyle: MaterialStatePropertyAll(
+              TextStyle(fontFamily: 'Comfortaa', fontSize: 12.sp),
+            ),
+          ),
+        ),
+        iconTheme: IconThemeData(color: lightIconColor, size: 10.w),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.w),
+            borderSide: const BorderSide(),
+          ),
+        ),
         textTheme: TextTheme(
             titleLarge: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
             titleMedium: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
