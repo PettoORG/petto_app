@@ -116,7 +116,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ? TextButton(
                             onPressed: () {
                               LocalStorage.prefs.setBool('showOnboarding', false);
-                              return context.pushReplacement('/home');
+                              return context.pushReplacement('/home/pet-register');
                             },
                             child: Text(AppLocalizations.of(context)!.letsGo))
                         : IconButton(

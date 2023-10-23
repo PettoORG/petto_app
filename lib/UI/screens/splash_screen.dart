@@ -22,12 +22,13 @@ class SplashScreen extends StatelessWidget {
               onComplete: (_) => Future.delayed(
                 const Duration(milliseconds: 400),
                 () {
-                  if (LocalStorage.prefs.getBool('showOnboarding') != null &&
-                      LocalStorage.prefs.getBool('showOnboarding') == false) {
-                    return context.pushReplacement('/home');
-                  } else {
-                    return context.pushReplacement('/onboarding');
-                  }
+                  return context.pushReplacement('/onboarding');
+                  // if (LocalStorage.prefs.getBool('showOnboarding') != null &&
+                  //     LocalStorage.prefs.getBool('showOnboarding') == false) {
+                  //   return context.pushReplacement('/home');
+                  // } else {
+                  //   return context.pushReplacement('/onboarding');
+                  // }
                 },
               ),
             )
