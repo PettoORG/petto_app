@@ -25,6 +25,18 @@ class AppTheme {
             iconColor: const MaterialStatePropertyAll(lightIconColor),
           ),
         ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+              elevation: 10,
+              disabledBackgroundColor: lightSurfaceVariant,
+              backgroundColor: lightPrimary,
+              shadowColor: lightShadowColor,
+              textStyle: TextStyle(fontSize: 13.sp),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.w)),
+              side: const BorderSide(color: lightPrimary),
+              foregroundColor: Colors.white),
+        ),
+        datePickerTheme: const DatePickerThemeData(backgroundColor: lightPrimaryContainer),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
             textStyle: MaterialStatePropertyAll(
@@ -34,15 +46,18 @@ class AppTheme {
         ),
         iconTheme: IconThemeData(color: lightIconColor, size: 10.w),
         inputDecorationTheme: InputDecorationTheme(
+          labelStyle: TextStyle(fontSize: 12.sp),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.w),
             borderSide: const BorderSide(),
           ),
         ),
         textTheme: TextTheme(
-            titleLarge: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
-            titleMedium: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
-            bodyLarge: TextStyle(fontSize: 14.sp)),
+          titleLarge: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
+          titleMedium: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
+          bodyLarge: TextStyle(fontSize: 14.sp),
+          bodyMedium: TextStyle(fontSize: 12.sp),
+        ),
       );
   static ThemeData darkTheme() => ThemeData(scaffoldBackgroundColor: Colors.grey);
 }
