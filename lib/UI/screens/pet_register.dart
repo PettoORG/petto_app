@@ -69,11 +69,14 @@ class PetRegisterScreen extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyMedium)),
                   ),
                   SizedBox(height: 5.h),
+                  const Visibility(visible: true, child: _MuttDogSizeSection()),
+                  const Visibility(visible: false, child: _MuttCatSizeSection()),
+                  SizedBox(height: 5.h),
                   const _BirthPetPicker(),
                   SizedBox(height: 5.h),
                   const _PetWeightSection(),
                   SizedBox(height: 5.h),
-                  const _SaveButton()
+                  const _SaveButton(),
                 ],
               ),
             )
@@ -81,6 +84,114 @@ class PetRegisterScreen extends StatelessWidget {
         ),
       ],
     ));
+  }
+}
+
+class _MuttDogSizeSection extends StatefulWidget {
+  const _MuttDogSizeSection();
+
+  @override
+  State<_MuttDogSizeSection> createState() => _MuttDogSizeSectionState();
+}
+
+class _MuttDogSizeSectionState extends State<_MuttDogSizeSection> {
+  late Color firstCardColor = Theme.of(context).colorScheme.surfaceVariant;
+  late Color secondCardColor = Theme.of(context).colorScheme.surfaceVariant;
+  late Color thirdCardColor = Theme.of(context).colorScheme.surfaceVariant;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        OnboardingPetSizeOption(
+          asset: 'assets/small-dog.svg',
+          color: firstCardColor,
+          text: 'Pequeño',
+          width: 27.w,
+          onTap: () {
+            setState(() {
+              firstCardColor = Theme.of(context).colorScheme.primaryContainer;
+              secondCardColor = Theme.of(context).colorScheme.surfaceVariant;
+              thirdCardColor = Theme.of(context).colorScheme.surfaceVariant;
+            });
+          },
+        ),
+        const Spacer(),
+        OnboardingPetSizeOption(
+          asset: 'assets/medium-dog.svg',
+          color: secondCardColor,
+          text: 'Mediano',
+          width: 27.w,
+          onTap: () {
+            setState(() {
+              firstCardColor = Theme.of(context).colorScheme.surfaceVariant;
+              secondCardColor = Theme.of(context).colorScheme.primaryContainer;
+              thirdCardColor = Theme.of(context).colorScheme.surfaceVariant;
+            });
+          },
+        ),
+        const Spacer(),
+        OnboardingPetSizeOption(
+          asset: 'assets/big-dog.svg',
+          color: thirdCardColor,
+          text: 'Grande',
+          width: 27.w,
+          onTap: () {
+            setState(() {
+              firstCardColor = Theme.of(context).colorScheme.surfaceVariant;
+              secondCardColor = Theme.of(context).colorScheme.surfaceVariant;
+              thirdCardColor = Theme.of(context).colorScheme.primaryContainer;
+            });
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _MuttCatSizeSection extends StatefulWidget {
+  const _MuttCatSizeSection();
+
+  @override
+  State<_MuttCatSizeSection> createState() => _MuttCatSizeSectionState();
+}
+
+class _MuttCatSizeSectionState extends State<_MuttCatSizeSection> {
+  late Color firstCardColor = Theme.of(context).colorScheme.surfaceVariant;
+  late Color secondCardColor = Theme.of(context).colorScheme.surfaceVariant;
+  late Color thirdCardColor = Theme.of(context).colorScheme.surfaceVariant;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        OnboardingPetSizeOption(
+          asset: 'assets/cat-size.svg',
+          color: firstCardColor,
+          text: 'Pequeño',
+          width: 40.w,
+          onTap: () {
+            setState(() {
+              firstCardColor = Theme.of(context).colorScheme.primaryContainer;
+              secondCardColor = Theme.of(context).colorScheme.surfaceVariant;
+              thirdCardColor = Theme.of(context).colorScheme.surfaceVariant;
+            });
+          },
+        ),
+        const Spacer(),
+        OnboardingPetSizeOption(
+          asset: 'assets/cat-size.svg',
+          color: thirdCardColor,
+          text: 'Mediano',
+          width: 40.w,
+          onTap: () {
+            setState(() {
+              firstCardColor = Theme.of(context).colorScheme.surfaceVariant;
+              secondCardColor = Theme.of(context).colorScheme.surfaceVariant;
+              thirdCardColor = Theme.of(context).colorScheme.primaryContainer;
+            });
+          },
+        ),
+      ],
+    );
   }
 }
 
@@ -125,7 +236,7 @@ class _PetWeightSection extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: 8.w),
+        SizedBox(width: 6.w),
         Flexible(
             child: Text(
           AppLocalizations.of(context)!.enterYourPetsWeight,
@@ -222,7 +333,7 @@ class __DefaultSectionState extends State<_DefaultSection> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CardOption(
+        OnboardingCardOption(
           color: _firstCardColor,
           onTap: () {
             setState(() {
@@ -236,7 +347,7 @@ class __DefaultSectionState extends State<_DefaultSection> {
           child: widget.firstCardChild,
         ),
         const Spacer(),
-        CardOption(
+        OnboardingCardOption(
           color: _secondCardColor,
           onTap: () {
             setState(() {

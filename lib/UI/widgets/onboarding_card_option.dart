@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class CardOption extends StatelessWidget {
+class OnboardingCardOption extends StatelessWidget {
   final Function()? onTap;
   final Color color;
   final Color? borderColor;
   final Widget? child;
 
-  const CardOption({
+  const OnboardingCardOption({
     super.key,
     this.onTap,
     required this.color,
     this.child,
-    this.borderColor, // No es necesario el "required" aquí
+    this.borderColor,
   });
 
   @override
