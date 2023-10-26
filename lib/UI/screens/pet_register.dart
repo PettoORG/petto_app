@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
-import 'package:petto_app/config/constants/colors.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -50,6 +49,10 @@ class PetRegisterScreen extends StatelessWidget {
                 onOptionSelected: (petType) {},
               ),
               SizedBox(height: 5.h),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Tamaño', style: Theme.of(context).textTheme.titleSmall)),
+              SizedBox(height: 1.h),
               _MuttSizeSection(
                 options: [
                   _MuttSizeOption(asset: 'assets/small-dog.svg', text: 'Pequeño', size: 27.w),
@@ -61,9 +64,15 @@ class PetRegisterScreen extends StatelessWidget {
               SizedBox(height: 5.h),
               const _BirthPetPicker(),
               SizedBox(height: 5.h),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Peso', style: Theme.of(context).textTheme.titleSmall),
+              ),
+              SizedBox(height: 1.h),
               const _PetWeightSection(),
               SizedBox(height: 5.h),
               const _SaveButton(),
+              SizedBox(height: 1.h),
             ],
           ),
         ),
@@ -182,7 +191,7 @@ class _SaveButton extends StatelessWidget {
           context.pushReplacementNamed('home');
         },
         style: OutlinedButton.styleFrom(
-          fixedSize: Size(70.w, 6.h),
+          fixedSize: Size(75.w, 6.5.h),
         ),
         child: Text(AppLocalizations.of(context)!.next));
   }
@@ -249,7 +258,8 @@ class _BirthPetPicker extends StatelessWidget {
           dateController.text = formattedDate;
         }
       },
-      decoration: InputDecoration(label: Text(AppLocalizations.of(context)!.petDateOfBirth)),
+      decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.pets), label: Text(AppLocalizations.of(context)!.petDateOfBirth)),
     );
   }
 }

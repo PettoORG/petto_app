@@ -33,6 +33,7 @@ class OnboardingDefaultOption extends StatelessWidget {
               child: Text(
                 text,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
                       color: (color == Theme.of(context).colorScheme.primary)
                           ? Theme.of(context).colorScheme.background
                           : Colors.black,
