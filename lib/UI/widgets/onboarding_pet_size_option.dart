@@ -22,6 +22,7 @@ class OnboardingPetSizeOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(5.w),
       child: Ink(
         padding: EdgeInsets.all(2.5.w),
         width: width,
@@ -50,7 +51,10 @@ class OnboardingPetSizeOption extends StatelessWidget {
                 height: 20.w,
               ),
             ),
-            Text(text),
+            Text(
+              text,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ],
         ),
       ),

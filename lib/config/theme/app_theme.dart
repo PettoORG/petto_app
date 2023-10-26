@@ -25,6 +25,7 @@ class AppTheme {
             iconColor: const MaterialStatePropertyAll(lightIconColor),
           ),
         ),
+        appBarTheme: const AppBarTheme(backgroundColor: lightBackground),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
               elevation: 10,
@@ -46,18 +47,27 @@ class AppTheme {
         ),
         iconTheme: IconThemeData(color: lightIconColor, size: 10.w),
         inputDecorationTheme: InputDecorationTheme(
-          labelStyle: TextStyle(fontSize: 12.sp),
-          border: OutlineInputBorder(
+          filled: true,
+          fillColor: lightSurfaceVariant,
+          prefixIconColor: lightTextColor2,
+          labelStyle: TextStyle(fontSize: 12.sp, color: lightTextColor2),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: lightShadowColor),
             borderRadius: BorderRadius.circular(5.w),
-            borderSide: const BorderSide(),
+          ),
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(color: lightShadowColor),
+            borderRadius: BorderRadius.circular(5.w),
           ),
         ),
         textTheme: TextTheme(
           titleLarge: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
           titleMedium: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
+          titleSmall: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
           bodyLarge: TextStyle(fontSize: 14.sp),
           bodyMedium: TextStyle(fontSize: 12.sp),
         ),
       );
+
   static ThemeData darkTheme() => ThemeData(scaffoldBackgroundColor: Colors.grey);
 }

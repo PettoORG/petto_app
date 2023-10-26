@@ -1,11 +1,18 @@
 import 'package:go_router/go_router.dart';
 import 'package:petto_app/UI/screens/screens.dart';
 
-final appRouter = GoRouter(initialLocation: '/onboarding', routes: [
+final appRouter = GoRouter(initialLocation: '/pet-register', routes: [
   GoRoute(
-    path: '/home',
+    path: '/',
     name: HomeScreen.name,
     builder: (context, state) => const HomeScreen(),
+    routes: [
+      GoRoute(
+        path: 'user-profile',
+        name: UserProfileScreen.name,
+        builder: (context, state) => const UserProfileScreen(),
+      )
+    ],
   ),
   GoRoute(
     path: '/pet-register',
