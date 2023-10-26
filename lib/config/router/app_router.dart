@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:petto_app/UI/screens/screens.dart';
 
-final appRouter = GoRouter(initialLocation: '/pet-register', routes: [
+final appRouter = GoRouter(initialLocation: '/onboarding', routes: [
   GoRoute(
     path: '/',
     name: HomeScreen.name,
