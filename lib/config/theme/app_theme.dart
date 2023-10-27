@@ -19,6 +19,7 @@ class AppTheme {
             onBackground: lightIconColor,
             shadow: lightShadowColor),
         scaffoldBackgroundColor: lightBackground,
+        iconTheme: IconThemeData(color: lightIconColor, size: 9.w),
         iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
             iconSize: MaterialStatePropertyAll(8.w),
@@ -45,7 +46,6 @@ class AppTheme {
             ),
           ),
         ),
-        iconTheme: IconThemeData(color: lightIconColor, size: 9.w),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: lightSurfaceVariant,

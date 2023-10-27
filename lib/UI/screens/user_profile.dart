@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserProfileScreen extends StatelessWidget {
   static const name = 'user-profile';
@@ -10,11 +11,12 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<_CardModel> options = [
-      _CardModel(title: 'Mi cuenta', icon: Icons.settings, pushNamed: ''),
-      _CardModel(title: 'Notificaciones', icon: Icons.notifications, pushNamed: ''),
-      _CardModel(title: 'Soporte', icon: Icons.support_agent, pushNamed: ''),
-      _CardModel(title: 'Politicas de seguridad', icon: Icons.verified_user_rounded, pushNamed: ''),
-      _CardModel(title: 'Cerrar sesion', icon: Icons.logout_rounded, pushNamed: ''),
+      _CardModel(title: AppLocalizations.of(context)!.myAccount, icon: Icons.settings, pushNamed: ''),
+      _CardModel(title: AppLocalizations.of(context)!.notifications, icon: Icons.notifications, pushNamed: ''),
+      _CardModel(title: AppLocalizations.of(context)!.support, icon: Icons.support_agent, pushNamed: ''),
+      _CardModel(
+          title: AppLocalizations.of(context)!.securityPolicies, icon: Icons.verified_user_rounded, pushNamed: ''),
+      _CardModel(title: AppLocalizations.of(context)!.logOut, icon: Icons.logout_rounded, pushNamed: ''),
     ];
     return Scaffold(
       body: Stack(
@@ -123,22 +125,29 @@ class _UserResume extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Container(
-            height: 12.h,
-            width: 12.h,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.w),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 5,
-                  color: Theme.of(context).colorScheme.shadow,
-                  offset: const Offset(0, 0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(onPressed: () {}, icon: const Icon(Icons.language)),
+              Container(
+                height: 12.h,
+                width: 12.h,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5.w),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 5,
+                      color: Theme.of(context).colorScheme.shadow,
+                      offset: const Offset(0, 0),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.dark_mode)),
+            ],
           ),
           SizedBox(height: .5.h),
           const Text('Jorge Arrieta'),
