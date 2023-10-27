@@ -32,32 +32,33 @@ class PetRegisterScreen extends StatelessWidget {
               const _PetNameSection(),
               SizedBox(height: 5.h),
               _DefaultSection(
-                title: 'Tipo de mascota',
-                options: const ['Perro', 'Gato'],
+                title: AppLocalizations.of(context)!.petType,
+                options: [AppLocalizations.of(context)!.dog, AppLocalizations.of(context)!.cat],
                 onOptionSelected: (petType) {},
               ),
               SizedBox(height: 5.h),
               _DefaultSection(
-                title: 'Genero',
-                options: const ['Hembra', 'Macho'],
+                title: AppLocalizations.of(context)!.gender,
+                options: [AppLocalizations.of(context)!.female, AppLocalizations.of(context)!.male],
                 onOptionSelected: (petType) {},
               ),
               SizedBox(height: 5.h),
               _DefaultSection(
-                title: 'Tipo',
-                options: const ['Raza', 'Criollo'],
+                title: AppLocalizations.of(context)!.petBreed,
+                options: [AppLocalizations.of(context)!.purebred, AppLocalizations.of(context)!.mutt],
                 onOptionSelected: (petType) {},
               ),
               SizedBox(height: 5.h),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Tamaño', style: Theme.of(context).textTheme.titleSmall)),
+                  child: Text(AppLocalizations.of(context)!.petSize, style: Theme.of(context).textTheme.titleSmall)),
               SizedBox(height: 1.h),
               _MuttSizeSection(
                 options: [
-                  _MuttSizeOption(asset: 'assets/small-dog.svg', text: 'Pequeño', size: 27.w),
-                  _MuttSizeOption(asset: 'assets/medium-dog.svg', text: 'Mediano', size: 27.w),
-                  _MuttSizeOption(asset: 'assets/big-dog.svg', text: 'Grande', size: 27.w),
+                  _MuttSizeOption(asset: 'assets/small-dog.svg', text: AppLocalizations.of(context)!.small, size: 27.w),
+                  _MuttSizeOption(
+                      asset: 'assets/medium-dog.svg', text: AppLocalizations.of(context)!.medium, size: 27.w),
+                  _MuttSizeOption(asset: 'assets/big-dog.svg', text: AppLocalizations.of(context)!.large, size: 27.w),
                 ],
                 onOptionSelected: (petSize) {},
               ),
@@ -66,7 +67,7 @@ class PetRegisterScreen extends StatelessWidget {
               SizedBox(height: 5.h),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Peso', style: Theme.of(context).textTheme.titleSmall),
+                child: Text(AppLocalizations.of(context)!.petWeight, style: Theme.of(context).textTheme.titleSmall),
               ),
               SizedBox(height: 1.h),
               const _PetWeightSection(),

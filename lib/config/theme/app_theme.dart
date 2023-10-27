@@ -45,7 +45,7 @@ class AppTheme {
             ),
           ),
         ),
-        iconTheme: IconThemeData(color: lightIconColor, size: 10.w),
+        iconTheme: IconThemeData(color: lightIconColor, size: 9.w),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: lightSurfaceVariant,

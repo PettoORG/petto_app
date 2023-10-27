@@ -9,12 +9,92 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    List<_CardModel> options = [
+      _CardModel(title: 'Mi cuenta', icon: Icons.settings, pushNamed: ''),
+      _CardModel(title: 'Notificaciones', icon: Icons.notifications, pushNamed: ''),
+      _CardModel(title: 'Soporte', icon: Icons.support_agent, pushNamed: ''),
+      _CardModel(title: 'Politicas de seguridad', icon: Icons.verified_user_rounded, pushNamed: ''),
+      _CardModel(title: 'Cerrar sesion', icon: Icons.logout_rounded, pushNamed: ''),
+    ];
+    return Scaffold(
       body: Stack(
         children: [
-          _DecorationBox(),
-          _UserResume(),
+          const _DecorationBox(),
+          Positioned(
+            top: 7.h,
+            left: 0,
+            right: 0,
+            child: Column(
+              children: [
+                const _UserResume(),
+                SizedBox(height: 3.h),
+                ...List.generate(
+                  options.length,
+                  (index) => Column(
+                    children: [
+                      _CardOption(options[index]),
+                      SizedBox(height: 2.h),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
         ],
+      ),
+    );
+  }
+}
+
+class _CardOption extends StatelessWidget {
+  final _CardModel option;
+  const _CardOption(this.option);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 7.w),
+      child: InkWell(
+        onTap: () {},
+        borderRadius: BorderRadius.circular(5.w),
+        child: Ink(
+          padding: EdgeInsets.all(4.w),
+          width: double.infinity,
+          height: 9.h,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surfaceVariant,
+            borderRadius: BorderRadius.circular(5.w),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 5,
+                color: Theme.of(context).colorScheme.shadow,
+                offset: const Offset(0, 0),
+              )
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                  height: 5.5.h,
+                  width: 5.5.h,
+                  decoration: BoxDecoration(color: lightPrimaryContainer, borderRadius: BorderRadius.circular(1.h)),
+                  child: Icon(option.icon, color: lightPrimary)),
+              SizedBox(
+                width: 3.w,
+              ),
+              Text(
+                option.title,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const Spacer(),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 7.w,
+                color: lightShadowColor,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -25,65 +105,60 @@ class _UserResume extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 12.h,
-      left: 0,
-      right: 0,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 5.w),
-        margin: EdgeInsets.symmetric(horizontal: 7.w),
-        height: 35.h,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.background,
-          borderRadius: BorderRadius.all(Radius.circular(5.w)),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 5,
-              color: Theme.of(context).colorScheme.shadow,
-              offset: const Offset(0, 0),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Container(
-              height: 12.h,
-              width: 12.h,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5.w),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 5.w),
+      margin: EdgeInsets.symmetric(horizontal: 7.w),
+      height: 35.h,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceVariant,
+        borderRadius: BorderRadius.all(Radius.circular(5.w)),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 5,
+            color: Theme.of(context).colorScheme.shadow,
+            offset: const Offset(0, 0),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Container(
+            height: 12.h,
+            width: 12.h,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.all(
+                Radius.circular(5.w),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 5,
+                  color: Theme.of(context).colorScheme.shadow,
+                  offset: const Offset(0, 0),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 5,
-                    color: Theme.of(context).colorScheme.shadow,
-                    offset: const Offset(0, 0),
-                  ),
-                ],
-              ),
+              ],
             ),
-            SizedBox(height: .5.h),
-            const Text('Jorge Arrieta'),
-            SizedBox(height: .5.h),
-            const Text('jorge.arrieta@gmail.com'),
-            SizedBox(height: 2.h),
-            Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => const _PetAvatar(),
-                      itemCount: 5,
-                    ),
+          ),
+          SizedBox(height: .5.h),
+          const Text('Jorge Arrieta'),
+          SizedBox(height: .5.h),
+          const Text('jorge.arrieta@gmail.com'),
+          SizedBox(height: 2.h),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => const _PetAvatar(),
+                    itemCount: 5,
                   ),
-                ],
-              ),
-            )
-          ],
-        ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
@@ -99,7 +174,7 @@ class _PetAvatar extends StatelessWidget {
       child: Container(
         width: 20.w,
         height: 20.w,
-        decoration: BoxDecoration(color: lightSurfaceVariant, borderRadius: BorderRadius.circular(10.w)),
+        decoration: BoxDecoration(color: lightBackground, borderRadius: BorderRadius.circular(10.w)),
       ),
     );
   }
@@ -123,4 +198,12 @@ class _DecorationBox extends StatelessWidget {
       ),
     );
   }
+}
+
+class _CardModel {
+  final String title;
+  final IconData icon;
+  final String pushNamed;
+
+  _CardModel({required this.title, required this.icon, required this.pushNamed});
 }
