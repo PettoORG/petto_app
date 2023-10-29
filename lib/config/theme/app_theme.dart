@@ -8,6 +8,7 @@ class AppTheme {
         fontFamily: 'Montserrat',
         colorScheme: const ColorScheme.light(
             background: lightBackground,
+            onSurfaceVariant: lightIconColor,
             primary: lightPrimary,
             primaryContainer: lightPrimaryContainer,
             secondary: lightSecondary,
