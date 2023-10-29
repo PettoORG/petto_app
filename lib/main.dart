@@ -13,7 +13,8 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => LanguageProvider()),
-      ChangeNotifierProvider(create: (context) => ThemeProvider())
+      ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ChangeNotifierProvider(create: (context) => ConnectionStatusProvider()),
     ],
     child: const MyApp(),
   ));

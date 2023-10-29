@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,38 +13,43 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<_CardModel> options = [
-      _CardModel(title: AppLocalizations.of(context)!.myAccount, icon: Icons.settings, pushNamed: ''),
-      _CardModel(title: AppLocalizations.of(context)!.notifications, icon: Icons.notifications, pushNamed: ''),
-      _CardModel(title: AppLocalizations.of(context)!.support, icon: Icons.support_agent, pushNamed: ''),
+      _CardModel(title: AppLocalizations.of(context)!.myAccount, icon: BoxIcons.bx_face, pushNamed: ''),
+      _CardModel(title: AppLocalizations.of(context)!.notifications, icon: BoxIcons.bx_bell, pushNamed: ''),
+      _CardModel(title: AppLocalizations.of(context)!.support, icon: BoxIcons.bx_support, pushNamed: ''),
       _CardModel(
-          title: AppLocalizations.of(context)!.securityPolicies, icon: Icons.verified_user_rounded, pushNamed: ''),
-      _CardModel(title: AppLocalizations.of(context)!.logOut, icon: Icons.logout_rounded, pushNamed: ''),
+          title: AppLocalizations.of(context)!.securityPolicies, icon: BoxIcons.bx_shield_quarter, pushNamed: ''),
+      _CardModel(title: AppLocalizations.of(context)!.logOut, icon: BoxIcons.bx_log_out_circle, pushNamed: ''),
     ];
-    return Scaffold(
-      body: Stack(
-        children: [
-          const _DecorationBox(),
-          Positioned(
-            top: 7.h,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                const _UserResume(),
-                SizedBox(height: 3.h),
-                ...List.generate(
-                  options.length,
-                  (index) => Column(
-                    children: [
-                      _CardOption(options[index]),
-                      SizedBox(height: 2.h),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: SizedBox(
+        width: double.infinity,
+        height: 100.h,
+        child: Stack(
+          children: [
+            const _DecorationBox(),
+            Positioned(
+              top: 7.h,
+              left: 0,
+              right: 0,
+              child: Column(
+                children: [
+                  const _UserResume(),
+                  SizedBox(height: 3.h),
+                  ...List.generate(
+                    options.length,
+                    (index) => Column(
+                      children: [
+                        _CardOption(options[index]),
+                        SizedBox(height: 1.5.h),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -129,7 +135,7 @@ class _UserResume extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+              IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_world)),
               Container(
                 height: 12.h,
                 width: 12.h,
@@ -147,7 +153,7 @@ class _UserResume extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.dark_mode)),
+              IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_brightness)),
             ],
           ),
           SizedBox(height: .5.h),
