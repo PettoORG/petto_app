@@ -29,5 +29,10 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
     path: '/splash',
     name: SplashScreen.name,
     builder: (context, state) => const SplashScreen(),
+  ),
+  GoRoute(
+    path: '/offline',
+    name: OfflineScreen.name,
+    builder: (context, state) => const OfflineScreen(),
   )
 ]);

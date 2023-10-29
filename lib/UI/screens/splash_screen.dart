@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/utils/local_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -50,12 +52,17 @@ class SplashScreen extends StatelessWidget {
                       .animate(
                         onComplete: (_) => Future.delayed(
                           const Duration(milliseconds: 400),
-                          () {
-                            if (LocalStorage.prefs.getBool('showOnboarding') != null &&
-                                LocalStorage.prefs.getBool('showOnboarding') == false) {
-                              return context.pushReplacement('/');
+                          () async {
+                            await context.read<ConnectionStatusProvider>().checkInternetConnection();
+                            final bool shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding') == true;
+                            final bool isOnline = context.read<ConnectionStatusProvider>().isOnline;
+                            if (!shouldShowOnboarding) {
+                              if (isOnline) {
+                                return context.pushReplacementNamed('home');
+                              }
+                              return context.pushReplacementNamed('offline');
                             } else {
-                              return context.pushReplacement('/onboarding');
+                              return context.pushReplacementNamed('onboarding');
                             }
                           },
                         ),
