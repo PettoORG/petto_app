@@ -26,8 +26,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
-      context.read<LanguageProvider>().loadLanguage();
-      context.read<ThemeProvider>().loadTheme();
       return MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Petto',

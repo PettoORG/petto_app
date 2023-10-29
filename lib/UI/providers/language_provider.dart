@@ -4,7 +4,11 @@ import 'package:petto_app/utils/local_storage.dart';
 class LanguageProvider extends ChangeNotifier {
   String _language = 'es';
 
-  loadLanguage() async {
+  LanguageProvider() {
+    _loadLanguage();
+  }
+
+  _loadLanguage() async {
     final languagePrefs = LocalStorage.prefs.getString('language');
     if (languagePrefs != null) {
       _language = languagePrefs;
@@ -22,8 +26,6 @@ class LanguageProvider extends ChangeNotifier {
       _language = 'en';
     } else if (_language == 'en') {
       _language = 'es';
-    } else {
-      loadLanguage();
     }
     _saveLanguage(_language);
     notifyListeners();
