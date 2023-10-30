@@ -32,5 +32,13 @@
     "pettoHelpsYourPet": "Petto helps ensure your pet is healthy, happy, and well-cared for.",
     "essentialReminders": "Essential reminders",
     "pettoRemindsYou": "Petto reminds you of the veterinarian, vaccinations, and important events for your furry friend",
-    "pettoProvidesTips": "Petto provides you with useful information about the health, nutrition, and training of your furry friend"
+    "pettoProvidesTips": "Petto provides you with useful information about the health, nutrition, and training of your furry friend",
+    "welcomeBack": "Welcome back!",
+    "enterYourEmail": "enter your email and password",
+    "user": "User",
+    "password": "Password",
+    "forgetPassword": "Forget password?",
+    "signIn": "Sign In",
+    "dontHaveAccount": "Don't have an account?",
+    "register": "Sign Up"
 }
