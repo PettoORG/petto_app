@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,11 +11,26 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
     List<_OptionModel> options = [
-      _OptionModel(icon: BoxIcons.bx_health, title: 'Salud', color: color.primaryContainer, iconColor: color.primary),
-      _OptionModel(icon: BoxIcons.bx_cut, title: 'Aseo', color: color.secondaryContainer, iconColor: color.secondary),
-      _OptionModel(icon: BoxIcons.bxs_cat, title: 'Actividad', color: color.primaryContainer, iconColor: color.primary),
       _OptionModel(
-          icon: BoxIcons.bx_bowl_rice, title: 'Alimento', color: color.tertiaryContainer, iconColor: color.tertiary),
+          icon: BoxIcons.bx_health,
+          title: AppLocalizations.of(context)!.health,
+          color: color.primaryContainer,
+          iconColor: color.primary),
+      _OptionModel(
+          icon: BoxIcons.bx_cut,
+          title: AppLocalizations.of(context)!.grooming,
+          color: color.secondaryContainer,
+          iconColor: color.secondary),
+      _OptionModel(
+          icon: BoxIcons.bxs_cat,
+          title: AppLocalizations.of(context)!.activity,
+          color: color.primaryContainer,
+          iconColor: color.primary),
+      _OptionModel(
+          icon: BoxIcons.bx_bowl_rice,
+          title: AppLocalizations.of(context)!.food,
+          color: color.tertiaryContainer,
+          iconColor: color.tertiary),
     ];
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -33,30 +49,40 @@ class HomeScreen extends StatelessWidget {
                     children: List.generate(options.length, (index) => _DefaultOption(option: options[index])),
                   ),
                   SizedBox(height: 2.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Proximos recordatorios',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            BoxIcons.bx_plus_circle,
-                            color: color.primary,
-                          ))
-                    ],
-                  ),
+                  const _RemindersTitle(),
                   Column(children: List.generate(3, (index) => const _RemminderCard())),
                   SizedBox(height: 2.h),
-                  Text('Pettips', style: Theme.of(context).textTheme.titleSmall),
+                  Text(AppLocalizations.of(context)!.pettips, style: Theme.of(context).textTheme.titleSmall),
                 ],
               ),
             ),
             const CardSwiper(viewportFraction: .8, itemCount: 5, autoAdvance: true),
           ],
         )
+      ],
+    );
+  }
+}
+
+class _RemindersTitle extends StatelessWidget {
+  const _RemindersTitle();
+
+  @override
+  Widget build(BuildContext context) {
+    ColorScheme color = Theme.of(context).colorScheme;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.upcomingReminders,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        IconButton(
+            onPressed: () {},
+            icon: Icon(
+              BoxIcons.bx_plus_circle,
+              color: color.primary,
+            ))
       ],
     );
   }
