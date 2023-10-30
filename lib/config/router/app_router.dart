@@ -1,13 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:petto_app/UI/screens/home/home_views.dart';
-import 'package:petto_app/UI/screens/login_screen.dart';
 import 'package:petto_app/UI/screens/screens.dart';
 
-final appRouter = GoRouter(initialLocation: '/splash', routes: [
+final appRouter = GoRouter(initialLocation: '/auth', routes: [
   GoRoute(
     path: '/',
     name: HomeViews.name,
-    builder: (context, state) => const LoginScreen(),
+    builder: (context, state) => const HomeScreen(),
     routes: [
       GoRoute(
         path: 'user-profile',
@@ -35,5 +34,10 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
     path: '/offline',
     name: OfflineScreen.name,
     builder: (context, state) => const OfflineScreen(),
-  )
+  ),
+    GoRoute(
+    path: '/auth',
+    name: AuthScreen.name,
+    builder: (context, state) => const AuthScreen(),
+  ),
 ]);

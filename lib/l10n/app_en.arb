@@ -40,5 +40,8 @@
     "forgetPassword": "Forget password?",
     "signIn": "Sign In",
     "dontHaveAccount": "Don't have an account?",
-    "register": "Sign Up"
+    "register": "Sign Up",
+    "enterYourCredentials": "Enter your credentials to continue",
+    "email": "Email",
+    "haveAnAccount": "Already have an account?"
 }
