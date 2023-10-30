@@ -6,7 +6,7 @@ final appRouter = GoRouter(initialLocation: '/auth', routes: [
   GoRoute(
     path: '/',
     name: HomeViews.name,
-    builder: (context, state) => const HomeScreen(),
+    builder: (context, state) => const HomeViews(),
     routes: [
       GoRoute(
         path: 'user-profile',
@@ -35,7 +35,7 @@ final appRouter = GoRouter(initialLocation: '/auth', routes: [
     name: OfflineScreen.name,
     builder: (context, state) => const OfflineScreen(),
   ),
-    GoRoute(
+  GoRoute(
     path: '/auth',
     name: AuthScreen.name,
     builder: (context, state) => const AuthScreen(),
