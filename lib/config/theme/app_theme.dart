@@ -27,7 +27,7 @@ class AppTheme {
             iconColor: const MaterialStatePropertyAll(lightIconColor),
           ),
         ),
-        appBarTheme: const AppBarTheme(backgroundColor: lightBackground),
+        appBarTheme: const AppBarTheme(backgroundColor: lightBackground, surfaceTintColor: lightBackground),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
               elevation: 10,

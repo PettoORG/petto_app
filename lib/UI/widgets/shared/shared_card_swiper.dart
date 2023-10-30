@@ -4,17 +4,18 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class CardSwiper extends StatefulWidget {
+class SharedCardSwiper extends StatefulWidget {
   final double viewportFraction;
   final int itemCount;
   final bool autoAdvance;
-  const CardSwiper({super.key, required this.viewportFraction, required this.itemCount, this.autoAdvance = false});
+  const SharedCardSwiper(
+      {super.key, required this.viewportFraction, required this.itemCount, this.autoAdvance = false});
 
   @override
-  State<CardSwiper> createState() => _CardSwiperState();
+  State<SharedCardSwiper> createState() => _SharedCardSwiperState();
 }
 
-class _CardSwiperState extends State<CardSwiper> {
+class _SharedCardSwiperState extends State<SharedCardSwiper> {
   late final PageController _controller;
   late double _currentPage;
   Timer? timer;

@@ -4,10 +4,10 @@ import 'package:petto_app/config/constants/colors.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class UserProfileScreen extends StatelessWidget {
+class UserProfileView extends StatelessWidget {
   static const name = 'user-profile';
 
-  const UserProfileScreen({Key? key}) : super(key: key);
+  const UserProfileView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
