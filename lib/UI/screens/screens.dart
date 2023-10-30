@@ -1,3 +1,4 @@
+export 'package:petto_app/UI/screens/auth_screen.dart';
 export 'package:petto_app/UI/screens/offline_screen.dart';
 
 export 'package:petto_app/UI/screens/home/home_screen.dart';

@@ -45,5 +45,8 @@
     "forgetPassword": "¿Olvidaste tu contraseña?",
     "signIn": "Ingresa",
     "dontHaveAccount": "¿No tienes una cuenta?",
-    "register": "Registrate"
+    "register": "Registrate",
+    "enterYourCredentials": "Ingresa tus credenciales para continuar",
+    "email": "Email",
+    "haveAnAccount": "¿Ya tienes una cuenta?"
 }
