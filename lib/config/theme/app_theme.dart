@@ -20,10 +20,10 @@ class AppTheme {
             onBackground: lightIconColor,
             shadow: lightShadowColor),
         scaffoldBackgroundColor: lightBackground,
-        iconTheme: IconThemeData(color: lightIconColor, size: 9.w),
+        iconTheme: IconThemeData(color: lightIconColor, size: 8.w),
         iconButtonTheme: IconButtonThemeData(
           style: ButtonStyle(
-            iconSize: MaterialStatePropertyAll(8.w),
+            iconSize: MaterialStatePropertyAll(7.5.w),
             iconColor: const MaterialStatePropertyAll(lightIconColor),
           ),
         ),

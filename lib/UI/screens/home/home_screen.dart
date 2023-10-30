@@ -1,6 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,119 +8,147 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme color = Theme.of(context).colorScheme;
+    List<_OptionModel> options = [
+      _OptionModel(icon: BoxIcons.bx_health, title: 'Salud', color: color.primaryContainer, iconColor: color.primary),
+      _OptionModel(icon: BoxIcons.bx_cut, title: 'Aseo', color: color.secondaryContainer, iconColor: color.secondary),
+      _OptionModel(icon: BoxIcons.bxs_cat, title: 'Actividad', color: color.primaryContainer, iconColor: color.primary),
+      _OptionModel(
+          icon: BoxIcons.bx_bowl_rice, title: 'Alimento', color: color.tertiaryContainer, iconColor: color.tertiary),
+    ];
     return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
       slivers: [
-        SliverAppBar(
-          leadingWidth: 21.w,
-          toolbarHeight: 10.h,
-          leading: Padding(
-            padding: EdgeInsets.all(4.w),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(1.h),
-              child: Ink(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(1.h),
-                ),
-                child: const Icon(Icons.person),
+        const _SliverAppbar(),
+        SliverList.list(
+          children: [
+            const CardSwiper(viewportFraction: .7, itemCount: 5),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(options.length, (index) => _DefaultOption(option: options[index])),
+                  ),
+                  SizedBox(height: 2.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Proximos recordatorios',
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            BoxIcons.bx_plus_circle,
+                            color: color.primary,
+                          ))
+                    ],
+                  ),
+                  Column(children: List.generate(3, (index) => const _RemminderCard())),
+                  SizedBox(height: 2.h),
+                  Text('Pettips', style: Theme.of(context).textTheme.titleSmall),
+                ],
               ),
             ),
-          ),
-          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))],
-        ),
-        SliverList.list(children: const [_PetViewSwiper()])
+            const CardSwiper(viewportFraction: .8, itemCount: 5, autoAdvance: true),
+          ],
+        )
       ],
     );
   }
 }
 
-class _PetViewSwiper extends StatefulWidget {
-  const _PetViewSwiper();
-
-  @override
-  State<_PetViewSwiper> createState() => _PetViewSwiperState();
-}
-
-class _PetViewSwiperState extends State<_PetViewSwiper> {
-  late final PageController _controller;
-  late double _currentPage;
-
-  void _listener() {
-    setState(() {
-      _currentPage = _controller.page!;
-    });
-  }
-
-  @override
-  void initState() {
-    _currentPage = 0;
-    _controller = PageController(viewportFraction: 0.7);
-    _controller.addListener(_listener);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.removeListener(_listener);
-    _controller.dispose();
-    super.dispose();
-  }
+class _RemminderCard extends StatelessWidget {
+  const _RemminderCard();
 
   @override
   Widget build(BuildContext context) {
-    double opty;
-
-    return SizedBox(
-        height: 25.h,
-        width: double.infinity,
-        child: PageView.builder(
-          controller: _controller,
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            double scale = 1.3;
-            if (index == _currentPage) {
-              opty = 1;
-              scale = 1.3;
-            } else if (index < _currentPage) {
-              opty = max(1 - (_currentPage - index), 0.5);
-              scale = max(1.3 - (_currentPage - index), 0.9);
-            } else {
-              opty = max(1 - (index - _currentPage), 0.5);
-              scale = max(1.3 - (index - _currentPage), 0.9);
-            }
-            return Transform.scale(
-              scale: scale,
-              child: _PetView(opty: opty),
-            );
-          },
-        ));
-  }
-}
-
-class _PetView extends StatelessWidget {
-  const _PetView({required this.opty});
-  final double opty;
-  @override
-  Widget build(BuildContext context) {
+    ColorScheme color = Theme.of(context).colorScheme;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 5.w),
-      child: AnimatedOpacity(
-        duration: const Duration(seconds: 1),
-        opacity: opty,
-        child: Container(
+      padding: EdgeInsets.only(bottom: 1.h),
+      child: InkWell(
+        child: Ink(
+          width: double.infinity,
+          height: 9.h,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceVariant,
-            borderRadius: BorderRadius.circular(25),
+            color: color.surfaceVariant,
+            borderRadius: BorderRadius.circular(5.w),
             boxShadow: [
               BoxShadow(
-                color: Theme.of(context).colorScheme.shadow,
                 blurRadius: 5,
+                color: color.shadow,
                 offset: const Offset(0, 0),
-              )
+              ),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+class _DefaultOption extends StatelessWidget {
+  final _OptionModel option;
+
+  const _DefaultOption({required this.option});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {},
+          borderRadius: BorderRadius.circular(4.w),
+          child: Ink(
+            height: 15.w,
+            width: 15.w,
+            decoration: BoxDecoration(
+              color: option.color,
+              borderRadius: BorderRadius.circular(4.w),
+            ),
+            child: Icon(
+              option.icon,
+              color: option.iconColor,
+            ),
+          ),
+        ),
+        SizedBox(height: 1.h),
+        Text(
+          option.title,
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 11.sp, fontWeight: FontWeight.w700),
+        )
+      ],
+    );
+  }
+}
+
+class _SliverAppbar extends StatelessWidget {
+  const _SliverAppbar();
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      toolbarHeight: 10.h,
+      leading: IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_menu_alt_left)),
+      actions: [IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_bell)), SizedBox(width: 1.w)],
+    );
+  }
+}
+
+class _OptionModel {
+  final IconData icon;
+  final String title;
+  final Color color;
+  final Color iconColor;
+
+  _OptionModel({
+    required this.icon,
+    required this.title,
+    required this.color,
+    required this.iconColor,
+  });
 }
