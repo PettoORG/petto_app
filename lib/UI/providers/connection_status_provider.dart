@@ -5,23 +5,17 @@ import 'package:flutter/material.dart';
 
 class ConnectionStatusProvider extends ChangeNotifier {
   final Connectivity _connectivity = Connectivity();
-  bool _isOnline = true;
 
-  Future<void> checkInternetConnection() async {
+  Future<bool> checkInternetConnection() async {
     try {
       final result = await _connectivity.checkConnectivity();
       if (result != ConnectivityResult.none) {
-        _isOnline = true;
-        notifyListeners();
+        return true;
       } else {
-        _isOnline = false;
-        notifyListeners();
+        return false;
       }
     } on SocketException catch (_) {
-      _isOnline = false;
-      notifyListeners();
+      return false;
     }
   }
-
-  bool get isOnline => _isOnline;
 }

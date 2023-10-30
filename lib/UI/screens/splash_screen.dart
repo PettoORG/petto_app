@@ -50,25 +50,26 @@ class SplashScreen extends StatelessWidget {
                     colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
                   )
                       .animate(
-                        onComplete: (_) => Future.delayed(
-                          const Duration(milliseconds: 400),
-                          () async {
-                            await context.read<ConnectionStatusProvider>().checkInternetConnection();
-                            final bool shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding') == true;
-                            final bool isOnline = context.read<ConnectionStatusProvider>().isOnline;
-                            if (!shouldShowOnboarding) {
-                              if (isOnline) {
-                                return context.pushReplacementNamed('home');
-                              }
-                              return context.pushReplacementNamed('offline');
-                            } else {
-                              return context.pushReplacementNamed('onboarding');
-                            }
-                          },
-                        ),
+                        onComplete: (_) async {
+                          final bool isOnline =
+                              await context.read<ConnectionStatusProvider>().checkInternetConnection();
+                          final bool shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding') == true;
+                          if (!context.mounted) {
+                            return;
+                          }
+                          if (shouldShowOnboarding) {
+                            context.pushReplacementNamed('onboarding');
+                          } else if (isOnline) {
+                            context.pushReplacementNamed('home');
+                          } else {
+                            context.pushReplacementNamed('offline');
+                          }
+                        },
                       )
                       .scale(duration: const Duration(milliseconds: 1000), curve: Curves.easeOutBack)
-                      .fade(duration: const Duration(milliseconds: 500))
+                      .fade(
+                        duration: const Duration(milliseconds: 500),
+                      )
                 ],
               ),
             ),
