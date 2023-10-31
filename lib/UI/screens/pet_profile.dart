@@ -5,7 +5,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetProfileScreen extends StatelessWidget {
   static const name = 'pet-profile';

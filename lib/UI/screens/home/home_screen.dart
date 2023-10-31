@@ -35,10 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: _controller,
-        children: [
-          const CalendarView(),
-          const HomeView(),
-          const UserProfileView(),
+        children: const [
+          CalendarView(),
+          HomeView(),
+          UserProfileView(),
         ],
       ),
       bottomNavigationBar: Container(
