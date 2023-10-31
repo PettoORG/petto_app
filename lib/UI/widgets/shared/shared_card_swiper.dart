@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:petto_app/config/constants/colors.dart';
 import 'package:sizer/sizer.dart';
 
 class SharedCardSwiper extends StatefulWidget {
