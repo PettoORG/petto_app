@@ -20,42 +20,44 @@ class OnboardingPetSizeOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(5.w),
-      child: Ink(
-        padding: EdgeInsets.all(2.5.w),
-        width: width,
-        height: 15.h,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(5.w),
-          border: Border.all(
-            color: (color == Theme.of(context).colorScheme.primaryContainer)
-                ? Theme.of(context).colorScheme.primary
-                : Colors.transparent,
-          ),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 5,
-              color: Theme.of(context).colorScheme.shadow,
-              offset: const Offset(0, 0),
+    return Material(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(5.w),
+        child: Ink(
+          padding: EdgeInsets.all(2.5.w),
+          width: width,
+          height: 15.h,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(5.w),
+            border: Border.all(
+              color: (color == Theme.of(context).colorScheme.primaryContainer)
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.transparent,
             ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Center(
-              child: SvgPicture.asset(
-                asset,
-                height: 20.w,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 5,
+                color: Theme.of(context).colorScheme.shadow,
+                offset: const Offset(0, 0),
               ),
-            ),
-            Text(
-              text,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
+            ],
+          ),
+          child: Column(
+            children: [
+              Center(
+                child: SvgPicture.asset(
+                  asset,
+                  height: 20.w,
+                ),
+              ),
+              Text(
+                text,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
+          ),
         ),
       ),
     );

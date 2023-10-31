@@ -41,7 +41,7 @@ class SplashScreen extends StatelessWidget {
                   SizedBox(height: 1.h),
                   Text(
                     'Tu mascota, bien cuidada',
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   SizedBox(height: 10.h),
                   SvgPicture.asset(

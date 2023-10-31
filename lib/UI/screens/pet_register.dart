@@ -23,7 +23,7 @@ class PetRegisterScreen extends StatelessWidget {
               SizedBox(height: 10.h),
               Text(
                 AppLocalizations.of(context)!.aboutYourPet,
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 5.h),
@@ -51,7 +51,7 @@ class PetRegisterScreen extends StatelessWidget {
               SizedBox(height: 5.h),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(AppLocalizations.of(context)!.petSize, style: Theme.of(context).textTheme.titleSmall)),
+                  child: Text(AppLocalizations.of(context)!.petSize, style: Theme.of(context).textTheme.titleMedium)),
               SizedBox(height: 1.h),
               _MuttSizeSection(
                 options: [
@@ -67,7 +67,7 @@ class PetRegisterScreen extends StatelessWidget {
               SizedBox(height: 5.h),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(AppLocalizations.of(context)!.petWeight, style: Theme.of(context).textTheme.titleSmall),
+                child: Text(AppLocalizations.of(context)!.petWeight, style: Theme.of(context).textTheme.titleMedium),
               ),
               SizedBox(height: 1.h),
               const _PetWeightSection(),
@@ -108,7 +108,7 @@ class _DefaultSectionState extends State<_DefaultSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.title, style: Theme.of(context).textTheme.titleSmall),
+          Text(widget.title, style: Theme.of(context).textTheme.titleMedium),
           SizedBox(height: 1.h),
           Row(
             children: List.generate(widget.options.length, (index) {

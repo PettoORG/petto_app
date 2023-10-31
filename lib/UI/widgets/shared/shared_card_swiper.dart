@@ -2,14 +2,16 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:petto_app/config/constants/colors.dart';
 import 'package:sizer/sizer.dart';
 
 class SharedCardSwiper extends StatefulWidget {
   final double viewportFraction;
   final int itemCount;
   final bool autoAdvance;
+  final Function()? onTap;
   const SharedCardSwiper(
-      {super.key, required this.viewportFraction, required this.itemCount, this.autoAdvance = false});
+      {super.key, required this.viewportFraction, required this.itemCount, this.autoAdvance = false, this.onTap});
 
   @override
   State<SharedCardSwiper> createState() => _SharedCardSwiperState();
@@ -87,7 +89,10 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
               }
               return Transform.scale(
                 scale: scale,
-                child: _Card(opty: opty),
+                child: _Card(
+                  opty: opty,
+                  onTap: widget.onTap,
+                ),
               );
             },
           ),
@@ -96,8 +101,9 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
 }
 
 class _Card extends StatelessWidget {
-  const _Card({required this.opty});
   final double opty;
+  final Function()? onTap;
+  const _Card({required this.opty, required this.onTap});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -105,17 +111,21 @@ class _Card extends StatelessWidget {
       child: AnimatedOpacity(
         duration: const Duration(seconds: 1),
         opacity: opty,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceVariant,
-            borderRadius: BorderRadius.circular(25),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).colorScheme.shadow,
-                blurRadius: 5,
-                offset: const Offset(0, 0),
-              )
-            ],
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(25),
+          child: Ink(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(25),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.shadow,
+                  blurRadius: 5,
+                  offset: const Offset(0, 0),
+                )
+              ],
+            ),
           ),
         ),
       ),

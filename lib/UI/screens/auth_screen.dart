@@ -37,14 +37,14 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: controller,
-          children: [
-            Container(
-              color: Colors.blue,
-              child: Center(
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: controller,
+        children: [
+          Container(
+            color: Colors.blue,
+            child: Center(
+              child: Material(
                 child: InkWell(
                   onTap: () {
                     controller.nextPage(
@@ -56,41 +56,41 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ),
             ),
-            _LoginView(
-              press: () {
-                controller.nextPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInQuint,
-                );
-              },
-              press_two: () {
-                controller.previousPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInQuint,
-                );
-              },
-            ),
-            _RegisterView(press: () {
+          ),
+          _LoginView(
+            press: () {
+              controller.nextPage(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInQuint,
+              );
+            },
+            press_two: () {
               controller.previousPage(
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.easeInQuint,
               );
-            }),
-            // Container(color: Colors.blue,
-            // child: Center(
-            //   child: InkWell(
-            //     onTap: (){
-            //       controller.previousPage(
-            //         duration: const Duration(milliseconds: 500),
-            //         curve: Curves.easeInQuint,
-            //       );
-            //     },
-            //     child: const Text("Log In"),
-            //   ),
-            // ),
-            // ),
-          ],
-        ),
+            },
+          ),
+          _RegisterView(press: () {
+            controller.previousPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInQuint,
+            );
+          }),
+          // Container(color: Colors.blue,
+          // child: Center(
+          //   child: InkWell(
+          //     onTap: (){
+          //       controller.previousPage(
+          //         duration: const Duration(milliseconds: 500),
+          //         curve: Curves.easeInQuint,
+          //       );
+          //     },
+          //     child: const Text("Log In"),
+          //   ),
+          // ),
+          // ),
+        ],
       ),
     );
   }
@@ -138,7 +138,7 @@ class _LoginViewState extends State<_LoginView> {
               ListTile(
                 title: Text(AppLocalizations.of(context)!.welcomeBack,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontSize: 18.5.sp,
                           fontWeight: FontWeight.w900,
                         )),
@@ -256,7 +256,7 @@ class __RegisterViewState extends State<_RegisterView> {
               ListTile(
                 title: Text(AppLocalizations.of(context)!.register,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontSize: 18.5.sp,
                           fontWeight: FontWeight.w900,
                         )),

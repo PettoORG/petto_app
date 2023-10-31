@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
@@ -10,27 +11,23 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
-    List<_OptionModel> options = [
-      _OptionModel(
-          icon: BoxIcons.bx_health,
+    List<OptionModel> options = [
+      OptionModel(
+          child: Icon(BoxIcons.bx_health, color: color.primary),
           title: AppLocalizations.of(context)!.health,
-          color: color.primaryContainer,
-          iconColor: color.primary),
-      _OptionModel(
-          icon: BoxIcons.bx_cut,
+          color: color.primaryContainer),
+      OptionModel(
+          child: Icon(BoxIcons.bx_cut, color: color.secondary),
           title: AppLocalizations.of(context)!.grooming,
-          color: color.secondaryContainer,
-          iconColor: color.secondary),
-      _OptionModel(
-          icon: BoxIcons.bxs_cat,
+          color: color.secondaryContainer),
+      OptionModel(
+          child: Icon(BoxIcons.bxs_cat, color: color.primary),
           title: AppLocalizations.of(context)!.activity,
-          color: color.primaryContainer,
-          iconColor: color.primary),
-      _OptionModel(
-          icon: BoxIcons.bx_bowl_rice,
+          color: color.primaryContainer),
+      OptionModel(
+          child: Icon(BoxIcons.bx_bowl_rice, color: color.tertiary),
           title: AppLocalizations.of(context)!.food,
-          color: color.tertiaryContainer,
-          iconColor: color.tertiary),
+          color: color.tertiaryContainer),
     ];
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -38,7 +35,13 @@ class HomeView extends StatelessWidget {
         const _SliverAppbar(),
         SliverList.list(
           children: [
-            const SharedCardSwiper(viewportFraction: .7, itemCount: 5),
+            SharedCardSwiper(
+              viewportFraction: .7,
+              itemCount: 5,
+              onTap: () {
+                context.pushNamed('pet-profile');
+              },
+            ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
               child: Column(
@@ -46,13 +49,13 @@ class HomeView extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(options.length, (index) => _DefaultOption(option: options[index])),
+                    children: List.generate(options.length, (index) => SharedOptionCard(option: options[index])),
                   ),
                   SizedBox(height: 2.h),
                   const _RemindersTitle(),
                   Column(children: List.generate(3, (index) => const ReminderCard())),
                   SizedBox(height: 2.h),
-                  Text(AppLocalizations.of(context)!.pettips, style: Theme.of(context).textTheme.titleSmall),
+                  Text(AppLocalizations.of(context)!.pettips, style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
             ),
@@ -75,7 +78,7 @@ class _RemindersTitle extends StatelessWidget {
       children: [
         Text(
           AppLocalizations.of(context)!.upcomingReminders,
-          style: Theme.of(context).textTheme.titleSmall,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         IconButton(
             onPressed: () {},
@@ -83,41 +86,6 @@ class _RemindersTitle extends StatelessWidget {
               BoxIcons.bx_plus_circle,
               color: color.primary,
             ))
-      ],
-    );
-  }
-}
-
-class _DefaultOption extends StatelessWidget {
-  final _OptionModel option;
-
-  const _DefaultOption({required this.option});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: () {},
-          borderRadius: BorderRadius.circular(4.w),
-          child: Ink(
-            height: 15.w,
-            width: 15.w,
-            decoration: BoxDecoration(
-              color: option.color,
-              borderRadius: BorderRadius.circular(4.w),
-            ),
-            child: Icon(
-              option.icon,
-              color: option.iconColor,
-            ),
-          ),
-        ),
-        SizedBox(height: 1.h),
-        Text(
-          option.title,
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 11.sp, fontWeight: FontWeight.w700),
-        )
       ],
     );
   }
@@ -134,18 +102,4 @@ class _SliverAppbar extends StatelessWidget {
       actions: [IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_bell)), SizedBox(width: 1.w)],
     );
   }
-}
-
-class _OptionModel {
-  final IconData icon;
-  final String title;
-  final Color color;
-  final Color iconColor;
-
-  _OptionModel({
-    required this.icon,
-    required this.title,
-    required this.color,
-    required this.iconColor,
-  });
 }

@@ -1,3 +1,5 @@
+export 'package:petto_app/UI/widgets/shared/shared_option_card.dart';
+
 export 'package:petto_app/UI/widgets/shared/shared_reminder_card.dart';
 
 export 'package:petto_app/UI/widgets/shared/shared_card_swiper.dart';

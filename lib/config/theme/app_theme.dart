@@ -62,11 +62,12 @@ class AppTheme {
           ),
         ),
         textTheme: TextTheme(
-          titleLarge: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
-          titleMedium: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
-          titleSmall: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
+          titleLarge: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
+          titleMedium: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
+          titleSmall: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
           bodyLarge: TextStyle(fontSize: 14.sp),
           bodyMedium: TextStyle(fontSize: 12.sp),
+          bodySmall: TextStyle(fontSize: 12.sp),
         ),
       );
 
