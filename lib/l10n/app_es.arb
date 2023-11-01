@@ -48,5 +48,7 @@
     "register": "Registrate",
     "enterYourCredentials": "Ingresa tus credenciales para continuar",
     "email": "Email",
-    "haveAnAccount": "¿Ya tienes una cuenta?"
+    "haveAnAccount": "¿Ya tienes una cuenta?",
+    "send": "Enviar",
+    "textHelpForgotPassword": "Introduzca el correo electroníco asociado a su cuenta y le enviaremos un correo electrónico con las instrucciones para reestablecer su contraseña"
 }

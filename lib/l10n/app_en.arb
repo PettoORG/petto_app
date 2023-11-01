@@ -48,5 +48,7 @@
     "register": "Sign Up",
     "enterYourCredentials": "Enter your credentials to continue",
     "email": "Email",
-    "haveAnAccount": "Already have an account?"
+    "haveAnAccount": "Already have an account?",
+    "send": "Send",
+    "textHelpForgotPassword": "Enter the email associated with your account and we'll send an email with instruction to reset your password"
 }
