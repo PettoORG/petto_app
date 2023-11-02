@@ -63,16 +63,7 @@ class PetProfileScreen extends StatelessWidget {
           ),
           SliverList.list(
             children: [
-              SizedBox(
-                height: 30.h,
-                child: Stack(
-                  children: [
-                    _DecorationWidget(size: 40.w, left: -10.w, angle: 50),
-                    _DecorationWidget(size: 50.w, right: -15.w, bottom: -2.h, angle: -40),
-                    const _PetAvatar(),
-                  ],
-                ),
-              ),
+              const _PetAvatarSection(),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
                 decoration: BoxDecoration(
@@ -109,18 +100,10 @@ class PetProfileScreen extends StatelessWidget {
                               Material(color: Colors.transparent, child: SharedOptionCard(option: options[index]))),
                     ),
                     SizedBox(height: 3.h),
-                    Row(
-                      children: [
-                        Text(
-                          'Tipo de alimento: ',
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                        Text(
-                          'Comercial',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
+                    const InfoRow(title: 'Tipo de alimento', body: 'Comercial'),
+                    const InfoRow(title: 'Ultima sesion veterinaria', body: '1/11/2023'),
+                    const InfoRow(title: 'Ultima desparazitacion', body: '1/11/2023'),
+                    SizedBox(height: 2.h),
                   ],
                 ),
               )
@@ -128,6 +111,72 @@ class PetProfileScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _PetAvatarSection extends StatelessWidget {
+  const _PetAvatarSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 30.h,
+      child: Stack(
+        children: [
+          _DecorationWidget(size: 40.w, left: -10.w, angle: 50),
+          _DecorationWidget(size: 50.w, right: -15.w, bottom: -2.h, angle: -40),
+          Center(
+            child: Container(
+              height: 45.w,
+              width: 45.h,
+              decoration: const BoxDecoration(
+                color: lightSurfaceVariant,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 5,
+                    color: lightShadowColor,
+                    offset: Offset(0, 0),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class InfoRow extends StatelessWidget {
+  final String title;
+  final String body;
+
+  const InfoRow({
+    required this.title,
+    required this.body,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              '$title: ',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            Text(
+              body,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        ),
+        SizedBox(height: 1.h),
+      ],
     );
   }
 }
@@ -162,31 +211,6 @@ class _DecorationWidget extends StatelessWidget {
           'assets/petto.svg',
           height: size,
           colorFilter: const ColorFilter.mode(lightPrimaryContainer, BlendMode.srcIn),
-        ),
-      ),
-    );
-  }
-}
-
-class _PetAvatar extends StatelessWidget {
-  const _PetAvatar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 45.w,
-        width: 45.h,
-        decoration: const BoxDecoration(
-          color: lightSurfaceVariant,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 5,
-              color: lightShadowColor,
-              offset: Offset(0, 0),
-            )
-          ],
         ),
       ),
     );
