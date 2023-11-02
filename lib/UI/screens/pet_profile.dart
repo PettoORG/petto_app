@@ -16,6 +16,83 @@ class PetProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
     TextTheme textStyle = Theme.of(context).textTheme;
+    return Scaffold(
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+            actions: [IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_edit)), SizedBox(width: 1.w)],
+          ),
+          SliverList.list(
+            children: [
+              const _PetAvatarSection(),
+              const _BasicInformation(),
+              SizedBox(height: 3.h),
+              const _GeneralInformation(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GeneralInformation extends StatelessWidget {
+  const _GeneralInformation();
+
+  @override
+  Widget build(BuildContext context) {
+    ColorScheme color = Theme.of(context).colorScheme;
+    TextTheme textStyle = Theme.of(context).textTheme;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'General',
+            style: textStyle.titleMedium,
+          ),
+          InkWell(
+            onTap: () {},
+            borderRadius: BorderRadius.circular(5.w),
+            child: Ink(
+              padding: EdgeInsets.all(3.w),
+              decoration: BoxDecoration(
+                color: color.surfaceVariant,
+                borderRadius: BorderRadius.circular(5.w),
+                boxShadow: [
+                  BoxShadow(
+                    color: color.shadow,
+                    blurRadius: 5,
+                    offset: const Offset(0, 0),
+                  ),
+                ],
+              ),
+              child: const Column(
+                children: [
+                  InfoRow(title: 'Tipo de alimento', body: 'Comercial'),
+                  InfoRow(title: 'Ultima sesion veterinaria', body: '1/11/2023'),
+                  InfoRow(title: 'Ultima desparazitacion', body: '1/11/2023'),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _BasicInformation extends StatelessWidget {
+  const _BasicInformation();
+
+  @override
+  Widget build(BuildContext context) {
+    ColorScheme color = Theme.of(context).colorScheme;
+    TextTheme textStyle = Theme.of(context).textTheme;
     List<OptionModel> options = [
       OptionModel(
           child: Column(
@@ -52,63 +129,22 @@ class PetProfileScreen extends StatelessWidget {
           title: 'Peso',
           color: color.tertiaryContainer),
     ];
-    return Scaffold(
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-            actions: [IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_edit)), SizedBox(width: 1.w)],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
+      child: Column(
+        children: [
+          Text(
+            'Nombre de la mascota',
+            style: Theme.of(context).textTheme.titleMedium,
           ),
-          SliverList.list(
-            children: [
-              const _PetAvatarSection(),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
-                decoration: BoxDecoration(
-                  color: lightSurfaceVariant,
-                  boxShadow: const [
-                    BoxShadow(
-                      blurRadius: 5,
-                      color: lightShadowColor,
-                      offset: Offset(0, 0),
-                    )
-                  ],
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.w),
-                    topRight: Radius.circular(15.w),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Nombre de la mascota',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    Text(
-                      'Perro(raza)',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    SizedBox(height: 3.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(
-                          options.length,
-                          (index) =>
-                              Material(color: Colors.transparent, child: SharedOptionCard(option: options[index]))),
-                    ),
-                    SizedBox(height: 3.h),
-                    const InfoRow(title: 'Tipo de alimento', body: 'Comercial'),
-                    const InfoRow(title: 'Ultima sesion veterinaria', body: '1/11/2023'),
-                    const InfoRow(title: 'Ultima desparazitacion', body: '1/11/2023'),
-                    SizedBox(height: 2.h),
-                  ],
-                ),
-              )
-            ],
+          Text(
+            'Perro(raza)',
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
+          SizedBox(height: 3.h),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(options.length, (index) => SharedOptionCard(option: options[index]))),
         ],
       ),
     );
@@ -121,7 +157,7 @@ class _PetAvatarSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 30.h,
+      height: 25.h,
       child: Stack(
         children: [
           _DecorationWidget(size: 40.w, left: -10.w, angle: 50),
@@ -175,7 +211,6 @@ class InfoRow extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 1.h),
       ],
     );
   }
