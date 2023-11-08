@@ -38,7 +38,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-         //physics: const NeverScrollableScrollPhysics(),
+        //physics: const NeverScrollableScrollPhysics(),
         controller: controller,
         children: [
           // Container(
@@ -57,7 +57,7 @@ class _AuthScreenState extends State<AuthScreen> {
           //     ),
           //   ),
           // ),
-          _ForgotPassView(),
+          const _ForgotPassView(),
           _LoginView(
             press: () {
               controller.nextPage(
@@ -124,8 +124,8 @@ class _LoginViewState extends State<_LoginView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(8.sp),
-              margin: EdgeInsets.only(bottom: 7.h, top: 12.h),
+                padding: EdgeInsets.all(8.sp),
+                margin: EdgeInsets.only(bottom: 7.h, top: 12.h),
                 height: 11.h,
                 width: 11.h,
                 decoration: BoxDecoration(
@@ -157,9 +157,8 @@ class _LoginViewState extends State<_LoginView> {
             ),
             TextFormField(
               decoration: InputDecoration(
-                  prefixIcon: const Icon(BoxIcons.bx_envelope), 
-                  labelText: AppLocalizations.of(context)!.email),
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: AppLocalizations.of(context)!.email),
+              style: Theme.of(context).textTheme.headlineSmall,
               // style: Theme.of(context).textTheme.displayMedium,
             ),
             SizedBox(
@@ -177,14 +176,13 @@ class _LoginViewState extends State<_LoginView> {
                   },
                   child: !_passwordVisible ? const Icon(BoxIcons.bx_hide) : const Icon(BoxIcons.bx_show),
                 ),
-              
               ),
               obscureText: !_passwordVisible,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             SizedBox(
               height: 1.5.h,
-            ), 
+            ),
             Row(
               children: [
                 Flexible(child: Container()),
@@ -255,8 +253,8 @@ class __RegisterViewState extends State<_RegisterView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(8.sp),
-              margin: EdgeInsets.only(bottom: 7.h, top: 12.h),
+                padding: EdgeInsets.all(8.sp),
+                margin: EdgeInsets.only(bottom: 7.h, top: 12.h),
                 height: 11.h,
                 width: 11.h,
                 decoration: BoxDecoration(
@@ -349,7 +347,7 @@ class __RegisterViewState extends State<_RegisterView> {
 }
 
 class _ForgotPassView extends StatefulWidget {
-  const _ForgotPassView({super.key});
+  const _ForgotPassView();
 
   @override
   State<_ForgotPassView> createState() => _ForgotPassViewState();
@@ -372,33 +370,33 @@ class _ForgotPassViewState extends State<_ForgotPassView> {
                   borderRadius: BorderRadius.circular(2.h),
                   boxShadow: [
                     BoxShadow(
-                        color: lightSurface.withOpacity(0.4),//New
+                        color: lightSurface.withOpacity(0.4), //New
                         blurRadius: 10.0,
                         offset: Offset(0, 0))
                   ],
                 ),
                 child: Container(
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.sp),
-                      color: Colors.white),
-                      child: const Center(
-                        child: Icon(Icons.arrow_back_ios)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.sp), color: Colors.white),
+                  child: const Center(child: Icon(Icons.arrow_back_ios)),
                 ),
               ),
-              Flexible(child: Center(
+              Flexible(
+                  child: Center(
                 child: Text(AppLocalizations.of(context)!.forgetPassword),
               ))
             ],
           ),
-          SizedBox(height: 4.h,),
+          SizedBox(
+            height: 4.h,
+          ),
           Text(
             AppLocalizations.of(context)!.textHelpForgotPassword,
             textAlign: TextAlign.justify,
             style: Theme.of(context).textTheme.labelMedium,
           ),
           SizedBox(
-              height: 4.h,
+            height: 4.h,
           ),
           TextFormField(
             decoration: InputDecoration(
@@ -406,18 +404,18 @@ class _ForgotPassViewState extends State<_ForgotPassView> {
             // style: Theme.of(context).textTheme.displayMedium,
           ),
           SizedBox(
-              height: 2.h,
+            height: 2.h,
           ),
           ElevatedButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                fixedSize: MaterialStateProperty.all(Size(75.w, 6.5.h)),
-              ),
-              child: Text(
-                AppLocalizations.of(context)!.send,
-                style: const TextStyle(color: Colors.white),
-              ),
+            onPressed: () {},
+            style: ButtonStyle(
+              fixedSize: MaterialStateProperty.all(Size(75.w, 6.5.h)),
             ),
+            child: Text(
+              AppLocalizations.of(context)!.send,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
         ],
       ),
     );

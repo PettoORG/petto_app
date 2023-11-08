@@ -14,8 +14,6 @@ class PetProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme color = Theme.of(context).colorScheme;
-    TextTheme textStyle = Theme.of(context).textTheme;
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
