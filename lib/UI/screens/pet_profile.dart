@@ -29,7 +29,55 @@ class PetProfileScreen extends StatelessWidget {
               const _BasicInformation(),
               SizedBox(height: 3.h),
               const _GeneralInformation(),
+              SizedBox(height: 3.h),
+              const _Vaccines(),
+              SizedBox(height: 3.h),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Vaccines extends StatelessWidget {
+  const _Vaccines();
+
+  @override
+  Widget build(BuildContext context) {
+    TextTheme textStyle = Theme.of(context).textTheme;
+    ColorScheme color = Theme.of(context).colorScheme;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Vacunas', style: textStyle.titleMedium),
+          SizedBox(height: 1.h),
+          Container(
+            padding: EdgeInsets.all(3.w),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: color.surfaceVariant,
+              borderRadius: BorderRadius.circular(5.w),
+              boxShadow: [
+                BoxShadow(
+                  color: color.shadow,
+                  blurRadius: 5,
+                  offset: const Offset(0, 0),
+                )
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const _InfoRow(title: 'Ultima aplicacion', body: 'Vacuna 1(8/11/23)'),
+                SizedBox(height: .5.h),
+                const _InfoRow(title: 'Proxima aplicacion', body: 'Vacuna 2(8/11/24)'),
+                SizedBox(height: .5.h),
+                const _InfoRow(title: 'Aplicaciones pendientes', body: 'vacuna 3, vacuna 4'),
+              ],
+            ),
           ),
         ],
       ),
@@ -49,33 +97,31 @@ class _GeneralInformation extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'General',
-            style: textStyle.titleMedium,
-          ),
-          InkWell(
-            onTap: () {},
-            borderRadius: BorderRadius.circular(5.w),
-            child: Ink(
-              padding: EdgeInsets.all(3.w),
-              decoration: BoxDecoration(
-                color: color.surfaceVariant,
-                borderRadius: BorderRadius.circular(5.w),
-                boxShadow: [
-                  BoxShadow(
-                    color: color.shadow,
-                    blurRadius: 5,
-                    offset: const Offset(0, 0),
-                  ),
-                ],
-              ),
-              child: const Column(
-                children: [
-                  InfoRow(title: 'Tipo de alimento', body: 'Comercial'),
-                  InfoRow(title: 'Ultima sesion veterinaria', body: '1/11/2023'),
-                  InfoRow(title: 'Ultima desparazitacion', body: '1/11/2023'),
-                ],
-              ),
+          Text('General', style: textStyle.titleMedium),
+          SizedBox(height: 1.h),
+          Container(
+            padding: EdgeInsets.all(3.w),
+            decoration: BoxDecoration(
+              color: color.surfaceVariant,
+              borderRadius: BorderRadius.circular(5.w),
+              boxShadow: [
+                BoxShadow(
+                  color: color.shadow,
+                  blurRadius: 5,
+                  offset: const Offset(0, 0),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                const _InfoRow(title: 'Tipo de alimento', body: 'Comercial'),
+                SizedBox(height: .5.h),
+                const _InfoRow(title: 'Ultima sesion veterinaria', body: '1/11/2023'),
+                SizedBox(height: .5.h),
+                const _InfoRow(title: 'Ultima desparazitacion', body: '1/11/2023'),
+                SizedBox(height: .5.h),
+                const _InfoRow(title: 'MicroChip', body: '1020932'),
+              ],
             ),
           )
         ],
@@ -183,11 +229,11 @@ class _PetAvatarSection extends StatelessWidget {
   }
 }
 
-class InfoRow extends StatelessWidget {
+class _InfoRow extends StatelessWidget {
   final String title;
   final String body;
 
-  const InfoRow({
+  const _InfoRow({
     required this.title,
     required this.body,
     Key? key,
@@ -203,9 +249,12 @@ class InfoRow extends StatelessWidget {
               '$title: ',
               style: Theme.of(context).textTheme.titleSmall,
             ),
-            Text(
-              body,
-              style: Theme.of(context).textTheme.bodySmall,
+            Flexible(
+              child: Text(
+                body,
+                style: Theme.of(context).textTheme.bodySmall,
+                maxLines: 3,
+              ),
             ),
           ],
         ),

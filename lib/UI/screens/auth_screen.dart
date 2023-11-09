@@ -98,7 +98,7 @@ class _AuthScreenState extends State<AuthScreen> {
 }
 
 class _LoginView extends StatefulWidget {
-  final press;
+  final Function()? press;
   final press_two;
   const _LoginView({this.press, this.press_two});
 
