@@ -32,8 +32,28 @@ class PetProfileScreen extends StatelessWidget {
               SizedBox(height: 3.h),
               const _Vaccines(),
               SizedBox(height: 3.h),
+              const _Diseases(),
+              SizedBox(height: 3.h),
             ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Diseases extends StatelessWidget {
+  const _Diseases();
+
+  @override
+  Widget build(BuildContext context) {
+    TextTheme textStyle = Theme.of(context).textTheme;
+    ColorScheme color = Theme.of(context).colorScheme;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
+      child: Column(
+        children: [
+          Text('Vacunas', style: textStyle.titleMedium),
         ],
       ),
     );
@@ -75,7 +95,11 @@ class _Vaccines extends StatelessWidget {
                 SizedBox(height: .5.h),
                 const _InfoRow(title: 'Proxima aplicacion', body: 'Vacuna 2(8/11/24)'),
                 SizedBox(height: .5.h),
-                const _InfoRow(title: 'Aplicaciones pendientes', body: 'vacuna 3, vacuna 4'),
+                const _InfoRow(title: 'Aplicaciones pendientes', body: 'vacuna 3'),
+                SizedBox(height: .5.h),
+                const _InfoRow(title: 'Alergias a componentes de vacunas:', body: ''),
+                SizedBox(height: .5.h),
+                const _InfoRow(title: 'Cumplimiento plan recomendado: ', body: ''),
               ],
             ),
           ),
@@ -204,8 +228,8 @@ class _PetAvatarSection extends StatelessWidget {
       height: 25.h,
       child: Stack(
         children: [
-          _DecorationWidget(size: 40.w, left: -10.w, angle: 50),
-          _DecorationWidget(size: 50.w, right: -15.w, bottom: -2.h, angle: -40),
+          SharedStackDecoration(size: 40.w, left: -10.w, angle: 50),
+          SharedStackDecoration(size: 50.w, right: -15.w, bottom: -2.h, angle: -40),
           Center(
             child: Container(
               height: 45.w,
@@ -259,42 +283,6 @@ class _InfoRow extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-class _DecorationWidget extends StatelessWidget {
-  final double size;
-  final double angle;
-  final double? left;
-  final double? right;
-  final double? top;
-  final double? bottom;
-
-  const _DecorationWidget({
-    required this.size,
-    this.angle = 0,
-    this.left,
-    this.right,
-    this.top,
-    this.bottom,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      left: left,
-      bottom: bottom,
-      right: right,
-      top: top,
-      child: Transform.rotate(
-        angle: angle * 3.1415926535897932 / 180,
-        child: SvgPicture.asset(
-          'assets/petto.svg',
-          height: size,
-          colorFilter: const ColorFilter.mode(lightPrimaryContainer, BlendMode.srcIn),
-        ),
-      ),
     );
   }
 }

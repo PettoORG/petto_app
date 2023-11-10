@@ -53,7 +53,7 @@ class HomeView extends StatelessWidget {
                   ),
                   SizedBox(height: 2.h),
                   const _RemindersTitle(),
-                  Column(children: List.generate(3, (index) => const ReminderCard())),
+                  Column(children: List.generate(3, (index) => const SharedReminderCard())),
                   SizedBox(height: 2.h),
                   Text(AppLocalizations.of(context)!.pettips, style: Theme.of(context).textTheme.titleMedium),
                 ],
