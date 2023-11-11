@@ -1,0 +1,39 @@
+
+{
+    "Balanced Nutrition": {
+        "title": "Nutrición Sana, Mascota Feliz",
+        "asset": "assets/images/balanced_diet.jpg"
+    },
+    "Hydration Awareness": {
+        "title": "Sed de Aventuras",
+        "asset": "assets/images/hydration.jpg"
+    },
+    "Regular Exercise Routine": {
+        "title": "Ejercita la Alegría",
+        "asset": "assets/images/regular_exercise.jpg"
+    },
+    "Routine Vet Check-ups": {
+        "title": "Chequeo VIP Veterinario",
+        "asset": "assets/images/regular_vet.jpg"
+    },
+    "Proper Hygiene Practices": {
+        "title": "Limpieza Peluda",
+        "asset": "assets/images/hygiene.jpg"
+    },
+    "Identification and Microchipping": {
+        "title": "Identidad con Estilo",
+        "asset": "assets/images/identification.jpg"
+    },
+    "Quality Time": {
+        "title": "Tiempo de Mimos y Juegos",
+        "asset": "assets/images/quality_time.jpg"
+    },
+    "Parasite Control": {
+        "title": "Lucha Contra los parasitos",
+        "asset": "assets/images/parasite_control.jpg"
+    },
+    "Caution with Human Foods": {
+        "title": "La Magia de la Comida Segura",
+        "asset": "assets/images/caution_human_foods.jpg"
+    }
+}
