@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
@@ -48,7 +47,6 @@ class _Diseases extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextTheme textStyle = Theme.of(context).textTheme;
-    ColorScheme color = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: Column(

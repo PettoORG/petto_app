@@ -53,7 +53,6 @@ class _Diseases extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextTheme textStyle = Theme.of(context).textTheme;
-    ColorScheme color = Theme.of(context).colorScheme;
     return Column(
       children: [
         Text('Enfermedades', style: textStyle.titleMedium),
