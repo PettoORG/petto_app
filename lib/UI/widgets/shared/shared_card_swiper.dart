@@ -7,9 +7,15 @@ class SharedCardSwiper extends StatefulWidget {
   final double viewportFraction;
   final int itemCount;
   final bool autoAdvance;
+  final Widget? child;
   final Function()? onTap;
   const SharedCardSwiper(
-      {super.key, required this.viewportFraction, required this.itemCount, this.autoAdvance = false, this.onTap});
+      {super.key,
+      required this.viewportFraction,
+      required this.itemCount,
+      this.autoAdvance = false,
+      this.onTap,
+      this.child});
 
   @override
   State<SharedCardSwiper> createState() => _SharedCardSwiperState();
@@ -90,6 +96,7 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
                 child: _Card(
                   opty: opty,
                   onTap: widget.onTap,
+                  child: widget.child,
                 ),
               );
             },
@@ -101,7 +108,8 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
 class _Card extends StatelessWidget {
   final double opty;
   final Function()? onTap;
-  const _Card({required this.opty, required this.onTap});
+  final Widget? child;
+  const _Card({required this.opty, required this.onTap, this.child});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -111,11 +119,11 @@ class _Card extends StatelessWidget {
         opacity: opty,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(5.w),
           child: Ink(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceVariant,
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(5.w),
               boxShadow: [
                 BoxShadow(
                   color: Theme.of(context).colorScheme.shadow,
@@ -123,6 +131,10 @@ class _Card extends StatelessWidget {
                   offset: const Offset(0, 0),
                 )
               ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5.w),
+              child: child,
             ),
           ),
         ),
