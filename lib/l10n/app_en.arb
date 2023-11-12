@@ -50,5 +50,8 @@
     "email": "Email",
     "haveAnAccount": "Already have an account?",
     "send": "Send",
-    "textHelpForgotPassword": "Enter the email associated with your account and we'll send an email with instruction to reset your password"
+    "textHelpForgotPassword": "Enter the email associated with your account and we'll send an email with instruction to reset your password",
+    "noConection": "!Ups! You don't have Internet",
+    "checkConection": "Please verify your connection and try again.",
+    "tryAgain": "Try again"
 }

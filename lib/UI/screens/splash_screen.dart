@@ -61,9 +61,7 @@ class SplashScreen extends StatelessWidget {
                             context.pushReplacementNamed('onboarding');
                           } else if (isOnline) {
                             context.pushReplacementNamed('home');
-                          } else {
-                            context.pushReplacementNamed('offline');
-                          }
+                          } 
                         },
                       )
                       .scale(duration: const Duration(milliseconds: 1000), curve: Curves.easeOutBack)
