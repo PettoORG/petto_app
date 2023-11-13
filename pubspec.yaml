@@ -21,6 +21,7 @@ dependencies:
   provider: ^6.0.5
   rxdart: ^0.27.7
   shared_preferences: ^2.2.2
+  shimmer: ^3.0.0
   sizer: ^2.0.15
   table_calendar: ^3.0.9
 
@@ -34,6 +35,8 @@ flutter:
   generate: true
   assets:
     - assets/
+    - assets/images/
+    - data/pettips_es.json
   fonts:
     - family: Montserrat
       fonts:
@@ -43,3 +46,6 @@ flutter:
     - family: Comfortaa
       fonts:
         - asset: assets/fonts/Comfortaa-Regular.ttf
+    - family: Pacifico-Regular
+      fonts:
+        - asset: assets/fonts/Pacifico-Regular.ttf

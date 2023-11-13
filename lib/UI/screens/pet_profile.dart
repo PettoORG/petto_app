@@ -4,7 +4,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:sizer/sizer.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetProfileScreen extends StatelessWidget {
   static const name = 'pet-profile';
@@ -51,7 +51,7 @@ class _Diseases extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: Column(
         children: [
-          Text('Vacunas', style: textStyle.titleMedium),
+          Text(AppLocalizations.of(context)!.vaccinations, style: textStyle.titleMedium),
         ],
       ),
     );
@@ -70,7 +70,7 @@ class _Vaccines extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Vacunas', style: textStyle.titleMedium),
+          Text(AppLocalizations.of(context)!.vaccinations, style: textStyle.titleMedium),
           SizedBox(height: 1.h),
           Container(
             padding: EdgeInsets.all(3.w),
@@ -89,15 +89,15 @@ class _Vaccines extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const _InfoRow(title: 'Ultima aplicacion', body: 'Vacuna 1(8/11/23)'),
+                _InfoRow(title: AppLocalizations.of(context)!.lastApplication, body: 'Vacuna 1(8/11/23)'),
                 SizedBox(height: .5.h),
-                const _InfoRow(title: 'Proxima aplicacion', body: 'Vacuna 2(8/11/24)'),
+                _InfoRow(title: AppLocalizations.of(context)!.nextApplication, body: 'Vacuna 2(8/11/24)'),
                 SizedBox(height: .5.h),
-                const _InfoRow(title: 'Aplicaciones pendientes', body: 'vacuna 3'),
+                _InfoRow(title: AppLocalizations.of(context)!.pendingApplications, body: 'vacuna 3'),
                 SizedBox(height: .5.h),
-                const _InfoRow(title: 'Alergias a componentes de vacunas:', body: ''),
+                _InfoRow(title: AppLocalizations.of(context)!.vaccineComponentAllergies, body: ''),
                 SizedBox(height: .5.h),
-                const _InfoRow(title: 'Cumplimiento plan recomendado: ', body: ''),
+                _InfoRow(title: AppLocalizations.of(context)!.recommendedPlanCompliance, body: ''),
               ],
             ),
           ),
@@ -119,7 +119,7 @@ class _GeneralInformation extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('General', style: textStyle.titleMedium),
+          Text(AppLocalizations.of(context)!.general, style: textStyle.titleMedium),
           SizedBox(height: 1.h),
           Container(
             padding: EdgeInsets.all(3.w),
@@ -136,13 +136,13 @@ class _GeneralInformation extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const _InfoRow(title: 'Tipo de alimento', body: 'Comercial'),
+                _InfoRow(title: AppLocalizations.of(context)!.food, body: 'Comercial'),
                 SizedBox(height: .5.h),
-                const _InfoRow(title: 'Ultima sesion veterinaria', body: '1/11/2023'),
+                _InfoRow(title: AppLocalizations.of(context)!.lastVeterinarySession, body: '1/11/2023'),
                 SizedBox(height: .5.h),
-                const _InfoRow(title: 'Ultima desparazitacion', body: '1/11/2023'),
+                _InfoRow(title: AppLocalizations.of(context)!.lastDeworming, body: '1/11/2023'),
                 SizedBox(height: .5.h),
-                const _InfoRow(title: 'MicroChip', body: '1020932'),
+                _InfoRow(title: AppLocalizations.of(context)!.microchip, body: '1020932'),
               ],
             ),
           )
@@ -168,21 +168,21 @@ class _BasicInformation extends StatelessWidget {
               Text('meses', style: textStyle.bodySmall!.copyWith(color: color.primary)),
             ],
           ),
-          title: 'Edad',
+          title: AppLocalizations.of(context)!.age,
           color: color.primaryContainer),
       OptionModel(
           child: Icon(
             BoxIcons.bx_female_sign,
             color: color.secondary,
           ),
-          title: 'Genero',
+          title: AppLocalizations.of(context)!.gender,
           color: color.secondaryContainer),
       OptionModel(
           child: Icon(
             BoxIcons.bx_check_circle,
             color: color.primary,
           ),
-          title: 'Vacunado',
+          title: AppLocalizations.of(context)!.vaccinated,
           color: color.primaryContainer),
       OptionModel(
           child: Column(
@@ -192,7 +192,7 @@ class _BasicInformation extends StatelessWidget {
               Text('Kg', style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
             ],
           ),
-          title: 'Peso',
+          title: AppLocalizations.of(context)!.petWeight,
           color: color.tertiaryContainer),
     ];
     return Padding(
@@ -200,11 +200,11 @@ class _BasicInformation extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Nombre de la mascota',
+            'Kamrexito',
             style: Theme.of(context).textTheme.titleMedium,
           ),
           Text(
-            'Perro(raza)',
+            '${AppLocalizations.of(context)!.dog}(raza)',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           SizedBox(height: 3.h),

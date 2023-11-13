@@ -38,7 +38,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
@@ -46,13 +46,9 @@ class _AuthScreenState extends State<AuthScreen> {
           physics: const NeverScrollableScrollPhysics(),
           controller: controller,
           children: [
-            _ForgotPassView(
-              onPressNext: (){
-                controller.nextPage(
-                  duration: const Duration(milliseconds:500), 
-                  curve: Curves.easeInQuint);
-              }
-            ),
+            _ForgotPassView(onPressNext: () {
+              controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeInQuint);
+            }),
             _LoginView(
               press: () {
                 controller.nextPage(
@@ -99,7 +95,7 @@ class _LoginViewState extends State<_LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme color =  Theme.of(context).colorScheme;
+    ColorScheme color = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: SingleChildScrollView(
@@ -186,14 +182,14 @@ class _LoginViewState extends State<_LoginView> {
               height: 4.h,
             ),
             ElevatedButton(
-              onPressed: () async{
+              onPressed: () async {
                 final bool isOnline = await context.read<ConnectionStatusProvider>().checkInternetConnection();
                 if (!context.mounted) {
-                            return;
-                          }
-                if (isOnline){
+                  return;
+                }
+                if (isOnline) {
                   context.pushReplacementNamed('home');
-                } else{
+                } else {
                   context.pushNamed('offline');
                 }
               },
@@ -213,9 +209,12 @@ class _LoginViewState extends State<_LoginView> {
               children: [
                 Text(AppLocalizations.of(context)!.dontHaveAccount),
                 SizedBox(width: 1.w),
-                GestureDetector(onTap: widget.press, 
-                child: Text(AppLocalizations.of(context)!.register, 
-                  style: TextStyle(color: color.primary),))
+                GestureDetector(
+                    onTap: widget.press,
+                    child: Text(
+                      AppLocalizations.of(context)!.register,
+                      style: TextStyle(color: color.primary),
+                    ))
               ],
             )
           ],
@@ -238,7 +237,7 @@ class __RegisterViewState extends State<_RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme color =  Theme.of(context).colorScheme;
+    ColorScheme color = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: SingleChildScrollView(
@@ -247,20 +246,20 @@ class __RegisterViewState extends State<_RegisterView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-                padding: EdgeInsets.all(8.sp),
-                margin: EdgeInsets.only(bottom: 7.h, top: 12.h),
-                height: 11.h,
-                width: 11.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.sp),
-                  color: color.primary,
-                ),
-                child: SvgPicture.asset(
-                  "assets/petto.svg",
-                  height: 10.h,
-                  width: 10.w,
-                ),
+              padding: EdgeInsets.all(8.sp),
+              margin: EdgeInsets.only(bottom: 7.h, top: 12.h),
+              height: 11.h,
+              width: 11.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.sp),
+                color: color.primary,
               ),
+              child: SvgPicture.asset(
+                "assets/petto.svg",
+                height: 10.h,
+                width: 10.w,
+              ),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 0.8.h),
               child: ListTile(
@@ -313,14 +312,14 @@ class __RegisterViewState extends State<_RegisterView> {
               height: 4.h,
             ),
             ElevatedButton(
-              onPressed: () async{
+              onPressed: () async {
                 final bool isOnline = await context.read<ConnectionStatusProvider>().checkInternetConnection();
                 if (!context.mounted) {
                   return;
                 }
-                if (isOnline){
+                if (isOnline) {
                   context.pushReplacementNamed("home");
-                } else{
+                } else {
                   context.pushNamed('offline');
                 }
               },
@@ -340,9 +339,12 @@ class __RegisterViewState extends State<_RegisterView> {
               children: [
                 Text(AppLocalizations.of(context)!.haveAnAccount),
                 SizedBox(width: 1.w),
-                GestureDetector(onTap: widget.press, 
-                child: Text(AppLocalizations.of(context)!.signIn, 
-                  style: TextStyle(color: color.primary),))
+                GestureDetector(
+                    onTap: widget.press,
+                    child: Text(
+                      AppLocalizations.of(context)!.signIn,
+                      style: TextStyle(color: color.primary),
+                    ))
               ],
             )
           ],
@@ -355,7 +357,9 @@ class __RegisterViewState extends State<_RegisterView> {
 class _ForgotPassView extends StatefulWidget {
   final Function()? onPressNext;
 
-  const _ForgotPassView({this.onPressNext,});
+  const _ForgotPassView({
+    this.onPressNext,
+  });
 
   @override
   State<_ForgotPassView> createState() => _ForgotPassViewState();
@@ -370,17 +374,19 @@ class _ForgotPassViewState extends State<_ForgotPassView> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 1.5.h,),
+            SizedBox(
+              height: 1.5.h,
+            ),
             Row(
               children: [
                 IconButton(
-                  onPressed: widget.onPressNext, 
-                alignment: Alignment.center,
-                icon: const Icon(Icons.arrow_back_ios)),
+                    onPressed: widget.onPressNext, alignment: Alignment.center, icon: const Icon(Icons.arrow_back_ios)),
                 Flexible(
-                    child: Center(
-                      child: Text(AppLocalizations.of(context)!.forgetPassword,
-                      style: Theme.of(context).textTheme.titleSmall,),
+                  child: Center(
+                    child: Text(
+                      AppLocalizations.of(context)!.forgetPassword,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
                   ),
                 ),
               ],
@@ -391,10 +397,11 @@ class _ForgotPassViewState extends State<_ForgotPassView> {
             Container(
               height: 30.h,
               width: 30.h,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.h),
-              color: color.primary.withOpacity(0.2)),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20.h), color: color.primary.withOpacity(0.2)),
               padding: EdgeInsets.all(4.w),
-              child: SvgPicture.asset("assets/forgot_password.svg"),),
+              child: SvgPicture.asset("assets/forgot_password.svg"),
+            ),
             SizedBox(
               height: 4.h,
             ),
@@ -415,13 +422,11 @@ class _ForgotPassViewState extends State<_ForgotPassView> {
               height: 2.h,
             ),
             GestureDetector(
-              onTap: (){},
-              child: Text(AppLocalizations.of(context)!.tryAgain,
+              onTap: () {},
+              child: Text(
+                AppLocalizations.of(context)!.tryAgain,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: color.primary,
-                  decoration: TextDecoration.underline,
-                  decorationColor: color.primary
-                ),
+                    color: color.primary, decoration: TextDecoration.underline, decorationColor: color.primary),
               ),
             ),
             SizedBox(
