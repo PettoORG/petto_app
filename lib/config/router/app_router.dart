@@ -12,6 +12,11 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
         path: 'pet-profile',
         builder: (context, state) => const PetProfileScreen(),
       ),
+      GoRoute(
+        name: NotificationSettingScreen.name,
+        path: 'notification',
+        builder: (context, state) => const NotificationSettingScreen(),
+      ),
     ],
   ),
   GoRoute(
