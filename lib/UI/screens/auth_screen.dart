@@ -72,12 +72,14 @@ class _AuthScreenState extends State<AuthScreen> {
               );
             },
           ),
-          _RegisterView(press: () {
-            controller.previousPage(
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInQuint,
-            );
-          }),
+          _RegisterView(
+            press: () {
+              controller.previousPage(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInQuint,
+              );
+            },
+          ),
           // Container(color: Colors.blue,
           // child: Center(
           //   child: InkWell(

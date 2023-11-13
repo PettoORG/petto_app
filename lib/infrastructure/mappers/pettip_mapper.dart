@@ -1,9 +1,8 @@
-// import 'package:petto_app/domain/entities/pettip.dart';
-// import 'package:petto_app/infrastructure/models/local_pettip.dart';
+import 'package:petto_app/domain/entities/pettip.dart';
 
-// class PettipMapper {
-//   static Pettip localPettipToEntity(LocalPettip localPettip) => Pettip(
-//         asset: localPettip.asset,
-//         title: localPettip.title,
-//       );
-// }
+class PettipMapper {
+  static Pettip localPettipToEntity(json) => Pettip(
+        asset: json['asset'],
+        title: json['title'],
+      );
+}

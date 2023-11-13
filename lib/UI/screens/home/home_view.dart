@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:petto_app/UI/providers/pettips_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
+import 'package:petto_app/config/constants/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -29,6 +33,7 @@ class HomeView extends StatelessWidget {
           title: AppLocalizations.of(context)!.food,
           color: color.tertiaryContainer),
     ];
+
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -59,10 +64,79 @@ class HomeView extends StatelessWidget {
                 ],
               ),
             ),
-            const SharedCardSwiper(viewportFraction: .8, itemCount: 5, autoAdvance: true),
+            const _Pettips(),
           ],
         )
       ],
+    );
+  }
+}
+
+class _Pettips extends StatelessWidget {
+  const _Pettips();
+
+  @override
+  Widget build(BuildContext context) {
+    ColorScheme color = Theme.of(context).colorScheme;
+    TextTheme textStyle = Theme.of(context).textTheme;
+    return FutureBuilder(
+      future: context.read<PettipsProvider>().getGeneralPettips(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return SharedCardSwiper(
+              viewportFraction: .8,
+              itemCount: snapshot.data!.length,
+              autoAdvance: true,
+              children: List.generate(
+                snapshot.data!.length,
+                (index) => Stack(
+                  children: [
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      child: Image.asset(
+                        snapshot.data![index].asset,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                        bottom: 2.w,
+                        left: 2.w,
+                        child: Container(
+                          padding: EdgeInsets.all(2.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3.w),
+                            color: color.surfaceVariant.withOpacity(.6),
+                          ),
+                          child: Text(
+                            snapshot.data![index].title,
+                            style: textStyle.bodySmall,
+                          ),
+                        ))
+                  ],
+                ),
+              ));
+        } else {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.grey.shade100,
+              enabled: true,
+              child: Container(
+                height: 25.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: lightSurfaceVariant,
+                  borderRadius: BorderRadius.circular(5.w),
+                ),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }
@@ -96,8 +170,14 @@ class _SliverAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextTheme textStyle = Theme.of(context).textTheme;
     return SliverAppBar(
-      pinned: true,
+      floating: true,
+      centerTitle: true,
+      title: Text(
+        'Petto',
+        style: textStyle.bodyLarge!.copyWith(fontFamily: 'Pacifico-Regular', fontSize: 17.sp),
+      ),
       leading: IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_menu_alt_left)),
       actions: [IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_bell)), SizedBox(width: 1.w)],
     );

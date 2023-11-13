@@ -1,3 +1,5 @@
+export 'package:petto_app/UI/screens/home/home_screen.dart';
+
 export 'package:petto_app/UI/screens/pet_profile.dart';
 
 export 'package:petto_app/UI/screens/home/calendar_view.dart';
