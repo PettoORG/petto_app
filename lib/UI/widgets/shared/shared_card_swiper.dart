@@ -24,8 +24,8 @@ class SharedCardSwiper extends StatefulWidget {
 class _SharedCardSwiperState extends State<SharedCardSwiper> {
   late final PageController _controller;
   late double _currentPage;
-  late Timer? autoPlayTimer;
-  late Timer? inactivityTimer;
+  Timer? autoPlayTimer;
+  Timer? inactivityTimer;
 
   void _listener() {
     setState(() {

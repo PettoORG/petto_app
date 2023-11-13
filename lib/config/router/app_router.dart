@@ -11,7 +11,7 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
         name: PetProfileScreen.name,
         path: 'pet-profile',
         builder: (context, state) => const PetProfileScreen(),
-      )
+      ),
     ],
   ),
   GoRoute(
