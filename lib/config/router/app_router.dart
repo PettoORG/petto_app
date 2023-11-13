@@ -14,7 +14,7 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
       ),
       GoRoute(
         name: NotificationSettingScreen.name,
-        path: 'notification',
+        path: 'notifications-settings',
         builder: (context, state) => const NotificationSettingScreen(),
       ),
     ],
