@@ -17,6 +17,11 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
         path: 'notification',
         builder: (context, state) => const NotificationSettingScreen(),
       ),
+      GoRoute(
+        name: TermsAndCondicionsScreen.name,
+        path: 'terms-conditions',
+        builder: (context, state) => const TermsAndCondicionsScreen(),
+      ),
     ],
   ),
   GoRoute(
