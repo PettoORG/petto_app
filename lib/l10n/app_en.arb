@@ -65,5 +65,9 @@
     "vaccineComponentAllergies": "Vaccine component allergies",
     "vaccinations": "Vaccinations",
     "welcomeBack": "Welcome back!",
-    "yourWellCaredPet": "Your well-cared pet"
+    "yourWellCaredPet": "Your well-cared pet",
+    "noConection": "!Ups! You don't have Internet",
+    "checkConection": "Please verify your connection and try again.",
+    "tryAgain": "Try again",
+    "tryAnotherWay": "Try another way"
 }

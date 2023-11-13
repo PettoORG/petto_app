@@ -67,5 +67,9 @@
     "vaccinations": "Vacunas",
     "vamos": "vamos",
     "welcomeBack": "Bienvenido de vuelta!",
-    "yourWellCaredPet": "Tu mascota, bien cuidada"
+    "yourWellCaredPet": "Tu mascota, bien cuidada",
+    "noConection": "!Ups! No tienes internet",
+    "checkConection": "Por favor verifica tu conexión y reintenta.",
+    "tryAgain": "Reenviar",
+    "tryAnotherWay": "Prueba otro metodo"
 }
