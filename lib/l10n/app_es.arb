@@ -50,8 +50,9 @@
     "email": "Email",
     "haveAnAccount": "¿Ya tienes una cuenta?",
     "send": "Enviar",
-    "textHelpForgotPassword": "Introduzca el correo electroníco asociado a su cuenta y le enviaremos un correo electrónico con las instrucciones para reestablecer su contraseña",
+    "textHelpForgotPassword": "Introduzca el correo electroníco asociado a su cuenta y le enviaremos un mensaje con las instrucciones para reestablecer su contraseña",
     "noConection": "!Ups! No tienes internet",
     "checkConection": "Por favor verifica tu conexión y reintenta.",
-    "tryAgain": "Reintentar"
+    "tryAgain": "Reenviar",
+    "tryAnotherWay": "Prueba otro metodo"
 }

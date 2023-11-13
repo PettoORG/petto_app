@@ -46,7 +46,13 @@ class _AuthScreenState extends State<AuthScreen> {
           physics: const NeverScrollableScrollPhysics(),
           controller: controller,
           children: [
-            const _ForgotPassView(),
+            _ForgotPassView(
+              onPressNext: (){
+                controller.nextPage(
+                  duration: const Duration(milliseconds:500), 
+                  curve: Curves.easeInQuint);
+              }
+            ),
             _LoginView(
               press: () {
                 controller.nextPage(
@@ -220,7 +226,7 @@ class _LoginViewState extends State<_LoginView> {
 }
 
 class _RegisterView extends StatefulWidget {
-  final dynamic press;
+  final Function()? press;
   const _RegisterView({this.press});
 
   @override
@@ -253,7 +259,8 @@ class __RegisterViewState extends State<_RegisterView> {
                   "assets/petto.svg",
                   height: 10.h,
                   width: 10.w,
-                )),
+                ),
+              ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 0.8.h),
               child: ListTile(
@@ -346,7 +353,9 @@ class __RegisterViewState extends State<_RegisterView> {
 }
 
 class _ForgotPassView extends StatefulWidget {
-  const _ForgotPassView();
+  final Function()? onPressNext;
+
+  const _ForgotPassView({this.onPressNext,});
 
   @override
   State<_ForgotPassView> createState() => _ForgotPassViewState();
@@ -358,66 +367,78 @@ class _ForgotPassViewState extends State<_ForgotPassView> {
     ColorScheme color = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.w),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 1.5.h,),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: widget.onPressNext, 
                 alignment: Alignment.center,
-                width: 6.h,
-                height: 6.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2.h),
-                  boxShadow: [
-                    BoxShadow(
-                        color: color.surface.withOpacity(0.4), //New
-                        blurRadius: 10.0,
-                        offset: Offset(0, 0))
-                  ],
+                icon: const Icon(Icons.arrow_back_ios)),
+                Flexible(
+                    child: Center(
+                      child: Text(AppLocalizations.of(context)!.forgetPassword,
+                      style: Theme.of(context).textTheme.titleSmall,),
+                  ),
                 ),
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.sp), 
-                    color: color.surfaceVariant),
-                  child: const Center(child: Icon(Icons.arrow_back_ios)),
+              ],
+            ),
+            SizedBox(
+              height: 4.h,
+            ),
+            Container(
+              height: 30.h,
+              width: 30.h,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.h),
+              color: color.primary.withOpacity(0.2)),
+              padding: EdgeInsets.all(4.w),
+              child: SvgPicture.asset("assets/forgot_password.svg"),),
+            SizedBox(
+              height: 4.h,
+            ),
+            Text(
+              AppLocalizations.of(context)!.textHelpForgotPassword,
+              textAlign: TextAlign.justify,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            SizedBox(
+              height: 4.h,
+            ),
+            TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: AppLocalizations.of(context)!.email),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            GestureDetector(
+              onTap: (){},
+              child: Text(AppLocalizations.of(context)!.tryAgain,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: color.primary,
+                  decoration: TextDecoration.underline,
+                  decorationColor: color.primary
                 ),
               ),
-              Flexible(
-                  child: Center(
-                child: Text(AppLocalizations.of(context)!.forgetPassword),
-              ))
-            ],
-          ),
-          SizedBox(
-            height: 4.h,
-          ),
-          Text(
-            AppLocalizations.of(context)!.textHelpForgotPassword,
-            textAlign: TextAlign.justify,
-            style: Theme.of(context).textTheme.labelMedium,
-          ),
-          SizedBox(
-            height: 4.h,
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-                prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: AppLocalizations.of(context)!.email),
-            // style: Theme.of(context).textTheme.displayMedium,
-          ),
-          SizedBox(
-            height: 2.h,
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            style: ButtonStyle(
-              fixedSize: MaterialStateProperty.all(Size(75.w, 6.5.h)),
             ),
-            child: Text(
-              AppLocalizations.of(context)!.send,
-              style: TextStyle(color: color.surfaceVariant),
+            SizedBox(
+              height: 2.h,
             ),
-          ),
-        ],
+            ElevatedButton(
+              onPressed: () {},
+              style: ButtonStyle(
+                fixedSize: MaterialStateProperty.all(Size(75.w, 6.5.h)),
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.send,
+                style: TextStyle(color: color.surfaceVariant),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
