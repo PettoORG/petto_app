@@ -7,7 +7,7 @@ class SharedCardSwiper extends StatefulWidget {
   final double viewportFraction;
   final int itemCount;
   final bool autoAdvance;
-  final Widget? child;
+  final List<Widget>? children;
   final Function()? onTap;
   const SharedCardSwiper(
       {super.key,
@@ -15,7 +15,7 @@ class SharedCardSwiper extends StatefulWidget {
       required this.itemCount,
       this.autoAdvance = false,
       this.onTap,
-      this.child});
+      this.children});
 
   @override
   State<SharedCardSwiper> createState() => _SharedCardSwiperState();
@@ -24,27 +24,44 @@ class SharedCardSwiper extends StatefulWidget {
 class _SharedCardSwiperState extends State<SharedCardSwiper> {
   late final PageController _controller;
   late double _currentPage;
-  Timer? timer;
+  Timer? autoPlayTimer;
+  Timer? inactivityTimer;
 
   void _listener() {
     setState(() {
       _currentPage = _controller.page!;
+      _resetInactivityTimer();
+    });
+  }
+
+  void _resetInactivityTimer() {
+    inactivityTimer?.cancel();
+    inactivityTimer = Timer(const Duration(seconds: 10), () {
+      if (widget.autoAdvance) {
+        _startAutoAdvance();
+        _resetInactivityTimer();
+      }
     });
   }
 
   void _startAutoAdvance() {
-    timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
+    autoPlayTimer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
       if (_currentPage < widget.itemCount - 1) {
         _controller.nextPage(
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
+        );
+      } else {
+        Future.delayed(
+          const Duration(milliseconds: 500),
+          () => _controller.animateToPage(0, duration: const Duration(milliseconds: 1500), curve: Curves.easeInOutBack),
         );
       }
     });
   }
 
   void _stopAutoAdvance() {
-    timer?.cancel();
+    autoPlayTimer?.cancel();
   }
 
   @override
@@ -63,6 +80,7 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
     _controller.removeListener(_listener);
     _controller.dispose();
     _stopAutoAdvance();
+    inactivityTimer?.cancel();
     super.dispose();
   }
 
@@ -74,7 +92,10 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
         height: 25.h,
         width: double.infinity,
         child: GestureDetector(
-          onHorizontalDragCancel: () => _stopAutoAdvance(),
+          onHorizontalDragCancel: () {
+            _stopAutoAdvance();
+            _resetInactivityTimer();
+          },
           child: PageView.builder(
             physics: const BouncingScrollPhysics(),
             controller: _controller,
@@ -96,7 +117,7 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
                 child: _Card(
                   opty: opty,
                   onTap: widget.onTap,
-                  child: widget.child,
+                  child: widget.children?[index] ?? Container(),
                 ),
               );
             },
@@ -112,6 +133,7 @@ class _Card extends StatelessWidget {
   const _Card({required this.opty, required this.onTap, this.child});
   @override
   Widget build(BuildContext context) {
+    final double borderRadius = 5.w;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 5.w),
       child: AnimatedOpacity(
@@ -119,11 +141,11 @@ class _Card extends StatelessWidget {
         opacity: opty,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(5.w),
+          borderRadius: BorderRadius.circular(borderRadius),
           child: Ink(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceVariant,
-              borderRadius: BorderRadius.circular(5.w),
+              borderRadius: BorderRadius.circular(borderRadius),
               boxShadow: [
                 BoxShadow(
                   color: Theme.of(context).colorScheme.shadow,
@@ -133,7 +155,7 @@ class _Card extends StatelessWidget {
               ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(5.w),
+              borderRadius: BorderRadius.circular(borderRadius),
               child: child,
             ),
           ),

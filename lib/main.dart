@@ -15,7 +15,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => LanguageProvider()),
       ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ChangeNotifierProvider(create: (context) => ConnectionStatusProvider()),
-      // ChangeNotifierProvider(create: (context) => PettipsProvider()),
+      ChangeNotifierProvider(create: (context) => PettipsProvider()),
     ],
     child: const MyApp(),
   ));
