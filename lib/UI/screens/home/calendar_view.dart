@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/language_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -15,11 +14,7 @@ class CalendarView extends StatelessWidget {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
-        SliverAppBar(
-          pinned: true,
-          leading: IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_menu_alt_left)),
-          actions: [IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_plus_circle)), SizedBox(width: 1.w)],
-        ),
+        SliverToBoxAdapter(child: SizedBox(height: 10.h)),
         SliverList.list(children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
