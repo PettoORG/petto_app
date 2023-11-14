@@ -50,13 +50,13 @@ class _AuthScreenState extends State<AuthScreen> {
               controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeInQuint);
             }),
             _LoginView(
-              press: () {
+              onTap: () {
                 controller.nextPage(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeInQuint,
                 );
               },
-              press_two: () {
+              onTapTwo: () {
                 controller.previousPage(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeInQuint,
@@ -77,9 +77,9 @@ class _AuthScreenState extends State<AuthScreen> {
 }
 
 class _LoginView extends StatefulWidget {
-  final Function()? press;
-  final Function()? press_two;
-  const _LoginView({this.press, this.press_two});
+  final Function()? onTap;
+  final Function()? onTapTwo;
+  const _LoginView({this.onTap, this.onTapTwo});
 
   @override
   State<_LoginView> createState() => _LoginViewState();
@@ -167,7 +167,7 @@ class _LoginViewState extends State<_LoginView> {
               children: [
                 Flexible(child: Container()),
                 GestureDetector(
-                  onTap: widget.press_two,
+                  onTap: widget.onTapTwo,
                   child: Text(
                     AppLocalizations.of(context)!.forgetPassword,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -210,7 +210,7 @@ class _LoginViewState extends State<_LoginView> {
                 Text(AppLocalizations.of(context)!.dontHaveAccount),
                 SizedBox(width: 1.w),
                 GestureDetector(
-                    onTap: widget.press,
+                    onTap: widget.onTap,
                     child: Text(
                       AppLocalizations.of(context)!.register,
                       style: TextStyle(color: color.primary),
