@@ -22,6 +22,11 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
         path: 'account',
         builder: (context, state) => const AccountScreen(),
       ),
+      GoRoute(
+        name: NotificationsScreen.name,
+        path: 'notifications',
+        builder: (context, state) => const NotificationsScreen(),
+      ),
     ],
   ),
   GoRoute(

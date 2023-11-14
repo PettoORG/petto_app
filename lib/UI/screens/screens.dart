@@ -1,3 +1,5 @@
+export 'package:petto_app/UI/screens/notifications_screen.dart';
+
 export 'package:petto_app/UI/screens/account_screen.dart';
 
 export 'package:petto_app/UI/screens/notifications_settings_screen.dart';
