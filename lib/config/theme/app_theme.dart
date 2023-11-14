@@ -20,6 +20,14 @@ class AppTheme {
           onBackground: lightIconColor,
           shadow: lightShadowColor,
         ),
+        //TODO: VERIFICAR SI EL PROBLEMA DE RESALTADO DE INKWELLS YA FUE SOLUCIONADO Y ELIMINAR CODIGO
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder>{
+            TargetPlatform.android: ZoomPageTransitionsBuilder(
+              allowEnterRouteSnapshotting: false,
+            ),
+          },
+        ),
         scaffoldBackgroundColor: lightBackground,
         iconTheme: IconThemeData(color: lightIconColor, size: 8.w),
         iconButtonTheme: IconButtonThemeData(
@@ -28,7 +36,12 @@ class AppTheme {
             iconColor: const MaterialStatePropertyAll(lightIconColor),
           ),
         ),
-        appBarTheme: const AppBarTheme(backgroundColor: lightBackground, surfaceTintColor: lightBackground),
+        appBarTheme: AppBarTheme(
+          backgroundColor: lightBackground,
+          surfaceTintColor: lightBackground,
+          titleTextStyle:
+              TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa', color: Colors.black),
+        ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
               elevation: 10,
@@ -65,10 +78,10 @@ class AppTheme {
         textTheme: TextTheme(
           titleLarge: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
           titleMedium: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
-          titleSmall: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
+          titleSmall: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
           bodyLarge: TextStyle(fontSize: 14.sp),
           bodyMedium: TextStyle(fontSize: 12.sp),
-          bodySmall: TextStyle(fontSize: 12.sp),
+          bodySmall: TextStyle(fontSize: 11.sp),
         ),
       );
 

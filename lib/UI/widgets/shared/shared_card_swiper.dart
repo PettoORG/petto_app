@@ -126,11 +126,23 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
   }
 }
 
-class _Card extends StatelessWidget {
+class _Card extends StatefulWidget {
   final double opty;
   final Function()? onTap;
   final Widget? child;
   const _Card({required this.opty, required this.onTap, this.child});
+
+  @override
+  State<_Card> createState() => _CardState();
+}
+
+class _CardState extends State<_Card> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double borderRadius = 5.w;
@@ -138,9 +150,9 @@ class _Card extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 5.w),
       child: AnimatedOpacity(
         duration: const Duration(seconds: 1),
-        opacity: opty,
+        opacity: widget.opty,
         child: InkWell(
-          onTap: onTap,
+          onTap: widget.onTap,
           borderRadius: BorderRadius.circular(borderRadius),
           child: Ink(
             decoration: BoxDecoration(
@@ -156,7 +168,7 @@ class _Card extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(borderRadius),
-              child: child,
+              child: widget.child,
             ),
           ),
         ),

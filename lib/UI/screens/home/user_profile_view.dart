@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:sizer/sizer.dart';
@@ -12,12 +13,16 @@ class UserProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<_CardModel> options = [
-      _CardModel(title: AppLocalizations.of(context)!.myAccount, icon: BoxIcons.bx_face, pushNamed: ''),
-      _CardModel(title: AppLocalizations.of(context)!.notifications, icon: BoxIcons.bx_bell, pushNamed: ''),
-      _CardModel(title: AppLocalizations.of(context)!.support, icon: BoxIcons.bx_support, pushNamed: ''),
       _CardModel(
-          title: AppLocalizations.of(context)!.securityPolicies, icon: BoxIcons.bx_shield_quarter, pushNamed: ''),
-      _CardModel(title: AppLocalizations.of(context)!.logOut, icon: BoxIcons.bx_log_out_circle, pushNamed: ''),
+          title: AppLocalizations.of(context)!.myAccount,
+          icon: BoxIcons.bx_face,
+          onTap: () {
+            context.pushNamed('account');
+          }),
+      _CardModel(title: AppLocalizations.of(context)!.notifications, icon: BoxIcons.bx_bell, onTap: () {}),
+      _CardModel(title: AppLocalizations.of(context)!.support, icon: BoxIcons.bx_support, onTap: () {}),
+      _CardModel(title: AppLocalizations.of(context)!.securityPolicies, icon: BoxIcons.bx_shield_quarter, onTap: () {}),
+      _CardModel(title: AppLocalizations.of(context)!.logOut, icon: BoxIcons.bx_log_out_circle, onTap: () {}),
     ];
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -63,7 +68,7 @@ class _CardOption extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 7.w),
       child: InkWell(
-        onTap: () {},
+        onTap: option.onTap,
         borderRadius: BorderRadius.circular(5.w),
         child: Ink(
           padding: EdgeInsets.all(4.w),
@@ -218,7 +223,7 @@ class _DecorationBox extends StatelessWidget {
 class _CardModel {
   final String title;
   final IconData icon;
-  final String pushNamed;
+  final Function()? onTap;
 
-  _CardModel({required this.title, required this.icon, required this.pushNamed});
+  _CardModel({required this.title, required this.icon, required this.onTap});
 }
