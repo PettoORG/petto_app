@@ -31,9 +31,56 @@ class PetProfileScreen extends StatelessWidget {
               SizedBox(height: 3.h),
               const _Vaccines(),
               SizedBox(height: 3.h),
+              const _Medicaments(),
+              SizedBox(height: 3.h),
               const _Diseases(),
               SizedBox(height: 3.h),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Medicaments extends StatelessWidget {
+  const _Medicaments();
+
+  @override
+  Widget build(BuildContext context) {
+    TextTheme textStyle = Theme.of(context).textTheme;
+    ColorScheme color = Theme.of(context).colorScheme;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Medicamentos', style: textStyle.titleMedium),
+          SizedBox(height: 1.h),
+          Container(
+            padding: EdgeInsets.all(3.w),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: color.surfaceVariant,
+              borderRadius: BorderRadius.circular(5.w),
+              boxShadow: [
+                BoxShadow(
+                  color: color.shadow,
+                  blurRadius: 5,
+                  offset: const Offset(0, 0),
+                )
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const _Title(title: 'MEDICAMENTO 1'),
+                SizedBox(height: .5.h),
+                const _Title(title: 'MEDICAMENTO 2'),
+                SizedBox(height: .5.h),
+                const _Title(title: 'MEDICAMENTO 3'),
+              ],
+            ),
           ),
         ],
       ),
@@ -47,11 +94,39 @@ class _Diseases extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextTheme textStyle = Theme.of(context).textTheme;
+    ColorScheme color = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(AppLocalizations.of(context)!.vaccinations, style: textStyle.titleMedium),
+          Text('Enfermedades', style: textStyle.titleMedium),
+          SizedBox(height: 1.h),
+          Container(
+            padding: EdgeInsets.all(3.w),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: color.surfaceVariant,
+              borderRadius: BorderRadius.circular(5.w),
+              boxShadow: [
+                BoxShadow(
+                  color: color.shadow,
+                  blurRadius: 5,
+                  offset: const Offset(0, 0),
+                )
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const _Title(title: 'ENFERMEDAD 1'),
+                SizedBox(height: .5.h),
+                const _Title(title: 'ENFERMEDAD 2'),
+                SizedBox(height: .5.h),
+                const _Title(title: 'ENFERMEDAD 3'),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -89,15 +164,15 @@ class _Vaccines extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _InfoRow(title: AppLocalizations.of(context)!.lastApplication, body: 'Vacuna 1(8/11/23)'),
+                _Title(title: AppLocalizations.of(context)!.lastApplication.toUpperCase()),
                 SizedBox(height: .5.h),
-                _InfoRow(title: AppLocalizations.of(context)!.nextApplication, body: 'Vacuna 2(8/11/24)'),
+                _Title(title: AppLocalizations.of(context)!.nextApplication.toUpperCase()),
                 SizedBox(height: .5.h),
-                _InfoRow(title: AppLocalizations.of(context)!.pendingApplications, body: 'vacuna 3'),
+                _Title(title: AppLocalizations.of(context)!.pendingApplications.toUpperCase()),
                 SizedBox(height: .5.h),
-                _InfoRow(title: AppLocalizations.of(context)!.vaccineComponentAllergies, body: ''),
+                _Title(title: AppLocalizations.of(context)!.vaccineComponentAllergies.toUpperCase()),
                 SizedBox(height: .5.h),
-                _InfoRow(title: AppLocalizations.of(context)!.recommendedPlanCompliance, body: ''),
+                _Title(title: AppLocalizations.of(context)!.recommendedPlanCompliance.toUpperCase()),
               ],
             ),
           ),
@@ -122,6 +197,7 @@ class _GeneralInformation extends StatelessWidget {
           Text(AppLocalizations.of(context)!.general, style: textStyle.titleMedium),
           SizedBox(height: 1.h),
           Container(
+            width: double.infinity,
             padding: EdgeInsets.all(3.w),
             decoration: BoxDecoration(
               color: color.surfaceVariant,
@@ -135,14 +211,15 @@ class _GeneralInformation extends StatelessWidget {
               ],
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _InfoRow(title: AppLocalizations.of(context)!.food, body: 'Comercial'),
+                _Title(title: AppLocalizations.of(context)!.food.toUpperCase()),
                 SizedBox(height: .5.h),
-                _InfoRow(title: AppLocalizations.of(context)!.lastVeterinarySession, body: '1/11/2023'),
+                _Title(title: AppLocalizations.of(context)!.lastVeterinarySession.toUpperCase()),
                 SizedBox(height: .5.h),
-                _InfoRow(title: AppLocalizations.of(context)!.lastDeworming, body: '1/11/2023'),
+                _Title(title: AppLocalizations.of(context)!.lastDeworming.toUpperCase()),
                 SizedBox(height: .5.h),
-                _InfoRow(title: AppLocalizations.of(context)!.microchip, body: '1020932'),
+                _Title(title: AppLocalizations.of(context)!.microchip.toUpperCase()),
               ],
             ),
           )
@@ -230,12 +307,12 @@ class _PetAvatarSection extends StatelessWidget {
           SharedStackDecoration(size: 50.w, right: -15.w, bottom: -2.h, angle: -40),
           Center(
             child: Container(
-              height: 45.w,
-              width: 45.h,
-              decoration: const BoxDecoration(
+              height: 40.w,
+              width: 40.w,
+              decoration: BoxDecoration(
                 color: lightSurfaceVariant,
-                shape: BoxShape.circle,
-                boxShadow: [
+                borderRadius: BorderRadius.circular(5.w),
+                boxShadow: const [
                   BoxShadow(
                     blurRadius: 5,
                     color: lightShadowColor,
@@ -251,13 +328,11 @@ class _PetAvatarSection extends StatelessWidget {
   }
 }
 
-class _InfoRow extends StatelessWidget {
+class _Title extends StatelessWidget {
   final String title;
-  final String body;
 
-  const _InfoRow({
+  const _Title({
     required this.title,
-    required this.body,
     Key? key,
   }) : super(key: key);
 
@@ -265,20 +340,9 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Text(
-              '$title: ',
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            Flexible(
-              child: Text(
-                body,
-                style: Theme.of(context).textTheme.bodySmall,
-                maxLines: 3,
-              ),
-            ),
-          ],
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold),
         ),
       ],
     );
