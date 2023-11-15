@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -60,40 +61,10 @@ class AccountScreen extends StatelessWidget {
                 SizedBox(height: 3.h),
                 Center(child: TextButton(onPressed: () {}, child: Text(AppLocalizations.of(context)!.deleteAccount))),
                 const Spacer(),
-                const _SaveButton(),
+                SharedButton(child: Text(AppLocalizations.of(context)!.save)),
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SaveButton extends StatelessWidget {
-  const _SaveButton();
-
-  @override
-  Widget build(BuildContext context) {
-    ColorScheme colors = Theme.of(context).colorScheme;
-    return Padding(
-      padding: EdgeInsets.all(5.w),
-      child: Center(
-        child: OutlinedButton(
-          onPressed: () {},
-          style: ButtonStyle(
-            fixedSize: MaterialStateProperty.all(Size(75.w, 6.5.h)),
-            elevation: MaterialStateProperty.all(10),
-            side: MaterialStateProperty.resolveWith<BorderSide>(
-              (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled)) {
-                  return BorderSide(color: colors.shadow);
-                }
-                return BorderSide(color: colors.primary);
-              },
-            ),
-          ),
-          child: Text(AppLocalizations.of(context)!.save),
         ),
       ),
     );
