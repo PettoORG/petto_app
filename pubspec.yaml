@@ -39,6 +39,7 @@ flutter:
     - assets/images/
     - data/pettips_es.json
     - data/politics_es.json
+    - data/politics_en.json
   fonts:
     - family: Montserrat
       fonts:

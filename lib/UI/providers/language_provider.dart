@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:petto_app/utils/utils.dart';
 
 class LanguageProvider extends ChangeNotifier {
-  String _language = Platform.localeName;
+  String _language = Platform.localeName.substring(0, 2);
 
   LanguageProvider() {
     logger.d('Device Language: $_language');

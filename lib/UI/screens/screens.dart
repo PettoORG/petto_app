@@ -1,4 +1,4 @@
-export 'package:petto_app/UI/screens/terms_privacy/tc_screen.dart';
+export 'package:petto_app/UI/screens/terms_privacy/terms_privacy_screen.dart';
 
 export 'package:petto_app/UI/screens/terms_privacy/privacy_policies_view.dart';
 
