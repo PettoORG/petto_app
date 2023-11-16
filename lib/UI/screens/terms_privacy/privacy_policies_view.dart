@@ -39,22 +39,16 @@ class PrivacyPoliciesView extends StatelessWidget {
                     return Container();
                   }
                   if (snapshot.hasData) {
-                    return Column(
-                      children: List.generate(
+                    return Column(children: [
+                      const Text('aca va el titulo'),
+                      ...List.generate(
                         snapshot.data!.length,
                         (index) {
                           _PrivacyPolity privacyPoint = snapshot.data![index];
-                          return Column(
-                            children: [
-                              //TITLE
-                              const Text('Politicas de privacidad'),
-                              //DATA
-                              _PointSection(privacyPoint: privacyPoint),
-                            ],
-                          );
+                          return _PointSection(privacyPoint: privacyPoint);
                         },
                       ),
-                    );
+                    ]);
                   } else {
                     //LOADING
                     return const Center(
