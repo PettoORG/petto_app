@@ -1,10 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:petto_app/utils/local_storage.dart';
+import 'package:petto_app/utils/utils.dart';
 
 class LanguageProvider extends ChangeNotifier {
-  String _language = 'es';
+  String _language = Platform.localeName;
 
   LanguageProvider() {
+    logger.d('Device Language: $_language');
     _loadLanguage();
   }
 
@@ -21,12 +23,8 @@ class LanguageProvider extends ChangeNotifier {
     await languagePrefs.setString('language', language);
   }
 
-  void changeLanguage() {
-    if (_language == 'es') {
-      _language = 'en';
-    } else if (_language == 'en') {
-      _language = 'es';
-    }
+  void changeLanguage(String newLanguage) {
+    _language = newLanguage;
     _saveLanguage(_language);
     notifyListeners();
   }

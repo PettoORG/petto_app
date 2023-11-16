@@ -178,8 +178,10 @@ class _SliverAppbar extends StatelessWidget {
         AppLocalizations.of(context)!.petto,
         style: textStyle.bodyLarge!.copyWith(fontFamily: 'Pacifico-Regular', fontSize: 17.sp),
       ),
-      leading: IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_menu_alt_left)),
-      actions: [IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_bell)), SizedBox(width: 1.w)],
+      actions: [
+        IconButton(onPressed: () => context.pushNamed('notifications'), icon: const Icon(BoxIcons.bx_bell)),
+        SizedBox(width: 1.w)
+      ],
     );
   }
 }

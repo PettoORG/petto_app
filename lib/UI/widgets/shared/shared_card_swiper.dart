@@ -131,6 +131,7 @@ class _Card extends StatelessWidget {
   final Function()? onTap;
   final Widget? child;
   const _Card({required this.opty, required this.onTap, this.child});
+
   @override
   Widget build(BuildContext context) {
     final double borderRadius = 5.w;

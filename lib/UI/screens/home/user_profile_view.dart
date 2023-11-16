@@ -13,8 +13,13 @@ class UserProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<_CardModel> options = [
-      _CardModel(title: AppLocalizations.of(context)!.myAccount, icon: BoxIcons.bx_face, onTap: (){}),
-      _CardModel(title: AppLocalizations.of(context)!.notifications, icon: BoxIcons.bx_bell, onTap: (){context.pushNamed('notification');}),
+      _CardModel(
+          title: AppLocalizations.of(context)!.myAccount,
+          icon: BoxIcons.bx_face,
+          onTap: () {
+            context.pushNamed('account');
+          }),
+       _CardModel(title: AppLocalizations.of(context)!.notifications, icon: BoxIcons.bx_bell, onTap: (){context.pushNamed('notification');}),
       _CardModel(title: AppLocalizations.of(context)!.support, icon: BoxIcons.bx_support, onTap: (){}),
       _CardModel(title: AppLocalizations.of(context)!.securityPolicies, icon: BoxIcons.bx_shield_quarter, onTap: (){context.pushNamed('tc');}),
       _CardModel(title: AppLocalizations.of(context)!.logOut, icon: BoxIcons.bx_log_out_circle, onTap: (){}),
