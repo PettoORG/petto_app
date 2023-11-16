@@ -2,7 +2,7 @@ export 'package:petto_app/UI/screens/auth/forgot_password_view.dart';
 
 export 'package:petto_app/UI/screens/auth/log_in_view.dart';
 
-export 'package:petto_app/UI/screens/auth/register_view.dart';
+export 'package:petto_app/UI/screens/auth/sigin_up_view.dart';
 
 export 'package:petto_app/UI/screens/auth/auth_scren.dart';
 

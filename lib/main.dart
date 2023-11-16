@@ -22,6 +22,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ChangeNotifierProvider(create: (context) => ConnectionStatusProvider()),
       ChangeNotifierProvider(create: (context) => PettipsProvider()),
+      ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
     ],
     child: const MyApp(),
   ));

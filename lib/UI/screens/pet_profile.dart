@@ -287,7 +287,7 @@ class _BasicInformation extends StatelessWidget {
           SizedBox(height: 3.h),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(options.length, (index) => SharedOptionCard(option: options[index]))),
+              children: List.generate(options.length, (index) => SharedPetOptionCard(option: options[index]))),
         ],
       ),
     );

@@ -40,7 +40,7 @@ class _AuthScreenState extends State<AuthScreen> {
           physics: const NeverScrollableScrollPhysics(),
           controller: controller,
           children: [
-            ForgotPasswordView(onTap: () {
+            ForgotPasswordView(onPressed: () {
               controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeInQuint);
             }),
             LoginView(
