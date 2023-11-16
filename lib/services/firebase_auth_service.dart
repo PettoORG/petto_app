@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:petto_app/utils/utils.dart';
 
 class Auth {
   late final UserCredential authInfo;
