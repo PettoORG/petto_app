@@ -18,9 +18,21 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
         builder: (context, state) => const NotificationSettingScreen(),
       ),
       GoRoute(
-        name: TermsAndCondicionsScreen.name,
-        path: 'terms-conditions',
-        builder: (context, state) => const TermsAndCondicionsScreen(),
+        name: TCScreen.name,
+        path: 'tc',
+        builder: (context, state) => const TCScreen(),
+        routes: [
+          GoRoute(
+            name: TermsAndCondicionsView.name,
+            path: 'terms',
+            builder: (context, state) => const TermsAndCondicionsView(),
+          ),
+          GoRoute(
+            name: PrivacyPoliciesView.name,
+            path: 'privacy',
+            builder: (context, state) => const PrivacyPoliciesView(),
+          )
+        ]
       ),
     ],
   ),

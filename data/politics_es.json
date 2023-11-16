@@ -1,0 +1,48 @@
+{
+    "1_collection_of_information": {
+      "title": "1. Collection of Information",
+      "point": "1.1 By using the Petto mobile application ('the App'), you agree to the collection of information necessary for the operation of the application and the improvement of our services.",
+      "details": "1.2 The collected information may include personal data such as name, email address, contact information, details about pets, and any other information provided voluntarily."
+    },
+    "2_use_of_information": {
+      "title": "2. Use of Information",
+      "point": "2.1 The collected information is used to personalize the user experience, provide specific services of the application, and enhance the overall quality of Petto.",
+      "details": "2.2 The information may also be used to send notifications, alerts, and relevant communications related to the application and pet care."
+    },
+    "3_sharing_with_third_parties": {
+      "title": "3. Sharing Information with Third Parties",
+      "point": "3.1 Petto is committed to not selling, renting, or sharing personal information with third parties without user consent, except as permitted by law.",
+      "details": "3.2 We may share information anonymously and in aggregate for statistical and analytical purposes."
+    },
+    "4_information_security": {
+      "title": "4. Information Security",
+      "point": "4.1 Reasonable security measures are implemented to protect user information. However, no internet transmission or electronic storage is entirely secure, and we cannot guarantee absolute security."
+    },
+    "5_user_access_and_control": {
+      "title": "5. User Access and Control of Information",
+      "point": "5.1 Users have the right to access, correct, update, or delete their personal information at any time.",
+      "details": "5.2 Users can opt-out of receiving certain types of communications from the application by adjusting their notification preferences."
+    },
+    "6_cookies_and_similar_technologies": {
+      "title": "6. Cookies and Similar Technologies",
+      "point": "6.1 Petto may use cookies and similar technologies to enhance the user experience and collect non-personal information about the use of the application."
+    },
+    "7_links_to_third_parties": {
+      "title": "7. Links to Third Parties",
+      "point": "7.1 The application may contain links to third-party websites. Petto is not responsible for the privacy practices of these sites, and it is recommended to review their privacy policies."
+    },
+    "8_changes_to_privacy_policy": {
+      "title": "8. Changes to the Privacy Policy",
+      "point": "8.1 Petto reserves the right to modify this policy at any time. Changes will be effective upon publication in the application.",
+      "details": "8.2 Users will be notified of significant changes to the privacy policy."
+    },
+    "9_minors": {
+      "title": "9. Minors",
+      "point": "9.1 The application is intended for users over 13 years old. We do not intentionally collect information from children under 13. If you are a parent or guardian and believe your child has provided information, please contact us."
+    },
+    "10_contact": {
+      "title": "10. Contact",
+      "content": "For any questions or concerns regarding our privacy policy, contact us at [contact email]."
+    },
+    "last_update": "Last Updated: [Date]"
+  }
