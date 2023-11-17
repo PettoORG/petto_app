@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "617052409783",
+    "project_id": "petto-18ace",
+    "storage_bucket": "petto-18ace.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617052409783:android:2418034efde019b146e232",
+        "android_client_info": {
+          "package_name": "com.petto.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBr0P5RVvM9_uK9cXLahx6GygfsyC7nEKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
