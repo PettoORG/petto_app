@@ -67,7 +67,7 @@ class ForgotPasswordView extends StatelessWidget {
                   SizedBox(
                     height: 2.h,
                   ),
-                  SharedButton(
+                  GlobalGeneralButton(
                     onPressed: () {},
                     child: Text(
                       AppLocalizations.of(context)!.send,

@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/config/constants/colors.dart';
+import 'package:petto_app/services/firebase_auth_service.dart';
+import 'package:petto_app/utils/utils.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -22,7 +25,19 @@ class UserProfileView extends StatelessWidget {
       _CardModel(title: AppLocalizations.of(context)!.notifications, icon: BoxIcons.bx_bell, onTap: () {}),
       _CardModel(title: AppLocalizations.of(context)!.support, icon: BoxIcons.bx_support, onTap: () {}),
       _CardModel(title: AppLocalizations.of(context)!.securityPolicies, icon: BoxIcons.bx_shield_quarter, onTap: () {}),
-      _CardModel(title: AppLocalizations.of(context)!.logOut, icon: BoxIcons.bx_log_out_circle, onTap: () {}),
+      _CardModel(
+        title: AppLocalizations.of(context)!.logOut,
+        icon: BoxIcons.bx_log_out_circle,
+        onTap: () async {
+          try {
+            await Auth().signOut();
+            if (!context.mounted) return;
+            context.pushReplacementNamed('auth');
+          } on FirebaseAuthException catch (e) {
+            logger.e('SIGN OUT ERROR: $e');
+          }
+        },
+      ),
     ];
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
