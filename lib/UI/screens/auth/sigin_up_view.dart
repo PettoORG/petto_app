@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
-import 'package:petto_app/services/firebase_auth_service.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -24,6 +23,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    AuthenticationProvider auth = context.read<AuthenticationProvider>();
     ColorScheme color = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -53,28 +53,33 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               SizedBox(height: 2.h),
               TextFormField(
+                style: Theme.of(context).textTheme.bodyMedium,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_user),
                   labelText: AppLocalizations.of(context)!.name,
                 ),
+                onChanged: (value) => auth.userName = value,
+                validator: _validateUserName,
               ),
               SizedBox(height: 1.5.h),
               TextFormField(
+                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_envelope),
                   labelText: AppLocalizations.of(context)!.email,
                 ),
                 validator: _validateEmail,
-                onChanged: (value) => context.read<AuthenticationProvider>().email = value,
+                onChanged: (value) => auth.email = value,
               ),
               SizedBox(
                 height: 1.5.h,
               ),
               TextFormField(
+                style: Theme.of(context).textTheme.bodyMedium,
                 obscureText: !_passwordVisible,
-                validator: _validatePassword,
-                onChanged: (value) => context.read<AuthenticationProvider>().password = value,
+                validator: _validateUserName,
+                onChanged: (value) => auth.password = value,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
                   labelText: AppLocalizations.of(context)!.password,
@@ -91,7 +96,6 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               GlobalGeneralButton(
                 onPressed: () async {
-                  AuthenticationProvider auth = context.read<AuthenticationProvider>();
                   final bool isOnline = await context.read<ConnectionStatusProvider>().checkInternetConnection();
                   if (!context.mounted) return;
                   if (!isOnline) {
@@ -100,11 +104,12 @@ class _RegisterViewState extends State<RegisterView> {
                   }
                   if (auth.isValidsigInUp()) {
                     try {
-                      await context.read<AuthenticationProvider>().signInUp();
+                      await auth.signInUp();
                       // ignore: use_build_context_synchronously
                       context.pushReplacementNamed("home");
+                      logger.d(auth.getCurrentUser());
                     } on FirebaseAuthException catch (e) {
-                      // logger.e('')
+                      logger.e('AUTH ERROR: $e');
                       //TODO: implementar mensages de error segun el error
                     }
                   } else {}
@@ -147,11 +152,21 @@ class _RegisterViewState extends State<RegisterView> {
     return null;
   }
 
-  String? _validatePassword(String? value) {
+  String? _validateUserName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Por favor, introduce una contraseña.';
     }
     if (value.length < 8) {
+      return 'Debe tener al menos 8 caracteres.';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, introduce una contraseña.';
+    }
+    if (value.isEmpty) {
       return 'Debe tener al menos 8 caracteres.';
     }
     return null;

@@ -61,7 +61,7 @@ class _LoginViewState extends State<LoginView> {
                 height: 2.h,
               ),
               TextFormField(
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) => context.read<AuthenticationProvider>().email = value,
                 validator: (value) => _validateEmail(value),
@@ -73,7 +73,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               TextFormField(
                 obscureText: !_passwordVisible,
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.bodyMedium,
                 onChanged: (value) => context.read<AuthenticationProvider>().password = value,
                 validator: (value) => _validatePassword(value),
                 decoration: InputDecoration(
@@ -121,10 +121,10 @@ class _LoginViewState extends State<LoginView> {
                     }
                     if (auth.isValidLogIn()) {
                       try {
-                        await context.read<AuthenticationProvider>().logIn();
-                        // logger.d('AUTH USER UID: ${Auth().authInfo.user!.uid}');
+                        await auth.logIn();
                         // ignore: use_build_context_synchronously
                         context.pushReplacementNamed("home");
+                        logger.d(auth.getCurrentUser());
                       } on FirebaseAuthException catch (e) {
                         logger.e('AUTH ERROR: $e');
                         //TODO: implementar mensages de error segun el error
