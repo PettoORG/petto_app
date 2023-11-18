@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
-import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -24,13 +23,14 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    AuthenticationProvider auth = context.read<AuthenticationProvider>();
     ColorScheme color = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: SingleChildScrollView(
         child: Form(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: context.read<AuthenticationProvider>().sigInUp,
+          key: context.read<AuthenticationProvider>().sigInUpKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -53,25 +53,33 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               SizedBox(height: 2.h),
               TextFormField(
+                style: Theme.of(context).textTheme.bodyMedium,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_user),
                   labelText: AppLocalizations.of(context)!.name,
                 ),
+                onChanged: (value) => auth.userName = value,
+                validator: _validateUserName,
               ),
               SizedBox(height: 1.5.h),
               TextFormField(
+                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_envelope),
                   labelText: AppLocalizations.of(context)!.email,
                 ),
-                onChanged: (value) => context.read<AuthenticationProvider>().email = value,
+                validator: _validateEmail,
+                onChanged: (value) => auth.email = value,
               ),
               SizedBox(
                 height: 1.5.h,
               ),
               TextFormField(
+                style: Theme.of(context).textTheme.bodyMedium,
                 obscureText: !_passwordVisible,
+                validator: _validateUserName,
+                onChanged: (value) => auth.password = value,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
                   labelText: AppLocalizations.of(context)!.password,
@@ -82,29 +90,29 @@ class _RegisterViewState extends State<RegisterView> {
                     child: !_passwordVisible ? const Icon(BoxIcons.bx_hide) : const Icon(BoxIcons.bx_show),
                   ),
                 ),
-                onChanged: (value) => context.read<AuthenticationProvider>().password = value,
               ),
               SizedBox(
                 height: 4.h,
               ),
-              SharedButton(
+              GlobalGeneralButton(
                 onPressed: () async {
                   final bool isOnline = await context.read<ConnectionStatusProvider>().checkInternetConnection();
                   if (!context.mounted) return;
-                  if (isOnline) {
-                    final email = context.read<AuthenticationProvider>().email;
-                    final password = context.read<AuthenticationProvider>().password;
+                  if (!isOnline) {
+                    context.pushNamed('offline');
+                    return;
+                  }
+                  if (auth.isValidsigInUp()) {
                     try {
-                      await Auth().siginUpWithEmailAndPassword(email: email, password: password);
-                      logger.d('AUTH USER UID: ${Auth().authInfo.user!.uid}');
+                      await auth.signInUp();
                       // ignore: use_build_context_synchronously
                       context.pushReplacementNamed("home");
+                      logger.d(auth.getCurrentUser());
                     } on FirebaseAuthException catch (e) {
                       logger.e('AUTH ERROR: $e');
+                      //TODO: implementar mensages de error segun el error
                     }
-                  } else {
-                    context.pushNamed('offline');
-                  }
+                  } else {}
                 },
                 child: Text(
                   AppLocalizations.of(context)!.register,
@@ -132,6 +140,36 @@ class _RegisterViewState extends State<RegisterView> {
         ),
       ),
     );
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Introduce un correo electronico';
+    }
+    if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
+      return 'Introduce un correo electrónico válido.';
+    }
+    return null;
+  }
+
+  String? _validateUserName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, introduce una contraseña.';
+    }
+    if (value.length < 8) {
+      return 'Debe tener al menos 8 caracteres.';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, introduce una contraseña.';
+    }
+    if (value.isEmpty) {
+      return 'Debe tener al menos 8 caracteres.';
+    }
+    return null;
   }
 }
 

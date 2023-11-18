@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:petto_app/services/services.dart';
 
 class AuthenticationProvider with ChangeNotifier {
-  GlobalKey<FormState> logIn = GlobalKey<FormState>();
-  GlobalKey<FormState> sigInUp = GlobalKey<FormState>();
+  GlobalKey<FormState> logInKey = GlobalKey<FormState>();
+  GlobalKey<FormState> sigInUpKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
+  String userName = '';
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
@@ -13,11 +16,27 @@ class AuthenticationProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> logIn() async {
+    await Auth().signInWithEmailAndPassWord(email: email, password: password);
+  }
+
+  Future<void> signInUp() async {
+    await Auth().createUserWithEmailAndPassword(email: email, password: password, userName: userName);
+  }
+
+  Future<void> signOut() async {
+    await Auth().signOut();
+  }
+
+  User? getCurrentUser() {
+    return Auth().getCurrentUser();
+  }
+
   bool isValidLogIn() {
-    return logIn.currentState?.validate() ?? false;
+    return logInKey.currentState?.validate() ?? false;
   }
 
   bool isValidsigInUp() {
-    return sigInUp.currentState?.validate() ?? false;
+    return sigInUpKey.currentState?.validate() ?? false;
   }
 }

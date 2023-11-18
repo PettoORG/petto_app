@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class SharedButton extends StatelessWidget {
+class GlobalGeneralButton extends StatelessWidget {
   final Function()? onPressed;
   final Widget? child;
-  const SharedButton({super.key, this.onPressed, this.child});
+  const GlobalGeneralButton({super.key, this.onPressed, this.child});
 
   @override
   Widget build(BuildContext context) {

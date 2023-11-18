@@ -61,7 +61,7 @@ class AccountScreen extends StatelessWidget {
                 SizedBox(height: 3.h),
                 Center(child: TextButton(onPressed: () {}, child: Text(AppLocalizations.of(context)!.deleteAccount))),
                 const Spacer(),
-                SharedButton(child: Text(AppLocalizations.of(context)!.save)),
+                GlobalGeneralButton(child: Text(AppLocalizations.of(context)!.save)),
               ],
             ),
           ),

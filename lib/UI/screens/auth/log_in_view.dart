@@ -35,7 +35,7 @@ class _LoginViewState extends State<LoginView> {
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: SingleChildScrollView(
         child: Form(
-          key: context.read<AuthenticationProvider>().logIn,
+          key: context.read<AuthenticationProvider>().logInKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,19 +61,21 @@ class _LoginViewState extends State<LoginView> {
                 height: 2.h,
               ),
               TextFormField(
+                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) => context.read<AuthenticationProvider>().email = value,
+                validator: (value) => _validateEmail(value),
                 decoration: InputDecoration(
                     prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: AppLocalizations.of(context)!.email),
-                style: Theme.of(context).textTheme.headlineSmall,
               ),
               SizedBox(
                 height: 2.h,
               ),
               TextFormField(
                 obscureText: !_passwordVisible,
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.bodyMedium,
                 onChanged: (value) => context.read<AuthenticationProvider>().password = value,
+                validator: (value) => _validatePassword(value),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
                   labelText: AppLocalizations.of(context)!.password,
@@ -108,24 +110,26 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(
                 height: 4.h,
               ),
-              SharedButton(
+              GlobalGeneralButton(
                   onPressed: () async {
+                    AuthenticationProvider auth = context.read<AuthenticationProvider>();
                     final bool isOnline = await context.read<ConnectionStatusProvider>().checkInternetConnection();
                     if (!context.mounted) return;
-                    if (isOnline) {
-                      final email = context.read<AuthenticationProvider>().email;
-                      final password = context.read<AuthenticationProvider>().password;
+                    if (!isOnline) {
+                      context.pushNamed('offline');
+                      return;
+                    }
+                    if (auth.isValidLogIn()) {
                       try {
-                        await Auth().signInWithEmailAndPassWord(email: email, password: password);
-                        logger.d('AUTH USER UID: ${Auth().authInfo.user!.uid}');
+                        await auth.logIn();
                         // ignore: use_build_context_synchronously
                         context.pushReplacementNamed("home");
+                        logger.d(auth.getCurrentUser());
                       } on FirebaseAuthException catch (e) {
                         logger.e('AUTH ERROR: $e');
+                        //TODO: implementar mensages de error segun el error
                       }
-                    } else {
-                      context.pushNamed('offline');
-                    }
+                    } else {}
                   },
                   child: Text(
                     AppLocalizations.of(context)!.signIn,
@@ -153,6 +157,26 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Introduce un correo electronico';
+    }
+    if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
+      return 'Introduce un correo electrónico válido.';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, introduce una contraseña.';
+    }
+    if (value.length < 8) {
+      return 'Debe tener al menos 8 caracteres.';
+    }
+    return null;
   }
 }
 
