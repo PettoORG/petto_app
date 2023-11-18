@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
-import 'package:petto_app/services/services.dart';
+import 'package:petto_app/utils/toast.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -30,12 +29,13 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    AuthenticationProvider auth = context.read<AuthenticationProvider>();
     ColorScheme color = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: SingleChildScrollView(
         child: Form(
-          key: context.read<AuthenticationProvider>().logInKey,
+          key: auth.logInKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +63,7 @@ class _LoginViewState extends State<LoginView> {
               TextFormField(
                 style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
-                onChanged: (value) => context.read<AuthenticationProvider>().email = value,
+                onChanged: (value) => auth.email = value,
                 validator: (value) => _validateEmail(value),
                 decoration: InputDecoration(
                     prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: AppLocalizations.of(context)!.email),
@@ -74,7 +74,7 @@ class _LoginViewState extends State<LoginView> {
               TextFormField(
                 obscureText: !_passwordVisible,
                 style: Theme.of(context).textTheme.bodyMedium,
-                onChanged: (value) => context.read<AuthenticationProvider>().password = value,
+                onChanged: (value) => auth.password = value,
                 validator: (value) => _validatePassword(value),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
@@ -111,26 +111,33 @@ class _LoginViewState extends State<LoginView> {
                 height: 4.h,
               ),
               GlobalGeneralButton(
-                  onPressed: () async {
-                    AuthenticationProvider auth = context.read<AuthenticationProvider>();
-                    final bool isOnline = await context.read<ConnectionStatusProvider>().checkInternetConnection();
-                    if (!context.mounted) return;
-                    if (!isOnline) {
-                      context.pushNamed('offline');
-                      return;
-                    }
-                    if (auth.isValidLogIn()) {
-                      try {
-                        await auth.logIn();
-                        // ignore: use_build_context_synchronously
-                        context.pushReplacementNamed("home");
-                        logger.d(auth.getCurrentUser());
-                      } on FirebaseAuthException catch (e) {
-                        logger.e('AUTH ERROR: $e');
-                        //TODO: implementar mensages de error segun el error
-                      }
-                    } else {}
-                  },
+                  onPressed: context.watch<AuthenticationProvider>().isLoading
+                      ? null
+                      : () async {
+                          try {
+                            final bool isOnline =
+                                await context.read<ConnectionStatusProvider>().checkInternetConnection();
+                            if (!context.mounted) return;
+                            if (!isOnline) {
+                              context.pushNamed('offline');
+                              return;
+                            }
+                            if (auth.isValidLogIn()) {
+                              auth.isLoading = true;
+                              showToast('Hola', context);
+                              // await auth.logIn();
+                              // auth.isLoading = false;
+                              // ignore: use_build_context_synchronously
+                              // context.pushReplacementNamed("home");
+                            } else {
+                              auth.isLoading = false;
+                              //TODO: MOSTRAR TOAST
+                            }
+                          } catch (e) {
+                            auth.isLoading = false;
+                            logger.e('AUTH ERROR: $e');
+                          }
+                        },
                   child: Text(
                     AppLocalizations.of(context)!.signIn,
                     style: TextStyle(color: color.surfaceVariant),

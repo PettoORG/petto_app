@@ -15,16 +15,15 @@ class GlobalGeneralButton extends StatelessWidget {
         child: OutlinedButton(
           onPressed: onPressed,
           style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+              if (states.contains(MaterialState.disabled)) {
+                return colors.primaryContainer;
+              }
+              return colors.primary;
+            }),
             fixedSize: MaterialStateProperty.all(Size(75.w, 6.5.h)),
             elevation: MaterialStateProperty.all(10),
-            side: MaterialStateProperty.resolveWith<BorderSide>(
-              (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled)) {
-                  return BorderSide(color: colors.shadow);
-                }
-                return BorderSide(color: colors.primary);
-              },
-            ),
+            side: MaterialStateProperty.all(BorderSide.none),
           ),
           child: child,
         ),
