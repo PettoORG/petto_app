@@ -28,7 +28,7 @@ class CalendarView extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 SizedBox(height: 1.h),
-                ...List.generate(7, (index) => const SharedReminderCard()),
+                ...List.generate(7, (index) => const GlobalReminderCard()),
               ],
             ),
           )

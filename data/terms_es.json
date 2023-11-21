@@ -1,0 +1,58 @@
+{
+    "1_aceptacion_de_terminos": {
+    "title": "1. Aceptación de Términos y Condiciones",
+    "point": "1.1 Al utilizar la aplicación móvil Petto ('la Aplicación'), aceptas y te comprometes a cumplir con los siguientes términos y condiciones de uso. Si no estás de acuerdo con estos términos, por favor, no uses la aplicación."
+    },
+    "2_registro_y_cuentas_de_usuario": {
+    "title": "2. Registro y Cuentas de Usuario",
+    "point": "2.1 Para utilizar ciertas funciones de la aplicación, es necesario registrarse y crear una cuenta de usuario. Al hacerlo, aceptas proporcionar información precisa y completa.",
+    "details": "2.2 Mantienes la confidencialidad de tu información de inicio de sesión y eres responsable de todas las actividades que ocurran bajo tu cuenta."
+    },
+    "3_propiedad_intelectual": {
+    "title": "3. Propiedad Intelectual",
+    "point": "3.1 Todo el contenido y la propiedad intelectual de la aplicación son propiedad exclusiva de Petto. No tienes derecho a reproducir, distribuir o utilizar de ninguna manera el contenido sin autorización."
+    },
+    "4_privacidad_y_proteccion_de_datos": {
+    "title": "4. Privacidad y Protección de Datos",
+    "point": "4.1 Al utilizar la aplicación, reconoces y aceptas la recopilación y el uso de información según nuestra Política de Privacidad.",
+    "details": "4.2 Petto implementa medidas de seguridad para proteger la información del usuario; sin embargo, no garantiza la seguridad completa."
+    },
+    "5_responsabilidad_y_exencion_de_responsabilidad": {
+    "title": "5. Responsabilidad y Exención de Responsabilidad",
+    "point": "5.1 Petto no es responsable de cualquier daño directo o indirecto causado por el uso de la aplicación.",
+    "details": "5.2 Petto no garantiza la disponibilidad ininterrumpida o sin errores de la aplicación.",
+    "subpoint": "5.3 La aplicación Petto no sustituye el asesoramiento de un veterinario. Siempre debes consultar a un profesional de la salud animal para obtener orientación específica sobre la salud de tu mascota."
+    },
+    "6_conducta_del_usuario": {
+    "title": "6. Conducta del Usuario",
+    "point": "6.1 Te comprometes a utilizar la aplicación de manera ética y legal.",
+    "details": "6.2 Está prohibido realizar actividades que puedan dañar la aplicación o interferir con su funcionamiento."
+    },
+    "7_notificaciones_y_comunicaciones": {
+    "title": "7. Notificaciones y Comunicaciones",
+    "point": "7.1 Al registrarte, aceptas recibir notificaciones y comunicaciones de Petto.",
+    "details": "7.2 Puedes optar por no recibir ciertos tipos de comunicaciones según las preferencias de notificación en la aplicación."
+    },
+    "8_modificaciones_en_los_terminos_y_condiciones": {
+    "title": "8. Modificaciones en los Términos y Condiciones",
+    "point": "8.1 Petto se reserva el derecho de modificar estos términos en cualquier momento. Las modificaciones entrarán en vigencia después de su publicación en la aplicación.",
+    "details": "8.2 Se te notificará sobre cambios significativos en los términos."
+    },
+    "9_cancelacion_y_terminacion": {
+    "title": "9. Cancelación y Terminación",
+    "point": "9.1 Petto puede cancelar o suspender tu cuenta en caso de violación de estos términos.",
+    "details": "9.2 Tienes el derecho de cerrar tu cuenta en cualquier momento."
+    },
+    "10_ley_aplicable_y_resolucion_de_disputas": {
+    "title": "10. Ley Aplicable y Resolución de Disputas",
+    "point": "10.1 Estos términos se rigen por las leyes del [país] y cualquier disputa se resolverá mediante arbitraje de conformidad con las reglas de [institución de arbitraje]."
+    },
+    "11_limitacion_de_responsabilidad_medica": {
+    "title": "11. Limitación de Responsabilidad Médica",
+    "point": "11.1 La aplicación Petto no tiene la intención de sustituir la atención veterinaria profesional. Los consejos proporcionados son generales y no deben considerarse como asesoramiento médico específico para tu mascota. Siempre consulta con un veterinario para obtener orientación personalizada."
+    },
+    "12_informacion_de_contacto": {
+    "title": "12. Información de Contacto",
+    "point": "Para cualquier pregunta o preocupación relacionada con estos términos, contáctanos en [correo electrónico de contacto]."
+    }
+    }

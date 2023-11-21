@@ -54,11 +54,11 @@ class HomeView extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(options.length, (index) => SharedPetOptionCard(option: options[index])),
+                    children: List.generate(options.length, (index) => GlobalPetOptionCard(option: options[index])),
                   ),
                   SizedBox(height: 2.h),
                   const _RemindersTitle(),
-                  Column(children: List.generate(3, (index) => const SharedReminderCard())),
+                  Column(children: List.generate(3, (index) => const GlobalReminderCard())),
                   SizedBox(height: 2.h),
                   Text(AppLocalizations.of(context)!.pettips, style: Theme.of(context).textTheme.titleMedium),
                 ],
