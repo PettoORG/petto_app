@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:petto_app/UI/widgets/shared/loading.dart';
+import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/logger_prints.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -10,21 +10,20 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:petto_app/UI/providers/language_provider.dart';
 
-
 class TermsAndCondicionsView extends StatelessWidget {
-    static const name = 'terms';
+  static const name = 'terms';
 
   const TermsAndCondicionsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-   Future<List<_TermsAndConditions>> getPrivacyInfo() async {
+    Future<List<_TermsAndConditions>> getPrivacyInfo() async {
       String language = context.read<LanguageProvider>().language;
       String path = 'data/terms_$language.json';
       String jsonString = await rootBundle.loadString(path);
       Map<String, dynamic> jsonMap = json.decode(jsonString);
-      List<_TermsAndConditions> termsList = jsonMap.entries.map((entry) => _TermsAndConditions.fromJson(entry.value)).toList();
+      List<_TermsAndConditions> termsList =
+          jsonMap.entries.map((entry) => _TermsAndConditions.fromJson(entry.value)).toList();
       return termsList;
     }
 
@@ -45,10 +44,14 @@ class TermsAndCondicionsView extends StatelessWidget {
                   }
                   if (snapshot.hasData) {
                     return Column(children: [
-                      Text(AppLocalizations.of(context)!.termsAndCondition,
+                      Text(
+                        AppLocalizations.of(context)!.termsAndCondition,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleMedium,),
-                      SizedBox(height: 2.h,),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
                       ...List.generate(
                         snapshot.data!.length,
                         (index) {
@@ -59,8 +62,11 @@ class TermsAndCondicionsView extends StatelessWidget {
                     ]);
                   } else {
                     //LOADING
-                    return const Center(
-                      child: PettoLoading(),
+                    return Center(
+                      child: PettoLoading(
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 10.w,
+                      ),
                     );
                   }
                 },
@@ -85,31 +91,48 @@ class _TitleAndSubTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(termsPoint.title,
+        Text(
+          termsPoint.title,
           textAlign: TextAlign.start,
-          style: Theme.of(context).textTheme.titleSmall,),
-        SizedBox(height: 2.h,),
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        SizedBox(
+          height: 2.h,
+        ),
         Padding(
           padding: EdgeInsets.only(left: 3.w),
           child: Column(
             children: [
               Text(termsPoint.point),
-        SizedBox(height: 2.h,),
-        termsPoint.details != "" ? Column(
-                  children: [
-                    Text(termsPoint.details),
-                    SizedBox(height: 2.h,),
-                  ],
-        ) : Container(),
-        termsPoint.subpoint != "" ? Column(
-                  children: [
-                    Text(termsPoint.subpoint),
-                    SizedBox(height: 2.h,),
-                  ],
-        ) : Container(),
+              SizedBox(
+                height: 2.h,
+              ),
+              termsPoint.details != ""
+                  ? Column(
+                      children: [
+                        Text(termsPoint.details),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                      ],
+                    )
+                  : Container(),
+              termsPoint.subpoint != ""
+                  ? Column(
+                      children: [
+                        Text(termsPoint.subpoint),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                      ],
+                    )
+                  : Container(),
             ],
-          ),),
-        SizedBox(height: 2.h,),
+          ),
+        ),
+        SizedBox(
+          height: 2.h,
+        ),
       ],
     );
   }
@@ -142,8 +165,11 @@ class _NonData extends StatelessWidget {
         child: Column(
           children: [
             SvgPicture.asset("assets/not_data.svg"),
-            SizedBox(height: 5.h,),
-            Text("Lo sentimos ocurrio un problema en la carga de la data, no te preocupes estamos corrigiendo para mejorar.")
+            SizedBox(
+              height: 5.h,
+            ),
+            Text(
+                "Lo sentimos ocurrio un problema en la carga de la data, no te preocupes estamos corrigiendo para mejorar.")
           ],
         ),
       ),
