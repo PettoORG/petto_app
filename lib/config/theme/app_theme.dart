@@ -44,14 +44,15 @@ class AppTheme {
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-              elevation: 10,
-              disabledBackgroundColor: lightSurfaceVariant,
-              backgroundColor: lightPrimary,
-              shadowColor: lightShadowColor,
-              textStyle: TextStyle(fontSize: 13.sp),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.w)),
-              side: const BorderSide(color: lightPrimary),
-              foregroundColor: Colors.white),
+            elevation: 10,
+            disabledBackgroundColor: lightSurfaceVariant,
+            backgroundColor: lightPrimary,
+            shadowColor: lightShadowColor,
+            textStyle: TextStyle(fontSize: 13.sp),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.w)),
+            side: const BorderSide(color: lightPrimary),
+            foregroundColor: Colors.white,
+          ),
         ),
         datePickerTheme: const DatePickerThemeData(backgroundColor: lightPrimaryContainer),
         textButtonTheme: TextButtonThemeData(
@@ -62,19 +63,31 @@ class AppTheme {
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: lightSurfaceVariant,
-          prefixIconColor: lightTextColor2,
-          labelStyle: TextStyle(fontSize: 12.sp, color: lightTextColor2),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: lightShadowColor),
-            borderRadius: BorderRadius.circular(5.w),
-          ),
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(color: lightShadowColor),
-            borderRadius: BorderRadius.circular(5.w),
-          ),
-        ),
+            filled: true,
+            fillColor: lightSurfaceVariant,
+            prefixIconColor: lightTextColor2,
+            labelStyle: TextStyle(fontSize: 12.sp, color: lightTextColor2),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: lightShadowColor),
+              borderRadius: BorderRadius.circular(5.w),
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(color: lightShadowColor),
+              borderRadius: BorderRadius.circular(5.w),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: lightPrimaryContainer),
+              borderRadius: BorderRadius.circular(5.w),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: lightPrimary),
+              borderRadius: BorderRadius.circular(5.w),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: lightPrimary),
+              borderRadius: BorderRadius.circular(5.w),
+            ),
+            errorStyle: const TextStyle(color: lightPrimary)),
         textTheme: TextTheme(
           titleLarge: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
           titleMedium: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),

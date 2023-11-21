@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'package:sizer/sizer.dart';
-
 class PettoLoading extends StatefulWidget {
+  final double size;
+  final Color color;
   const PettoLoading({
     Key? key,
+    required this.color,
+    required this.size,
   }) : super(key: key);
 
   @override
@@ -164,8 +166,8 @@ class _PettoLoadingState extends State<PettoLoading> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final double size = 3.w;
-    final Color color = Theme.of(context).colorScheme.primary;
+    final double size = widget.size;
+    final Color color = widget.color;
     final double dotMaxSize = size * 0.30;
     final double dotMinSize = size * 0.14;
     final double maxOffset = size * 0.35;

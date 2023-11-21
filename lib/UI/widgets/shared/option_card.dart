@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class SharedOptionCard extends StatelessWidget {
+class SharedPetOptionCard extends StatelessWidget {
   final OptionModel option;
 
-  const SharedOptionCard({super.key, required this.option});
+  const SharedPetOptionCard({super.key, required this.option});
 
   @override
   Widget build(BuildContext context) {

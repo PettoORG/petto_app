@@ -51,8 +51,11 @@ class PrivacyPoliciesView extends StatelessWidget {
                     ]);
                   } else {
                     //LOADING
-                    return const Center(
-                      child: PettoLoading(),
+                    return Center(
+                      child: PettoLoading(
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 10.w,
+                      ),
                     );
                   }
                 },

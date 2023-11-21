@@ -1,5 +1,9 @@
 export 'package:petto_app/UI/widgets/shared/loading.dart';
 
+export 'package:petto_app/UI/widgets/shared/shared_button.dart';
+
+export 'package:petto_app/UI/widgets/shared/loading.dart';
+
 export 'package:petto_app/UI/widgets/shared/stack_decoration.dart';
 
 export 'package:petto_app/UI/widgets/shared/option_card.dart';
