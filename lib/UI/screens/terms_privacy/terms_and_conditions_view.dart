@@ -38,7 +38,7 @@ class TermsAndCondicionsView extends StatelessWidget {
                 future: getPrivacyInfo(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    _NonData();
+                    const _NonData();
                     logger.e(snapshot.error);
                     return Container();
                   }
@@ -156,7 +156,7 @@ class _TermsAndConditions {
 }
 
 class _NonData extends StatelessWidget {
-  const _NonData({super.key});
+  const _NonData();
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +168,7 @@ class _NonData extends StatelessWidget {
             SizedBox(
               height: 5.h,
             ),
-            Text(
+            const Text(
                 "Lo sentimos ocurrio un problema en la carga de la data, no te preocupes estamos corrigiendo para mejorar.")
           ],
         ),
