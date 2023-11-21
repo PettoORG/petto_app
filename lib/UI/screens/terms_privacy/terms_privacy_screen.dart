@@ -19,7 +19,6 @@ class TCScreen extends StatelessWidget {
           icon: BoxIcons.bx_book,
           onTap: () {
             showModalBottomSheet<void>(
-              backgroundColor: Colors.red,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(20),
@@ -42,6 +41,7 @@ class TCScreen extends StatelessWidget {
           icon: BoxIcons.bx_shield,
           onTap: () {
             showModalBottomSheet<void>(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(100))),
               isScrollControlled: true,
               context: context,
               builder: (BuildContext context) {
