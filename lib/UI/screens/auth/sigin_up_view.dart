@@ -58,7 +58,7 @@ class _RegisterViewState extends State<RegisterView> {
                   prefixIcon: const Icon(BoxIcons.bx_user),
                   labelText: AppLocalizations.of(context)!.name,
                 ),
-                onChanged: (value) => auth.userName = value,
+                onChanged: (value) => auth.displayName = value,
                 validator: _validateUserName,
               ),
               SizedBox(height: 1.5.h),
@@ -166,7 +166,7 @@ class _RegisterViewState extends State<RegisterView> {
       return 'Por favor, introduce una contraseña.';
     }
     if (value.isEmpty) {
-      return 'Debe tener al menos 8 caracteres.';
+      return 'Debe tener al menos 1 caracteres.';
     }
     return null;
   }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:petto_app/UI/providers/auth_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
+import 'package:petto_app/utils/logger_prints.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -11,6 +14,14 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthenticationProvider auth = context.read<AuthenticationProvider>();
+    bool isEdited() {
+      if (auth.displayName != auth.getCurrentUser()?.displayName || auth.email != auth.getCurrentUser()?.email) {
+        return true;
+      }
+      return false;
+    }
+
     TextTheme texttStyle = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
@@ -24,50 +35,97 @@ class AccountScreen extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           child: SizedBox(
             height: 88.h,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 3.h),
-                Text(
-                  AppLocalizations.of(context)!.name,
-                  style: texttStyle.titleMedium,
-                ),
-                SizedBox(height: 1.h),
-                TextFormField(
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(BoxIcons.bx_user),
-                    label: Text(AppLocalizations.of(context)!.name),
+            child: Form(
+              key: auth.myAccount,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 3.h),
+                  Text(
+                    AppLocalizations.of(context)!.name,
+                    style: texttStyle.titleMedium,
                   ),
-                ),
-                SizedBox(height: 3.h),
-                Text(
-                  AppLocalizations.of(context)!.email,
-                  style: texttStyle.titleMedium,
-                ),
-                SizedBox(height: 1.h),
-                TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(BoxIcons.bx_user),
-                    label: Text(AppLocalizations.of(context)!.email),
+                  SizedBox(height: 1.h),
+                  TextFormField(
+                    initialValue: auth.displayName,
+                    validator: _validateDisplayName,
+                    onChanged: (value) => auth.displayName = value,
+                    autocorrect: true,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(BoxIcons.bx_user),
+                    ),
                   ),
-                ),
-                SizedBox(height: 3.h),
-                const _ChangePassword(),
-                SizedBox(height: 3.h),
-                Center(child: TextButton(onPressed: () {}, child: Text(AppLocalizations.of(context)!.deleteAccount))),
-                const Spacer(),
-                GlobalGeneralButton(child: Text(AppLocalizations.of(context)!.save)),
-              ],
+                  SizedBox(height: 3.h),
+                  Text(
+                    AppLocalizations.of(context)!.email,
+                    style: texttStyle.titleMedium,
+                  ),
+                  SizedBox(height: 1.h),
+                  TextFormField(
+                    initialValue: auth.email,
+                    validator: _validateEmail,
+                    onChanged: (value) => auth.email = value,
+                    keyboardType: TextInputType.emailAddress,
+                    autocorrect: true,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(BoxIcons.bx_user),
+                    ),
+                  ),
+                  SizedBox(height: 3.h),
+                  const _ChangePassword(),
+                  SizedBox(height: 3.h),
+                  Center(child: TextButton(onPressed: () {}, child: Text(AppLocalizations.of(context)!.deleteAccount))),
+                  const Spacer(),
+                  GlobalGeneralButton(
+                    onPressed: (auth.isValidMyAccount() && isEdited())
+                        ? () async {
+                            try {
+                              if (auth.displayName != auth.getCurrentUser()?.displayName &&
+                                  auth.email != auth.getCurrentUser()?.email) {
+                                await auth.updateDisplayName();
+                                await auth.updateEmail();
+                                return;
+                              }
+                              if (auth.displayName != auth.getCurrentUser()?.displayName) {
+                                return await auth.updateDisplayName();
+                              }
+                              if (auth.email != auth.getCurrentUser()?.email) return await auth.updateEmail();
+                            } catch (e) {
+                              logger.e('AUTH ERROR: $e');
+                            }
+                          }
+                        : null,
+                    child: Text(AppLocalizations.of(context)!.save),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Introduce un correo electronico';
+    }
+    if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
+      return 'Introduce un correo electrónico válido.';
+    }
+    return null;
+  }
+
+  String? _validateDisplayName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, introduce un nombre valido.';
+    }
+    return null;
   }
 }
 
