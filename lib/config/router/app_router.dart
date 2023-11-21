@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:petto_app/UI/screens/screens.dart';
 
-final appRouter = GoRouter(initialLocation: '/auth', routes: [
+final appRouter = GoRouter(initialLocation: '/splash', routes: [
   GoRoute(
     path: '/',
     name: HomeScreen.name,
@@ -26,23 +26,18 @@ final appRouter = GoRouter(initialLocation: '/auth', routes: [
         path: 'notifications',
         builder: (context, state) => const NotificationsScreen(),
       ),
-      GoRoute(
-        name: TCScreen.name,
-        path: 'tc',
-        builder: (context, state) => const TCScreen(),
-        routes: [
-          GoRoute(
-            name: TermsAndCondicionsView.name,
-            path: 'terms',
-            builder: (context, state) => const TermsAndCondicionsView(),
-          ),
-          GoRoute(
-            name: PrivacyPoliciesView.name,
-            path: 'privacy',
-            builder: (context, state) => const PrivacyPoliciesView(),
-          )
-        ]
-      ),
+      GoRoute(name: TCScreen.name, path: 'tc', builder: (context, state) => const TCScreen(), routes: [
+        GoRoute(
+          name: TermsAndCondicionsView.name,
+          path: 'terms',
+          builder: (context, state) => const TermsAndCondicionsView(),
+        ),
+        GoRoute(
+          name: PrivacyPoliciesView.name,
+          path: 'privacy',
+          builder: (context, state) => const PrivacyPoliciesView(),
+        )
+      ]),
     ],
   ),
   GoRoute(

@@ -27,7 +27,7 @@ class UserProfileView extends StatelessWidget {
           title: AppLocalizations.of(context)!.notifications,
           icon: BoxIcons.bx_bell,
           onTap: () {
-            context.pushNamed('notification');
+            context.pushNamed('notifications-settings');
           }),
       _CardModel(title: AppLocalizations.of(context)!.support, icon: BoxIcons.bx_support, onTap: () {}),
       _CardModel(
@@ -46,7 +46,7 @@ class UserProfileView extends StatelessWidget {
             if (!context.mounted) return;
             logger.d(auth.getCurrentUser());
             context.pushReplacementNamed('auth');
-          } on FirebaseAuthException catch (e) {
+          } catch (e) {
             logger.e('SIGN OUT ERROR: $e');
           }
         },

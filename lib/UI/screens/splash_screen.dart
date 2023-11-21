@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -49,21 +51,17 @@ class SplashScreen extends StatelessWidget {
                     height: 35.h,
                     colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
                   )
-                      .animate(
-                        onComplete: (_) async {
-                          final bool isOnline =
-                              await context.read<ConnectionStatusProvider>().checkInternetConnection();
-                          final bool shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding') == true;
-                          if (!context.mounted) {
-                            return;
-                          }
-                          if (shouldShowOnboarding) {
-                            context.pushReplacementNamed('onboarding');
-                          } else if (isOnline) {
-                            context.pushReplacementNamed('home');
-                          } 
-                        },
-                      )
+                      .animate(onComplete: (_) async {
+                        final bool isOnline = await context.read<ConnectionStatusProvider>().checkInternetConnection();
+                        final bool shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding') == true;
+                        if (shouldShowOnboarding) return context.pushReplacementNamed('onboarding');
+                        if (!isOnline) return context.pushReplacementNamed('offline');
+                        if (context.read<AuthenticationProvider>().getCurrentUser() != null) {
+                          return context.pushReplacementNamed('home');
+                        } else {
+                          return context.pushReplacementNamed('auth');
+                        }
+                      })
                       .scale(duration: const Duration(milliseconds: 1000), curve: Curves.easeOutBack)
                       .fade(
                         duration: const Duration(milliseconds: 500),

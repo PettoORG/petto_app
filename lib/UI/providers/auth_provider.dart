@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/utils.dart';
 
 class AuthenticationProvider with ChangeNotifier {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   GlobalKey<FormState> logInKey = GlobalKey<FormState>();
   GlobalKey<FormState> sigInUpKey = GlobalKey<FormState>();
   String email = '';
@@ -11,29 +11,37 @@ class AuthenticationProvider with ChangeNotifier {
   String userName = '';
   bool _isLoading = false;
 
-  bool get isLoading => _isLoading;
-  set isLoading(bool value) {
-    _isLoading = value;
-    notifyListeners();
+  AuthenticationProvider() {
+    logger.d(getCurrentUser());
   }
 
   Future<void> logIn() async {
-    await Auth().signInWithEmailAndPassWord(email: email, password: password);
+    await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
     logger.d(getCurrentUser());
   }
 
   Future<void> signInUp() async {
-    await Auth().createUserWithEmailAndPassword(email: email, password: password, userName: userName);
+    UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    await userCredential.user!.updateDisplayName(userName);
     logger.d(getCurrentUser());
   }
 
   Future<void> signOut() async {
-    await Auth().signOut();
+    await _firebaseAuth.signOut();
     logger.d(getCurrentUser());
   }
 
   User? getCurrentUser() {
-    return Auth().getCurrentUser();
+    return _firebaseAuth.currentUser;
+  }
+
+  bool get isLoading => _isLoading;
+  set isLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
   }
 
   bool isValidLogIn() {
