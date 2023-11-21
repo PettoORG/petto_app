@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:petto_app/services/services.dart';
+import 'package:petto_app/utils/utils.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   GlobalKey<FormState> logInKey = GlobalKey<FormState>();
@@ -18,6 +19,7 @@ class AuthenticationProvider with ChangeNotifier {
 
   Future<void> logIn() async {
     await Auth().signInWithEmailAndPassWord(email: email, password: password);
+    logger.d(Auth().getCurrentUser());
   }
 
   Future<void> signInUp() async {

@@ -78,7 +78,7 @@ class _RegisterViewState extends State<RegisterView> {
               TextFormField(
                 style: Theme.of(context).textTheme.bodyMedium,
                 obscureText: !_passwordVisible,
-                validator: _validateUserName,
+                validator: _validatePassword,
                 onChanged: (value) => auth.password = value,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
