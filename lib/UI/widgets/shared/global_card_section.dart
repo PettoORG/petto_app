@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:sizer/sizer.dart';
 
-class CardOption extends StatelessWidget {
+class GlobalCardOption extends StatelessWidget {
   final CardModel option;
-  const CardOption(this.option, {super.key});
+  const GlobalCardOption(this.option, {super.key});
 
   @override
   Widget build(BuildContext context) {

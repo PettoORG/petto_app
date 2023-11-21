@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:petto_app/UI/screens/screens.dart';
-import 'package:petto_app/UI/widgets/shared/card_option.dart';
+import 'package:petto_app/UI/widgets/shared/global_card_section.dart';
 import 'package:sizer/sizer.dart';
 
 class TCScreen extends StatelessWidget {
@@ -76,7 +76,7 @@ class TCScreen extends StatelessWidget {
             Column(children: [
               ...List.generate(
                 options.length,
-                (index) => CardOption(
+                (index) => GlobalCardOption(
                   options[index],
                 ),
               ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class SharedReminderCard extends StatelessWidget {
-  const SharedReminderCard({super.key});
+class GlobalReminderCard extends StatelessWidget {
+  const GlobalReminderCard({super.key});
 
   @override
   Widget build(BuildContext context) {
