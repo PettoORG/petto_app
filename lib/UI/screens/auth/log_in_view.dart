@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -117,24 +119,24 @@ class _LoginViewState extends State<LoginView> {
                         try {
                           final bool isOnline =
                               await context.read<ConnectionStatusProvider>().checkInternetConnection();
-                          if (!context.mounted) return;
                           if (!isOnline) {
                             context.pushNamed('offline');
                             return;
                           }
                           if (auth.isValidLogIn()) {
                             auth.isLoading = true;
-                            showToast('Hola', context);
-                            // await auth.logIn();
-                            // auth.isLoading = false;
-                            // ignore: use_build_context_synchronously
-                            // context.pushReplacementNamed("home");
+                            await auth.logIn();
+                            auth.isLoading = false;
+                            context.pushReplacementNamed("home");
                           } else {
-                            //TODO: MOSTRAR TOAST
+                            showToast('Campos incorrectos', context);
                           }
                         } catch (e) {
                           auth.isLoading = false;
                           logger.e('AUTH ERROR: $e');
+                          if (e.toString().contains('INVALID_LOGIN_CREDENTIALS')) {
+                            showToast('Credenciales incorrectas', context);
+                          }
                         }
                       },
                 child: context.watch<AuthenticationProvider>().isLoading

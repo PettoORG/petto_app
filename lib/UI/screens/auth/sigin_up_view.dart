@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -95,29 +95,38 @@ class _RegisterViewState extends State<RegisterView> {
                 height: 4.h,
               ),
               GlobalGeneralButton(
-                onPressed: () async {
-                  final bool isOnline = await context.read<ConnectionStatusProvider>().checkInternetConnection();
-                  if (!context.mounted) return;
-                  if (!isOnline) {
-                    context.pushNamed('offline');
-                    return;
-                  }
-                  if (auth.isValidsigInUp()) {
-                    try {
-                      await auth.signInUp();
-                      // ignore: use_build_context_synchronously
-                      context.pushReplacementNamed("home");
-                      logger.d(auth.getCurrentUser());
-                    } on FirebaseAuthException catch (e) {
-                      logger.e('AUTH ERROR: $e');
-                      //TODO: implementar mensages de error segun el error
-                    }
-                  } else {}
-                },
-                child: Text(
-                  AppLocalizations.of(context)!.register,
-                  style: TextStyle(color: color.surfaceVariant),
-                ),
+                onPressed: context.watch<AuthenticationProvider>().isLoading
+                    ? null
+                    : () async {
+                        try {
+                          final bool isOnline =
+                              await context.read<ConnectionStatusProvider>().checkInternetConnection();
+                          if (!isOnline) {
+                            context.pushNamed('offline');
+                            return;
+                          }
+                          if (auth.isValidsigInUp()) {
+                            auth.isLoading = true;
+                            await auth.signInUp();
+                            auth.isLoading = false;
+                            context.pushReplacementNamed("pet-register");
+                          } else {
+                            showToast('Campos incorrectos', context);
+                          }
+                        } catch (e) {
+                          auth.isLoading = false;
+                          logger.e('AUTH ERROR: $e');
+                          if (e.toString().contains('email-already-in-use')) {
+                            showToast('Correo ya registrado', context);
+                          }
+                        }
+                      },
+                child: context.watch<AuthenticationProvider>().isLoading
+                    ? PettoLoading(color: color.primary, size: 10.w)
+                    : Text(
+                        AppLocalizations.of(context)!.register,
+                        style: TextStyle(color: color.surfaceVariant),
+                      ),
               ),
               SizedBox(
                 height: 1.h,
@@ -156,7 +165,7 @@ class _RegisterViewState extends State<RegisterView> {
     if (value == null || value.isEmpty) {
       return 'Por favor, introduce una contraseña.';
     }
-    if (value.length < 8) {
+    if (value.isEmpty) {
       return 'Debe tener al menos 8 caracteres.';
     }
     return null;

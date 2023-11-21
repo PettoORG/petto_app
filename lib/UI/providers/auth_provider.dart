@@ -19,15 +19,17 @@ class AuthenticationProvider with ChangeNotifier {
 
   Future<void> logIn() async {
     await Auth().signInWithEmailAndPassWord(email: email, password: password);
-    logger.d(Auth().getCurrentUser());
+    logger.d(getCurrentUser());
   }
 
   Future<void> signInUp() async {
     await Auth().createUserWithEmailAndPassword(email: email, password: password, userName: userName);
+    logger.d(getCurrentUser());
   }
 
   Future<void> signOut() async {
     await Auth().signOut();
+    logger.d(getCurrentUser());
   }
 
   User? getCurrentUser() {

@@ -154,7 +154,7 @@ class _NonData extends StatelessWidget {
             SizedBox(
               height: 5.h,
             ),
-            Text(
+            const Text(
                 "Lo sentimos ocurrio un problema en la carga de la data, no te preocupes estamos corrigiendo para mejorar.")
           ],
         ),
