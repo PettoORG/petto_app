@@ -111,37 +111,39 @@ class _LoginViewState extends State<LoginView> {
                 height: 4.h,
               ),
               GlobalGeneralButton(
-                  onPressed: context.watch<AuthenticationProvider>().isLoading
-                      ? null
-                      : () async {
-                          try {
-                            final bool isOnline =
-                                await context.read<ConnectionStatusProvider>().checkInternetConnection();
-                            if (!context.mounted) return;
-                            if (!isOnline) {
-                              context.pushNamed('offline');
-                              return;
-                            }
-                            if (auth.isValidLogIn()) {
-                              auth.isLoading = true;
-                              showToast('Hola', context);
-                              // await auth.logIn();
-                              // auth.isLoading = false;
-                              // ignore: use_build_context_synchronously
-                              // context.pushReplacementNamed("home");
-                            } else {
-                              auth.isLoading = false;
-                              //TODO: MOSTRAR TOAST
-                            }
-                          } catch (e) {
-                            auth.isLoading = false;
-                            logger.e('AUTH ERROR: $e');
+                onPressed: context.watch<AuthenticationProvider>().isLoading
+                    ? null
+                    : () async {
+                        try {
+                          final bool isOnline =
+                              await context.read<ConnectionStatusProvider>().checkInternetConnection();
+                          if (!context.mounted) return;
+                          if (!isOnline) {
+                            context.pushNamed('offline');
+                            return;
                           }
-                        },
-                  child: Text(
-                    AppLocalizations.of(context)!.signIn,
-                    style: TextStyle(color: color.surfaceVariant),
-                  )),
+                          if (auth.isValidLogIn()) {
+                            auth.isLoading = true;
+                            showToast('Hola', context);
+                            // await auth.logIn();
+                            // auth.isLoading = false;
+                            // ignore: use_build_context_synchronously
+                            // context.pushReplacementNamed("home");
+                          } else {
+                            //TODO: MOSTRAR TOAST
+                          }
+                        } catch (e) {
+                          auth.isLoading = false;
+                          logger.e('AUTH ERROR: $e');
+                        }
+                      },
+                child: context.watch<AuthenticationProvider>().isLoading
+                    ? PettoLoading(color: color.primary, size: 10.w)
+                    : Text(
+                        AppLocalizations.of(context)!.signIn,
+                        style: TextStyle(color: color.surfaceVariant),
+                      ),
+              ),
               SizedBox(
                 height: 1.h,
               ),
