@@ -1,0 +1,58 @@
+{
+    "1_acceptance_of_terms": {
+    "title": "1. Acceptance of Terms and Conditions",
+    "point": "1.1 By using the Petto mobile application ('the App'), you accept and agree to comply with the following terms and conditions of use. If you do not agree with these terms, please do not use the application."
+    },
+    "2_registration_and_user_accounts": {
+    "title": "2. Registration and User Accounts",
+    "point": "2.1 To use certain features of the application, it is necessary to register and create a user account. By doing so, you agree to provide accurate and complete information.",
+    "details": "2.2 You are responsible for maintaining the confidentiality of your login information and are responsible for all activities that occur under your account."
+    },
+    "3_intellectual_property": {
+    "title": "3. Intellectual Property",
+    "point": "3.1 All content and intellectual property of the application are the exclusive property of Petto. You do not have the right to reproduce, distribute, or use the content in any way without authorization."
+    },
+    "4_privacy_and_data_protection": {
+    "title": "4. Privacy and Data Protection",
+    "point": "4.1 By using the application, you acknowledge and agree to the collection and use of information as per our Privacy Policy.",
+    "details": "4.2 Petto implements security measures to protect user information; however, it does not guarantee complete security."
+    },
+    "5_responsibility_and_disclaimer": {
+    "title": "5. Responsibility and Disclaimer",
+    "point": "5.1 Petto is not responsible for any direct or indirect damage caused by the use of the application.",
+    "details": "5.2 Petto does not guarantee uninterrupted or error-free availability of the application.",
+    "subpoint": "5.3 The Petto application does not substitute for veterinary advice. You should always consult a professional animal health care provider for specific guidance on your pet's health."
+    },
+    "6_user_conduct": {
+    "title": "6. User Conduct",
+    "point": "6.1 You agree to use the application ethically and legally.",
+    "details": "6.2 Activities that may harm the application or interfere with its operation are prohibited."
+    },
+    "7_notifications_and_communications": {
+    "title": "7. Notifications and Communications",
+    "point": "7.1 By registering, you agree to receive notifications and communications from Petto.",
+    "details": "7.2 You can choose not to receive certain types of communications based on notification preferences in the application."
+    },
+    "8_changes_to_terms_and_conditions": {
+    "title": "8. Modifications in Terms and Conditions",
+    "point": "8.1 Petto reserves the right to modify these terms at any time. The modifications will be effective upon publication in the application.",
+    "details": "8.2 Significant changes to the terms will be notified to you."
+    },
+    "9_cancellation_and_termination": {
+    "title": "9. Cancellation and Termination",
+    "point": "9.1 Petto may cancel or suspend your account in case of a violation of these terms.",
+    "details": "9.2 You have the right to close your account at any time."
+    },
+    "10_applicable_law_and_dispute_resolution": {
+    "title": "10. Applicable Law and Dispute Resolution",
+    "point": "10.1 These terms are governed by the laws of [country], and any dispute will be resolved through arbitration in accordance with the rules of [arbitration institution]."
+    },
+    "11_medical_disclaimer": {
+    "title": "11. Limitation of Medical Liability",
+    "point": "11.1 The Petto application is not intended to replace professional veterinary care. The advice provided is general and should not be considered specific medical advice for your pet. Always consult with a veterinarian for personalized guidance."
+    },
+    "12_contact_information": {
+    "title": "12. Contact Information",
+    "point": "For any questions or concerns related to these terms, contact us at [contact email]."
+    }
+    }

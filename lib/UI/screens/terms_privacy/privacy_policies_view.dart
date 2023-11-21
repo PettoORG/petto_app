@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petto_app/UI/providers/language_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class PrivacyPoliciesView extends StatelessWidget {
   static const name = 'privacy';
@@ -34,13 +37,16 @@ class PrivacyPoliciesView extends StatelessWidget {
                 future: getPrivacyInfo(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    //TODO IMPLEMENTAR VISTA DEL ERROR
+                    _NonData();
                     logger.e(snapshot.error);
                     return Container();
                   }
                   if (snapshot.hasData) {
                     return Column(children: [
-                      const Text('aca va el titulo'),
+                      Text(AppLocalizations.of(context)!.securityPolicies,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleMedium,),
+                      SizedBox(height: 2.h,),
                       ...List.generate(
                         snapshot.data!.length,
                         (index) {
@@ -74,10 +80,28 @@ class _PointSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(privacyPoint.title),
-        Text(privacyPoint.point),
-        Text(privacyPoint.details),
+        Text(privacyPoint.title,
+          textAlign: TextAlign.start,
+          style: Theme.of(context).textTheme.titleSmall,
+          ),
+        SizedBox(height: 2.h,),
+        Padding(
+          padding: EdgeInsets.only(left: 3.w),
+          child: Column(
+            children: [
+              Text(privacyPoint.point,  textAlign: TextAlign.justify),
+        SizedBox(height: 2.h,),
+        privacyPoint.details != "" ? Column(
+                  children: [
+                    Text(privacyPoint.details, textAlign: TextAlign.justify,),
+                    SizedBox(height: 2.h,),
+                  ],
+        ) : Container(),
+            ],
+          ),),
       ],
     );
   }
@@ -94,6 +118,25 @@ class _PrivacyPolity {
       title: json["title"] ?? "",
       point: json["point"] ?? "",
       details: json["details"] ?? "",
+    );
+  }
+}
+
+class _NonData extends StatelessWidget {
+  const _NonData({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            SvgPicture.asset("assets/not_data.svg"),
+            SizedBox(height: 5.h,),
+            Text("Lo sentimos ocurrio un problema en la carga de la data, no te preocupes estamos corrigiendo para mejorar.")
+          ],
+        ),
+      ),
     );
   }
 }

@@ -40,6 +40,9 @@ flutter:
     - data/pettips_es.json
     - data/politics_es.json
     - data/politics_en.json
+    - data/terms_en.json
+    - data/terms_es.json
+    
   fonts:
     - family: Montserrat
       fonts:
