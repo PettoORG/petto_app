@@ -11,24 +11,21 @@ class GlobalGeneralButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
-    return Padding(
-      padding: EdgeInsets.all(5.w),
-      child: Center(
-        child: OutlinedButton(
-          onPressed: isLoading ? null : onPressed,
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-              if (states.contains(MaterialState.disabled)) {
-                return colors.primaryContainer;
-              }
-              return colors.primary;
-            }),
-            fixedSize: MaterialStateProperty.all(Size(75.w, 6.5.h)),
-            elevation: MaterialStateProperty.all(10),
-            side: MaterialStateProperty.all(BorderSide.none),
-          ),
-          child: isLoading ? PettoLoading(color: Theme.of(context).colorScheme.primary, size: 10.w) : child,
+    return Center(
+      child: OutlinedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return colors.primaryContainer;
+            }
+            return colors.primary;
+          }),
+          fixedSize: MaterialStateProperty.all(Size(75.w, 6.5.h)),
+          elevation: MaterialStateProperty.all(10),
+          side: MaterialStateProperty.all(BorderSide.none),
         ),
+        child: isLoading ? PettoLoading(color: Theme.of(context).colorScheme.primary, size: 10.w) : child,
       ),
     );
   }

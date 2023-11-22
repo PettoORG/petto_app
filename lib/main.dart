@@ -20,7 +20,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => LanguageProvider()),
       ChangeNotifierProvider(create: (context) => ThemeProvider()),
-      ChangeNotifierProvider(create: (context) => ConnectionStatusProvider()),
+      ChangeNotifierProvider(create: (context) => ConnectionProvider()),
       ChangeNotifierProvider(create: (context) => PettipsProvider()),
       ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
     ],

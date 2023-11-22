@@ -10,7 +10,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountScreen extends StatelessWidget {
   static const name = 'account';
-  const AccountScreen({Key? key}) : super(key: key);
+  final GlobalKey<FormState> myAccountKey = GlobalKey<FormState>();
+  AccountScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class AccountScreen extends StatelessWidget {
           child: SizedBox(
             height: 88.h,
             child: Form(
-              key: auth.myAccount,
+              key: myAccountKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +50,7 @@ class AccountScreen extends StatelessWidget {
                   SizedBox(height: 1.h),
                   TextFormField(
                     initialValue: auth.displayName,
-                    validator: _validateDisplayName,
+                    validator: (value) => auth.validateDisplayName(value, context),
                     onChanged: (value) => auth.displayName = value,
                     autocorrect: true,
                     style: Theme.of(context).textTheme.bodyMedium,
@@ -66,7 +67,7 @@ class AccountScreen extends StatelessWidget {
                   SizedBox(height: 1.h),
                   TextFormField(
                     initialValue: auth.email,
-                    validator: _validateEmail,
+                    validator: (value) => auth.validateEmail(value, context),
                     onChanged: (value) => auth.email = value,
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: true,
@@ -83,7 +84,7 @@ class AccountScreen extends StatelessWidget {
                   const Spacer(),
                   GlobalGeneralButton(
                     isLoading: context.watch<AuthenticationProvider>().isLoading,
-                    onPressed: (auth.isValidMyAccount() && isEdited())
+                    onPressed: (auth.isValidForm(myAccountKey) && isEdited())
                         ? () async {
                             try {
                               auth.isLoading = true;
@@ -119,23 +120,6 @@ class AccountScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Introduce un correo electronico';
-    }
-    if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
-      return 'Introduce un correo electrónico válido.';
-    }
-    return null;
-  }
-
-  String? _validateDisplayName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Por favor, introduce un nombre valido.';
-    }
-    return null;
   }
 }
 

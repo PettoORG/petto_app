@@ -20,6 +20,7 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   bool _passwordVisible = false;
+  GlobalKey<FormState> sigInUpKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class _RegisterViewState extends State<RegisterView> {
       child: SingleChildScrollView(
         child: Form(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: context.read<AuthenticationProvider>().sigInUpKey,
+          key: sigInUpKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +60,7 @@ class _RegisterViewState extends State<RegisterView> {
                   labelText: AppLocalizations.of(context)!.name,
                 ),
                 onChanged: (value) => auth.displayName = value,
-                validator: _validateUserName,
+                validator: (value) => auth.validateDisplayName(value, context),
               ),
               SizedBox(height: 1.5.h),
               TextFormField(
@@ -69,7 +70,7 @@ class _RegisterViewState extends State<RegisterView> {
                   prefixIcon: const Icon(BoxIcons.bx_envelope),
                   labelText: AppLocalizations.of(context)!.email,
                 ),
-                validator: _validateEmail,
+                validator: (value) => auth.validateEmail(value, context),
                 onChanged: (value) => auth.email = value,
               ),
               SizedBox(
@@ -78,7 +79,7 @@ class _RegisterViewState extends State<RegisterView> {
               TextFormField(
                 style: Theme.of(context).textTheme.bodyMedium,
                 obscureText: !_passwordVisible,
-                validator: _validatePassword,
+                validator: (value) => auth.validatePassword(value, context),
                 onChanged: (value) => auth.password = value,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
@@ -100,13 +101,12 @@ class _RegisterViewState extends State<RegisterView> {
                     ? null
                     : () async {
                         try {
-                          final bool isOnline =
-                              await context.read<ConnectionStatusProvider>().checkInternetConnection();
+                          final bool isOnline = await context.read<ConnectionProvider>().checkInternetConnection();
                           if (!isOnline) {
                             context.pushNamed('offline');
                             return;
                           }
-                          if (auth.isValidsigInUp()) {
+                          if (auth.isValidForm(sigInUpKey)) {
                             auth.isLoading = true;
                             await auth.signInUp();
                             auth.isLoading = false;
@@ -145,36 +145,6 @@ class _RegisterViewState extends State<RegisterView> {
         ),
       ),
     );
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Introduce un correo electronico';
-    }
-    if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
-      return 'Introduce un correo electrónico válido.';
-    }
-    return null;
-  }
-
-  String? _validateUserName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Por favor, introduce una contraseña.';
-    }
-    if (value.isEmpty) {
-      return 'Debe tener al menos 1 caracteres.';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Por favor, introduce una contraseña.';
-    }
-    if (value.isEmpty) {
-      return 'Debe tener al menos 8 caracteres.';
-    }
-    return null;
   }
 }
 

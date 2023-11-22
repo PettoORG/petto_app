@@ -4,10 +4,7 @@ import 'package:petto_app/utils/utils.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  GlobalKey<FormState> logInKey = GlobalKey<FormState>();
-  GlobalKey<FormState> sigInUpKey = GlobalKey<FormState>();
-  GlobalKey<FormState> myAccount = GlobalKey<FormState>();
-  String password = '';
+  String? password;
 
   String? _email;
   String? get email => _email;
@@ -37,14 +34,14 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> logIn() async {
-    await _firebaseAuth.signInWithEmailAndPassword(email: email!, password: password);
+    await _firebaseAuth.signInWithEmailAndPassword(email: email!, password: password!);
     logger.d(getCurrentUser());
   }
 
   Future<void> signInUp() async {
     UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email!,
-      password: password,
+      password: password!,
     );
     await userCredential.user!.updateDisplayName(displayName);
     logger.d(getCurrentUser());
@@ -52,6 +49,9 @@ class AuthenticationProvider with ChangeNotifier {
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
+    email = null;
+    password = null;
+    displayName = null;
     logger.d(getCurrentUser());
   }
 
@@ -63,25 +63,42 @@ class AuthenticationProvider with ChangeNotifier {
     await _firebaseAuth.currentUser!.updateEmail(email!);
   }
 
-  // Future<void> reauthenticateWithCredential() async {
-  //   await _firebaseAuth.currentUser!.reauthenticateWithCredential(
-  //     EmailAuthProvider.credential(email: _firebaseAuth.currentUser., password: password),
-  //   );
-  // }
+  Future<void> resetPassword() async {
+    await _firebaseAuth.sendPasswordResetEmail(email: email!);
+  }
 
   User? getCurrentUser() {
     return _firebaseAuth.currentUser;
   }
 
-  bool isValidLogIn() {
-    return logInKey.currentState?.validate() ?? false;
+  bool isValidForm(GlobalKey<FormState> key) {
+    return key.currentState?.validate() ?? false;
   }
 
-  bool isValidsigInUp() {
-    return sigInUpKey.currentState?.validate() ?? false;
+  String? validateEmail(String? value, BuildContext context) {
+    if (value == null || value.isEmpty) {
+      return 'Introduce un correo electronico';
+    }
+    if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
+      return 'Introduce un correo electrónico válido.';
+    }
+    return null;
   }
 
-  bool isValidMyAccount() {
-    return myAccount.currentState?.validate() ?? false;
+  String? validateDisplayName(String? value, BuildContext context) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, introduce un nombre valido.';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value, BuildContext context) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, introduce una contraseña.';
+    }
+    if (value.length < 8) {
+      return 'Debe tener al menos 8 caracteres.';
+    }
+    return null;
   }
 }

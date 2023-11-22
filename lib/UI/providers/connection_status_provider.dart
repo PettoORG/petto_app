@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
-class ConnectionStatusProvider extends ChangeNotifier {
+class ConnectionProvider extends ChangeNotifier {
   final Connectivity _connectivity = Connectivity();
 
   Future<bool> checkInternetConnection() async {

@@ -52,7 +52,7 @@ class SplashScreen extends StatelessWidget {
                     colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
                   )
                       .animate(onComplete: (_) async {
-                        final bool isOnline = await context.read<ConnectionStatusProvider>().checkInternetConnection();
+                        final bool isOnline = await context.read<ConnectionProvider>().checkInternetConnection();
                         final bool shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding') == true;
                         if (shouldShowOnboarding) return context.pushReplacementNamed('onboarding');
                         if (!isOnline) return context.pushReplacementNamed('offline');

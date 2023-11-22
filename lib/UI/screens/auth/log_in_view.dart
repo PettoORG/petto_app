@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
-import 'package:petto_app/utils/toast.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -23,7 +22,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   bool _passwordVisible = false;
-
+  GlobalKey<FormState> logInKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -37,7 +36,7 @@ class _LoginViewState extends State<LoginView> {
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: SingleChildScrollView(
         child: Form(
-          key: auth.logInKey,
+          key: logInKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,7 +65,7 @@ class _LoginViewState extends State<LoginView> {
                 style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) => auth.email = value,
-                validator: (value) => _validateEmail(value),
+                validator: (value) => auth.validateEmail(value, context),
                 decoration: InputDecoration(
                     prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: AppLocalizations.of(context)!.email),
               ),
@@ -77,7 +76,7 @@ class _LoginViewState extends State<LoginView> {
                 obscureText: !_passwordVisible,
                 style: Theme.of(context).textTheme.bodyMedium,
                 onChanged: (value) => auth.password = value,
-                validator: (value) => _validatePassword(value),
+                validator: (value) => auth.validatePassword(value, context),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
                   labelText: AppLocalizations.of(context)!.password,
@@ -118,13 +117,12 @@ class _LoginViewState extends State<LoginView> {
                     ? null
                     : () async {
                         try {
-                          final bool isOnline =
-                              await context.read<ConnectionStatusProvider>().checkInternetConnection();
+                          final bool isOnline = await context.read<ConnectionProvider>().checkInternetConnection();
                           if (!isOnline) {
                             context.pushNamed('offline');
                             return;
                           }
-                          if (auth.isValidLogIn()) {
+                          if (auth.isValidForm(logInKey)) {
                             auth.isLoading = true;
                             await auth.logIn();
                             auth.isLoading = false;
@@ -164,26 +162,6 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Introduce un correo electronico';
-    }
-    if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
-      return 'Introduce un correo electrónico válido.';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Por favor, introduce una contraseña.';
-    }
-    if (value.length < 8) {
-      return 'Debe tener al menos 8 caracteres.';
-    }
-    return null;
   }
 }
 
