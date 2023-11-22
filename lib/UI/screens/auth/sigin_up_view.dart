@@ -95,6 +95,7 @@ class _RegisterViewState extends State<RegisterView> {
                 height: 4.h,
               ),
               GlobalGeneralButton(
+                isLoading: context.watch<AuthenticationProvider>().isLoading,
                 onPressed: context.watch<AuthenticationProvider>().isLoading
                     ? null
                     : () async {
@@ -121,12 +122,7 @@ class _RegisterViewState extends State<RegisterView> {
                           }
                         }
                       },
-                child: context.watch<AuthenticationProvider>().isLoading
-                    ? PettoLoading(color: color.primary, size: 10.w)
-                    : Text(
-                        AppLocalizations.of(context)!.register,
-                        style: TextStyle(color: color.surfaceVariant),
-                      ),
+                child: Text(AppLocalizations.of(context)!.register, style: TextStyle(color: color.surfaceVariant)),
               ),
               SizedBox(
                 height: 1.h,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
 class GlobalGeneralButton extends StatelessWidget {
   final Function()? onPressed;
   final Widget? child;
-  const GlobalGeneralButton({super.key, this.onPressed, this.child});
+  final bool isLoading;
+  const GlobalGeneralButton({super.key, this.onPressed, this.child, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class GlobalGeneralButton extends StatelessWidget {
       padding: EdgeInsets.all(5.w),
       child: Center(
         child: OutlinedButton(
-          onPressed: onPressed,
+          onPressed: isLoading ? null : onPressed,
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
               if (states.contains(MaterialState.disabled)) {
@@ -25,7 +27,7 @@ class GlobalGeneralButton extends StatelessWidget {
             elevation: MaterialStateProperty.all(10),
             side: MaterialStateProperty.all(BorderSide.none),
           ),
-          child: child,
+          child: isLoading ? PettoLoading(color: Theme.of(context).colorScheme.primary, size: 10.w) : child,
         ),
       ),
     );

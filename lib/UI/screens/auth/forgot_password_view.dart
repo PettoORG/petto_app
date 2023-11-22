@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class ForgotPasswordView extends StatelessWidget {
@@ -68,6 +70,7 @@ class ForgotPasswordView extends StatelessWidget {
                     height: 2.h,
                   ),
                   GlobalGeneralButton(
+                    isLoading: context.watch<AuthenticationProvider>().isLoading,
                     onPressed: () {},
                     child: Text(
                       AppLocalizations.of(context)!.send,

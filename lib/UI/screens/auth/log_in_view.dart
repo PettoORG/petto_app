@@ -113,6 +113,7 @@ class _LoginViewState extends State<LoginView> {
                 height: 4.h,
               ),
               GlobalGeneralButton(
+                isLoading: context.watch<AuthenticationProvider>().isLoading,
                 onPressed: context.watch<AuthenticationProvider>().isLoading
                     ? null
                     : () async {
@@ -139,12 +140,7 @@ class _LoginViewState extends State<LoginView> {
                           }
                         }
                       },
-                child: context.watch<AuthenticationProvider>().isLoading
-                    ? PettoLoading(color: color.primary, size: 10.w)
-                    : Text(
-                        AppLocalizations.of(context)!.signIn,
-                        style: TextStyle(color: color.surfaceVariant),
-                      ),
+                child: Text(AppLocalizations.of(context)!.signIn, style: TextStyle(color: color.surfaceVariant)),
               ),
               SizedBox(
                 height: 1.h,

@@ -15,6 +15,7 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthenticationProvider auth = context.read<AuthenticationProvider>();
+    TextTheme texttStyle = Theme.of(context).textTheme;
     bool isEdited() {
       if (auth.displayName != auth.getCurrentUser()?.displayName || auth.email != auth.getCurrentUser()?.email) {
         return true;
@@ -22,7 +23,6 @@ class AccountScreen extends StatelessWidget {
       return false;
     }
 
-    TextTheme texttStyle = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -70,7 +70,7 @@ class AccountScreen extends StatelessWidget {
                     onChanged: (value) => auth.email = value,
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: true,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: texttStyle.bodyMedium,
                     onTapOutside: (event) => FocusScope.of(context).unfocus(),
                     decoration: const InputDecoration(
                       prefixIcon: Icon(BoxIcons.bx_user),
@@ -82,20 +82,30 @@ class AccountScreen extends StatelessWidget {
                   Center(child: TextButton(onPressed: () {}, child: Text(AppLocalizations.of(context)!.deleteAccount))),
                   const Spacer(),
                   GlobalGeneralButton(
+                    isLoading: context.watch<AuthenticationProvider>().isLoading,
                     onPressed: (auth.isValidMyAccount() && isEdited())
                         ? () async {
                             try {
+                              auth.isLoading = true;
                               if (auth.displayName != auth.getCurrentUser()?.displayName &&
                                   auth.email != auth.getCurrentUser()?.email) {
                                 await auth.updateDisplayName();
                                 await auth.updateEmail();
+                                auth.isLoading = false;
                                 return;
                               }
                               if (auth.displayName != auth.getCurrentUser()?.displayName) {
-                                return await auth.updateDisplayName();
+                                await auth.updateDisplayName();
+                                auth.isLoading = false;
+                                return;
                               }
-                              if (auth.email != auth.getCurrentUser()?.email) return await auth.updateEmail();
+                              if (auth.email != auth.getCurrentUser()?.email) {
+                                await auth.updateEmail();
+                                auth.isLoading = false;
+                                return;
+                              }
                             } catch (e) {
+                              auth.isLoading = false;
                               logger.e('AUTH ERROR: $e');
                             }
                           }
