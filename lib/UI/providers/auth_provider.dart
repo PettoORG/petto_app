@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:petto_app/utils/utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -77,27 +78,27 @@ class AuthenticationProvider with ChangeNotifier {
 
   String? validateEmail(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return 'Introduce un correo electronico';
+      return AppLocalizations.of(context)!.enterEmail;
     }
     if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
-      return 'Introduce un correo electrónico válido.';
+      return AppLocalizations.of(context)!.enterValidEmail;
     }
     return null;
   }
 
   String? validateDisplayName(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return 'Por favor, introduce un nombre valido.';
+      return AppLocalizations.of(context)!.enterValidName;
     }
     return null;
   }
 
   String? validatePassword(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return 'Por favor, introduce una contraseña.';
+      return AppLocalizations.of(context)!.enterPassword;
     }
     if (value.length < 8) {
-      return 'Debe tener al menos 8 caracteres.';
+      return AppLocalizations.of(context)!.passwordLength;
     }
     return null;
   }

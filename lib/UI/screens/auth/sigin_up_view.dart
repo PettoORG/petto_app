@@ -111,14 +111,12 @@ class _RegisterViewState extends State<RegisterView> {
                             await auth.signInUp();
                             auth.isLoading = false;
                             context.pushReplacementNamed("pet-register");
-                          } else {
-                            showToast('Campos incorrectos', context);
                           }
                         } catch (e) {
                           auth.isLoading = false;
                           logger.e('AUTH ERROR: $e');
                           if (e.toString().contains('email-already-in-use')) {
-                            showToast('Correo ya registrado', context);
+                            showToast(AppLocalizations.of(context)!.emailAlreadyRegistered, context);
                           }
                         }
                       },

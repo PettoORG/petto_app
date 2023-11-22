@@ -37,7 +37,7 @@ class TCScreen extends StatelessWidget {
             );
           }),
       CardModel(
-          title: AppLocalizations.of(context)!.privacyPolicies,
+          title: AppLocalizations.of(context)!.privacyPolicy,
           icon: BoxIcons.bx_shield,
           onTap: () {
             showModalBottomSheet<void>(

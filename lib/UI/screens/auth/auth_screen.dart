@@ -41,25 +41,25 @@ class _AuthScreenState extends State<AuthScreen> {
           controller: controller,
           children: [
             ForgotPasswordView(onPressed: () {
-              controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeInQuint);
+              controller.nextPage(duration: const Duration(milliseconds: 800), curve: Curves.easeInQuint);
             }),
             LoginView(
               onTap: () {
                 controller.nextPage(
-                  duration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 800),
                   curve: Curves.easeInQuint,
                 );
               },
               onTapTwo: () {
                 controller.previousPage(
-                  duration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 800),
                   curve: Curves.easeInQuint,
                 );
               },
             ),
             RegisterView(onTap: () {
               controller.previousPage(
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 800),
                 curve: Curves.easeInQuint,
               );
             }),

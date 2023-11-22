@@ -45,7 +45,7 @@ class TermsAndCondicionsView extends StatelessWidget {
                   if (snapshot.hasData) {
                     return Column(children: [
                       Text(
-                        AppLocalizations.of(context)!.termsAndCondition,
+                        AppLocalizations.of(context)!.termsAndConditions,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),

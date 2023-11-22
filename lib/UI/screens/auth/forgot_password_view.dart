@@ -54,7 +54,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Widget build(BuildContext context) {
     AuthenticationProvider auth = context.read<AuthenticationProvider>();
     ColorScheme colors = Theme.of(context).colorScheme;
-    String buttonText = _resendTimer != null ? 'Reenviar en ($_secondsRemaining segundos)' : 'Enviar';
+    String buttonText = _resendTimer != null
+        ? AppLocalizations.of(context)!.resendInXSeconds(_secondsRemaining)
+        : AppLocalizations.of(context)!.send;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -112,7 +114,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                 auth.isLoading = false;
                                 _startResendTimer();
                               } else {
-                                showToast('Email invalido', context);
+                                showToast(AppLocalizations.of(context)!.enterValidEmail, context);
                                 auth.isLoading = false;
                               }
                             } catch (e) {

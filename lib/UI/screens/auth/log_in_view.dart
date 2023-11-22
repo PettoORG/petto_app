@@ -127,8 +127,6 @@ class _LoginViewState extends State<LoginView> {
                             await auth.logIn();
                             auth.isLoading = false;
                             context.pushReplacementNamed("home");
-                          } else {
-                            showToast('Campos incorrectos', context);
                           }
                         } catch (e) {
                           auth.isLoading = false;
