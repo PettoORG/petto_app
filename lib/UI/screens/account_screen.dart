@@ -16,7 +16,8 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthenticationProvider auth = context.read<AuthenticationProvider>();
-    TextTheme texttStyle = Theme.of(context).textTheme;
+    TextTheme textStyle = Theme.of(context).textTheme;
+    ColorScheme colors = Theme.of(context).colorScheme;
     bool isEdited() {
       if (auth.displayName != auth.getCurrentUser()?.displayName || auth.email != auth.getCurrentUser()?.email) {
         return true;
@@ -45,7 +46,7 @@ class AccountScreen extends StatelessWidget {
                   SizedBox(height: 3.h),
                   Text(
                     AppLocalizations.of(context)!.name,
-                    style: texttStyle.titleMedium,
+                    style: textStyle.titleMedium,
                   ),
                   SizedBox(height: 1.h),
                   TextFormField(
@@ -62,7 +63,7 @@ class AccountScreen extends StatelessWidget {
                   SizedBox(height: 3.h),
                   Text(
                     AppLocalizations.of(context)!.email,
-                    style: texttStyle.titleMedium,
+                    style: textStyle.titleMedium,
                   ),
                   SizedBox(height: 1.h),
                   TextFormField(
@@ -71,7 +72,7 @@ class AccountScreen extends StatelessWidget {
                     onChanged: (value) => auth.email = value,
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: true,
-                    style: texttStyle.bodyMedium,
+                    style: textStyle.bodyMedium,
                     onTapOutside: (event) => FocusScope.of(context).unfocus(),
                     decoration: const InputDecoration(
                       prefixIcon: Icon(BoxIcons.bx_user),
@@ -84,9 +85,10 @@ class AccountScreen extends StatelessWidget {
                   const Spacer(),
                   GlobalGeneralButton(
                     isLoading: context.watch<AuthenticationProvider>().isLoading,
-                    onPressed: (auth.isValidForm(myAccountKey) && isEdited())
+                    onPressed: isEdited()
                         ? () async {
                             try {
+                              if (!auth.isValidForm(myAccountKey)) return;
                               auth.isLoading = true;
                               if (auth.displayName != auth.getCurrentUser()?.displayName &&
                                   auth.email != auth.getCurrentUser()?.email) {
@@ -108,6 +110,50 @@ class AccountScreen extends StatelessWidget {
                             } catch (e) {
                               auth.isLoading = false;
                               logger.e('AUTH ERROR: $e');
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (context) {
+                              //     return AlertDialog(
+                              //       backgroundColor: colors.surface,
+                              //       surfaceTintColor: colors.surface,
+                              //       shadowColor: colors.shadow,
+                              //       elevation: 10,
+                              //       actionsPadding: EdgeInsets.all(1.h),
+                              //       actionsAlignment: MainAxisAlignment.spaceAround,
+                              //       contentPadding: EdgeInsets.all(5.w),
+                              //       actions: [
+                              //         TextButton(onPressed: () => context.pop(), child: const Text('cancelar')),
+                              //         TextButton(onPressed: () {}, child: const Text('continuar')),
+                              //       ],
+                              //       content: SizedBox(
+                              //         height: 19.h,
+                              //         child: Column(
+                              //           children: [
+                              //             Text(
+                              //               'Comprueba tu identidad',
+                              //               style: textStyle.titleMedium,
+                              //             ),
+                              //             SizedBox(height: 1.h),
+                              //             Text(
+                              //               'Correo@gmail.com',
+                              //               style: textStyle.titleSmall,
+                              //             ),
+                              //             SizedBox(height: 3.h),
+                              //             TextFormField(
+                              //               style: Theme.of(context).textTheme.bodyMedium,
+                              //               onChanged: (value) => auth.password = value,
+                              //               validator: (value) => auth.validatePassword(value, context),
+                              //               decoration: InputDecoration(
+                              //                 prefixIcon: const Icon(BoxIcons.bx_lock),
+                              //                 labelText: AppLocalizations.of(context)!.password,
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     );
+                              //   },
+                              // );
                             }
                           }
                         : null,
@@ -130,7 +176,7 @@ class _ChangePassword extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
     return InkWell(
-      onTap: () {},
+      onTap: () => context.pushNamed('change-password'),
       borderRadius: BorderRadius.circular(5.w),
       child: Ink(
         padding: EdgeInsets.all(3.w),

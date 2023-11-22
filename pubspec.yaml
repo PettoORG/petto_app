@@ -23,6 +23,7 @@ dependencies:
   icons_plus: ^4.0.0
   intl: ^0.18.1
   logger: ^2.0.2+1
+  lottie: ^2.7.0
   provider: ^6.0.5
   rxdart: ^0.27.7
   shared_preferences: ^2.2.2
@@ -42,6 +43,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/animations/
     - data/pettips_es.json
     - data/politics_es.json
     - data/politics_en.json

@@ -20,6 +20,13 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
         name: AccountScreen.name,
         path: 'account',
         builder: (context, state) => AccountScreen(),
+        routes: [
+          GoRoute(
+            name: ChangePasswordScreen.name,
+            path: 'change-password',
+            builder: (context, state) => const ChangePasswordScreen(),
+          )
+        ],
       ),
       GoRoute(
         name: NotificationsScreen.name,

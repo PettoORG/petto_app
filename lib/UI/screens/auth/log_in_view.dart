@@ -132,7 +132,7 @@ class _LoginViewState extends State<LoginView> {
                           auth.isLoading = false;
                           logger.e('AUTH ERROR: $e');
                           if (e.toString().contains('INVALID_LOGIN_CREDENTIALS')) {
-                            showToast('Credenciales incorrectas', context);
+                            showToast(AppLocalizations.of(context)!.incorrectCredentials, context);
                           }
                         }
                       },

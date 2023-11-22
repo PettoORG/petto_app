@@ -1,3 +1,5 @@
+export 'package:petto_app/UI/screens/auth/change_password.dart';
+
 export 'package:petto_app/UI/screens/auth/forgot_password_view.dart';
 
 export 'package:petto_app/UI/screens/auth/log_in_view.dart';
