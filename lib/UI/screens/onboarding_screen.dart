@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 import 'package:petto_app/utils/local_storage.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -42,24 +43,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           PageView(
             controller: controller,
             children: [
-              _OnboardingFirstView(
-                asset: 'assets/pet_friend.svg',
-                assetSize: 80.w,
+              _OnboardingView(
+                asset: 'assets/animations/petto-space.json',
                 title: AppLocalizations.of(context)!.yourWellCaredPet,
                 text: AppLocalizations.of(context)!.pettoHelpsYourPet,
                 leftBorderRadius: true,
                 backgrounColor: Theme.of(context).colorScheme.primaryContainer,
               ),
-              _OnboardingFirstView(
-                asset: 'assets/primary-calendar.svg',
-                assetSize: 63.w,
+              _OnboardingView(
+                asset: 'assets/animations/petto-planet.json',
                 title: AppLocalizations.of(context)!.essentialReminders,
                 text: AppLocalizations.of(context)!.pettoRemindsYou,
                 backgrounColor: Theme.of(context).colorScheme.secondaryContainer,
               ),
-              _OnboardingFirstView(
-                asset: 'assets/pettips.svg',
-                assetSize: 75.w,
+              _OnboardingView(
+                asset: 'assets/animations/petto-moon.json',
                 title: AppLocalizations.of(context)!.pettips,
                 text: AppLocalizations.of(context)!.pettoProvidesTips,
                 rightBorderRadius: true,
@@ -162,23 +160,21 @@ class _Dot extends StatelessWidget {
   }
 }
 
-class _OnboardingFirstView extends StatelessWidget {
+class _OnboardingView extends StatelessWidget {
   final String asset;
   final String title;
   final String text;
   final bool rightBorderRadius;
   final bool leftBorderRadius;
   final Color backgrounColor;
-  final double assetSize;
 
-  const _OnboardingFirstView({
+  const _OnboardingView({
     required this.asset,
     required this.title,
     required this.text,
     this.rightBorderRadius = false,
     this.leftBorderRadius = false,
     required this.backgrounColor,
-    required this.assetSize,
   });
 
   @override
@@ -194,9 +190,12 @@ class _OnboardingFirstView extends StatelessWidget {
           left: 0,
           child: Column(
             children: [
-              SvgPicture.asset(
+              LottieBuilder.asset(
                 asset,
-                height: assetSize,
+                width: 90.w,
+                fit: BoxFit.cover,
+                repeat: true,
+                reverse: true,
               ),
               SizedBox(height: 10.h),
               Container(

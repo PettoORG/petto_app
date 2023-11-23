@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 import 'package:petto_app/UI/providers/connection_status_provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,13 +19,9 @@ class OfflineScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              height: 30.h,
-              width: 30.h,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20.h), color: color.primary.withOpacity(0.2)),
-              padding: EdgeInsets.all(4.w),
-              child: SvgPicture.asset("assets/signal_sleep.svg"),
+            LottieBuilder.asset(
+              'assets/animations/petto-sleep.json',
+              width: 90.w,
             ),
             SizedBox(
               height: 7.w,

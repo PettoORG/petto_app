@@ -1,18 +1,49 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/utils/local_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   static const name = 'splash';
 
   const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  void _listener(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      final bool shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding') == true;
+      if (shouldShowOnboarding) return context.pushReplacementNamed('onboarding');
+      if (context.read<AuthenticationProvider>().getCurrentUser() != null) {
+        return context.pushReplacementNamed('home');
+      } else {
+        return context.pushReplacementNamed('auth');
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 2000));
+    _controller.forward();
+    _controller.addStatusListener(_listener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.removeStatusListener(_listener);
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,34 +69,23 @@ class SplashScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Petto',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 35.sp),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(fontSize: 35.sp, fontFamily: 'Pacifico-Regular'),
                   ),
                   SizedBox(height: 1.h),
                   Text(
-                    'Tu mascota, bien cuidada',
+                    'Cuidado de otro mundo',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  SizedBox(height: 10.h),
-                  SvgPicture.asset(
-                    'assets/petto.svg',
-                    height: 35.h,
-                    colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                  SizedBox(height: 8.h),
+                  LottieBuilder.asset(
+                    'assets/animations/petto-moon.json',
+                    controller: _controller,
+                    height: 80.w,
+                    fit: BoxFit.cover,
                   )
-                      .animate(onComplete: (_) async {
-                        final bool isOnline = await context.read<ConnectionProvider>().checkInternetConnection();
-                        final bool shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding') == true;
-                        if (shouldShowOnboarding) return context.pushReplacementNamed('onboarding');
-                        if (!isOnline) return context.pushReplacementNamed('offline');
-                        if (context.read<AuthenticationProvider>().getCurrentUser() != null) {
-                          return context.pushReplacementNamed('home');
-                        } else {
-                          return context.pushReplacementNamed('auth');
-                        }
-                      })
-                      .scale(duration: const Duration(milliseconds: 1000), curve: Curves.easeOutBack)
-                      .fade(
-                        duration: const Duration(milliseconds: 500),
-                      )
                 ],
               ),
             ),
