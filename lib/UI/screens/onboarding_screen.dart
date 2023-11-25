@@ -191,7 +191,7 @@ class _OnboardingView extends StatelessWidget {
             children: [
               LottieBuilder.asset(
                 asset,
-                width: 90.w,
+                width: 95.w,
                 fit: BoxFit.cover,
                 repeat: true,
                 reverse: true,

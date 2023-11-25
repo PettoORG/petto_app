@@ -55,7 +55,7 @@ class _Medicaments extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Medicamentos', style: textStyle.titleMedium),
+          Text(AppLocalizations.of(context)!.medications, style: textStyle.titleMedium),
           SizedBox(height: 1.h),
           Container(
             padding: EdgeInsets.all(3.w),
@@ -100,7 +100,7 @@ class _Diseases extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Enfermedades', style: textStyle.titleMedium),
+          Text(AppLocalizations.of(context)!.diseases, style: textStyle.titleMedium),
           SizedBox(height: 1.h),
           Container(
             padding: EdgeInsets.all(3.w),

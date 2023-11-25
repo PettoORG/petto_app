@@ -96,7 +96,9 @@ class AccountScreen extends StatelessWidget {
                                   actionsAlignment: MainAxisAlignment.spaceAround,
                                   contentPadding: EdgeInsets.all(5.w),
                                   actions: [
-                                    TextButton(onPressed: () => context.pop(), child: const Text('cancelar')),
+                                    TextButton(
+                                        onPressed: () => context.pop(),
+                                        child: Text(AppLocalizations.of(context)!.cancel)),
                                     TextButton(
                                         onPressed: () {
                                           try {
@@ -109,19 +111,19 @@ class AccountScreen extends StatelessWidget {
                                             logger.e('AUTH ERROR: $e');
                                           }
                                         },
-                                        child: const Text('confirmar')),
+                                        child: Text(AppLocalizations.of(context)!.confirm)),
                                   ],
                                   content: SizedBox(
                                     height: 19.h,
                                     child: Column(
                                       children: [
                                         Text(
-                                          'Deseas eliminar tu cuenta?',
+                                          AppLocalizations.of(context)!.confirmDeleteAccount,
                                           style: textStyle.titleMedium,
                                         ),
                                         SizedBox(height: 1.h),
                                         Text(
-                                          'Si lo haces, perderas todos tus datos y no podras recuperarla',
+                                          AppLocalizations.of(context)!.warningDataLoss,
                                           style: textStyle.titleSmall,
                                         ),
                                       ],
