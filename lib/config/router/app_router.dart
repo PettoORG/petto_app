@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:petto_app/UI/screens/screens.dart';
 
-final appRouter = GoRouter(initialLocation: '/onboarding', routes: [
+final appRouter = GoRouter(initialLocation: '/pet-register', routes: [
   GoRoute(
     path: '/',
     name: HomeScreen.name,
@@ -13,9 +13,15 @@ final appRouter = GoRouter(initialLocation: '/onboarding', routes: [
         builder: (context, state) => const PetProfileScreen(),
       ),
       GoRoute(
-          name: NotificationSettingScreen.name,
-          path: 'notifications-settings',
-          builder: (context, state) => const NotificationSettingScreen()),
+        name: NotificationSettingScreen.name,
+        path: 'notifications-settings',
+        builder: (context, state) => const NotificationSettingScreen(),
+      ),
+      GoRoute(
+        name: SuportScreen.name,
+        path: 'suport',
+        builder: (context, state) => const SuportScreen(),
+      ),
       GoRoute(
         name: AccountScreen.name,
         path: 'account',
@@ -48,10 +54,16 @@ final appRouter = GoRouter(initialLocation: '/onboarding', routes: [
     ],
   ),
   GoRoute(
-    path: '/pet-register',
-    name: PetRegisterScreen.name,
-    builder: (context, state) => const PetRegisterScreen(),
-  ),
+      path: '/pet-register',
+      name: PetRegisterScreen.name,
+      builder: (context, state) => const PetRegisterScreen(),
+      routes: [
+        GoRoute(
+          path: 'pet-info-register',
+          name: PetInfoRegisterScreen.name,
+          builder: (context, state) => const PetInfoRegisterScreen(),
+        )
+      ]),
   GoRoute(
     path: '/onboarding',
     name: OnboardingScreen.name,

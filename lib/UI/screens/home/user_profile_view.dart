@@ -15,6 +15,7 @@ class UserProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthenticationProvider auth = context.read<AuthenticationProvider>();
     List<_CardModel> options = [
       _CardModel(
           title: AppLocalizations.of(context)!.myAccount,
@@ -28,7 +29,11 @@ class UserProfileView extends StatelessWidget {
           onTap: () {
             context.pushNamed('notifications-settings');
           }),
-      _CardModel(title: AppLocalizations.of(context)!.support, icon: BoxIcons.bx_support, onTap: () {}),
+      _CardModel(
+        title: AppLocalizations.of(context)!.support,
+        icon: BoxIcons.bx_support,
+        onTap: () => context.pushNamed('suport'),
+      ),
       _CardModel(
           title: AppLocalizations.of(context)!.securityPolicies,
           icon: BoxIcons.bx_shield_quarter,
@@ -39,7 +44,6 @@ class UserProfileView extends StatelessWidget {
         title: AppLocalizations.of(context)!.logOut,
         icon: BoxIcons.bx_log_out_circle,
         onTap: () async {
-          AuthenticationProvider auth = context.read<AuthenticationProvider>();
           try {
             await auth.signOut();
             if (!context.mounted) return;

@@ -34,7 +34,7 @@ class AccountScreen extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.w),
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: SizedBox(
             height: 88.h,
             child: Form(
@@ -81,7 +81,19 @@ class AccountScreen extends StatelessWidget {
                   SizedBox(height: 3.h),
                   const _ChangePassword(),
                   SizedBox(height: 3.h),
-                  Center(child: TextButton(onPressed: () {}, child: Text(AppLocalizations.of(context)!.deleteAccount))),
+                  Center(
+                      child: TextButton(
+                          onPressed: () {
+                            try {
+                              auth.isLoading = true;
+                              auth.deleteAccount();
+                              auth.isLoading = false;
+                              context.pushReplacementNamed('auth');
+                            } catch (e) {
+                              logger.e('AUTH ERROR: $e');
+                            }
+                          },
+                          child: Text(AppLocalizations.of(context)!.deleteAccount))),
                   const Spacer(),
                   GlobalGeneralButton(
                     isLoading: context.watch<AuthenticationProvider>().isLoading,

@@ -60,12 +60,20 @@ class AuthenticationProvider with ChangeNotifier {
     await _firebaseAuth.currentUser!.updateDisplayName(displayName);
   }
 
+  Future<void> updatePassWord(String newPassWord) async {
+    await _firebaseAuth.currentUser!.updatePassword(newPassWord);
+  }
+
   Future<void> updateEmail() async {
     await _firebaseAuth.currentUser!.updateEmail(email!);
   }
 
   Future<void> resetPassword() async {
     await _firebaseAuth.sendPasswordResetEmail(email: email!);
+  }
+
+  Future<void> deleteAccount() async {
+    await _firebaseAuth.currentUser!.delete();
   }
 
   User? getCurrentUser() {
@@ -99,6 +107,16 @@ class AuthenticationProvider with ChangeNotifier {
     }
     if (value.length < 8) {
       return AppLocalizations.of(context)!.passwordLength;
+    }
+    return null;
+  }
+
+  String? confirmPassword(String? confirmNewPassWord, String newPassWord, BuildContext context) {
+    if (confirmNewPassWord == null || confirmNewPassWord.isEmpty) {
+      'Confirme su nueva contraseña';
+    }
+    if (confirmNewPassWord != newPassWord) {
+      return 'Las contraseñas no coinciden';
     }
     return null;
   }

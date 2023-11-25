@@ -1,3 +1,7 @@
+export 'package:petto_app/UI/screens/pet_info_register.dart';
+
+export 'package:petto_app/UI/screens/suport_screen.dart';
+
 export 'package:petto_app/UI/screens/auth/change_password.dart';
 
 export 'package:petto_app/UI/screens/auth/forgot_password_view.dart';
