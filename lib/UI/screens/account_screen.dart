@@ -84,14 +84,52 @@ class AccountScreen extends StatelessWidget {
                   Center(
                       child: TextButton(
                           onPressed: () {
-                            try {
-                              auth.isLoading = true;
-                              auth.deleteAccount();
-                              auth.isLoading = false;
-                              context.pushReplacementNamed('auth');
-                            } catch (e) {
-                              logger.e('AUTH ERROR: $e');
-                            }
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  backgroundColor: colors.surface,
+                                  surfaceTintColor: colors.surface,
+                                  shadowColor: colors.shadow,
+                                  elevation: 10,
+                                  actionsPadding: EdgeInsets.all(1.h),
+                                  actionsAlignment: MainAxisAlignment.spaceAround,
+                                  contentPadding: EdgeInsets.all(5.w),
+                                  actions: [
+                                    TextButton(onPressed: () => context.pop(), child: const Text('cancelar')),
+                                    TextButton(
+                                        onPressed: () {
+                                          try {
+                                            auth.isLoading = true;
+                                            auth.deleteAccount();
+                                            auth.isLoading = false;
+                                            context.pushReplacementNamed('auth');
+                                          } catch (e) {
+                                            auth.isLoading = false;
+                                            logger.e('AUTH ERROR: $e');
+                                          }
+                                        },
+                                        child: const Text('confirmar')),
+                                  ],
+                                  content: SizedBox(
+                                    height: 19.h,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Deseas eliminar tu cuenta?',
+                                          style: textStyle.titleMedium,
+                                        ),
+                                        SizedBox(height: 1.h),
+                                        Text(
+                                          'Si lo haces, perderas todos tus datos y no podras recuperarla',
+                                          style: textStyle.titleSmall,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                           },
                           child: Text(AppLocalizations.of(context)!.deleteAccount))),
                   const Spacer(),
