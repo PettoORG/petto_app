@@ -43,7 +43,7 @@ class HomeView extends StatelessWidget {
             SharedCardSwiper(
               viewportFraction: .7,
               itemCount: 5,
-              onTap: () {
+              onTap: (_) {
                 context.pushNamed('pet-profile');
               },
             ),
@@ -84,6 +84,7 @@ class _Pettips extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SharedCardSwiper(
+              onTap:  (index) => context.pushNamed('pettips', extra: {"pettip": snapshot.data![index]}),
               viewportFraction: .8,
               itemCount: snapshot.data!.length,
               autoAdvance: true,

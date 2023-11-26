@@ -1,39 +1,47 @@
-
 {
     "Balanced Nutrition": {
         "title": "Nutrición Sana, Mascota Feliz",
+        "tip": "Una nutrición equilibrada es esencial para la salud de tu mascota. Asegúrate de proporcionar alimentos de alta calidad, con la cantidad adecuada de proteínas, carbohidratos, grasas, vitaminas y minerales. Las necesidades nutricionales varían según la especie, raza, tamaño y edad de tu mascota. Consulta con tu veterinario para diseñar un plan nutricional que se adapte específicamente a las necesidades de tu compañero peludo. Recuerda evitar darle alimentos que puedan ser perjudiciales, como chocolate, uvas, cebolla, entre otros, ya que pueden ser tóxicos para ellos.",
         "asset": "assets/images/balanced_diet.jpg"
     },
     "Hydration Awareness": {
         "title": "Sed de Aventuras",
+        "tip": "El agua es esencial para la salud de tu mascota. Asegúrate de que siempre tenga acceso a agua limpia y fresca. Durante el verano o después de actividades físicas, incrementa la ingesta de líquidos para prevenir la deshidratación. Observa los signos de deshidratación, como encías secas, letargo o pérdida de elasticidad en la piel, y si los detectas, busca atención veterinaria de inmediato. Además del agua, algunos alimentos húmedos, como frutas y verduras, pueden ayudar a mantener a tu mascota hidratada.",
         "asset": "assets/images/hydration.jpg"
     },
     "Regular Exercise Routine": {
         "title": "Ejercita la Alegría",
+        "tip": "El ejercicio regular es crucial para mantener a tu mascota saludable y feliz. Proporciona actividades físicas adecuadas a su especie, edad y condición física. Los paseos diarios, juegos interactivos, sesiones de entrenamiento y tiempo al aire libre son excelentes para mejorar su bienestar físico y mental. El ejercicio no solo ayuda a controlar el peso, sino que también estimula su mente y promueve un comportamiento más equilibrado. Consulta con tu veterinario para establecer un plan de ejercicio apropiado para tu mascota.",
         "asset": "assets/images/regular_exercise.jpg"
     },
     "Routine Vet Check-ups": {
         "title": "Chequeo VIP Veterinario",
+        "tip": "Las revisiones regulares con el veterinario son fundamentales para mantener a tu mascota sana. Aunque tu compañero parezca estar bien, las revisiones periódicas pueden detectar problemas de salud tempranos, lo que puede significar un tratamiento más efectivo y menos costoso. Durante estas visitas, el veterinario puede realizar exámenes físicos completos, actualizar las vacunas, realizar pruebas de detección y brindarte orientación sobre el cuidado general de tu mascota. No subestimes la importancia de estas revisiones preventivas para garantizar una vida larga y saludable para tu amigo peludo.",
         "asset": "assets/images/regular_vet.jpg"
     },
     "Proper Hygiene Practices": {
         "title": "Limpieza Peluda",
+        "tip": "Mantener una buena higiene es clave para el bienestar de tu mascota. Bañarlos regularmente con productos seguros para su piel y pelaje ayuda a eliminar la suciedad y previene problemas de la piel y el pelo. Además del baño, cepilla su pelaje con regularidad para evitar la formación de nudos y eliminar el pelo suelto. No olvides cuidar sus orejas, dientes y uñas; limpia sus orejas para prevenir infecciones, cepilla sus dientes regularmente y recorta sus uñas para evitar que se rompan o causen molestias al caminar.",
         "asset": "assets/images/hygiene.jpg"
     },
     "Identification and Microchipping": {
         "title": "Identidad con Estilo",
+        "tip": "Es crucial que tu mascota tenga una identificación clara en caso de que se pierda. Coloca un collar con una placa de identificación con su nombre y tu información de contacto. Además del collar, considera el microchip como una forma adicional de identificación. El microchip es un pequeño dispositivo que se coloca debajo de la piel y contiene información vital sobre tu mascota y tu información de contacto. Asegúrate de mantener actualizada la información del microchip para poder localizarte rápidamente en caso de que tu mascota se extravíe.",
         "asset": "assets/images/identification.jpg"
     },
     "Quality Time": {
         "title": "Tiempo de Mimos y Juegos",
+        "tip": "Dedicar tiempo de calidad a tu mascota fortalece vuestro vínculo y mejora su bienestar emocional. Interactúa con ellos a través de juegos, caricias y entrenamiento. Establece momentos diarios para jugar y ofrecerles atención individualizada. El tiempo de calidad no solo les proporciona diversión, sino que también puede reducir el estrés y la ansiedad, especialmente en mascotas que pasan tiempo solas en casa. Conectarte con tu mascota fortalece la relación y hace que tu compañero peludo se sienta amado y seguro.",
         "asset": "assets/images/quality_time.jpg"
     },
     "Parasite Control": {
-        "title": "Lucha Contra los parasitos",
+        "title": "Lucha Contra los Parasitos",
+        "tip": "La prevención y el control de parásitos son fundamentales para la salud de tu mascota. Sigue un plan recomendado por tu veterinario que incluya desparasitaciones regulares y productos preventivos contra pulgas, garrapatas, gusanos intestinales y otros parásitos. Inspecciona regularmente a tu mascota en busca de signos de infestación, como picazón excesiva, pérdida de pelo o irritación en la piel. Además, mantén limpia su área de descanso y su entorno para reducir el riesgo de infestaciones.",
         "asset": "assets/images/parasite_control.jpg"
     },
     "Caution with Human Foods": {
         "title": "La Magia de la Comida Segura",
+        "tip": "Algunos alimentos que son seguros para los humanos pueden ser perjudiciales e incluso tóxicos para las mascotas. Evita darle a tu mascota alimentos como chocolate, uvas, cebolla, aguacate y productos lácteos, ya que pueden causar problemas digestivos, toxicidad e incluso poner en riesgo su vida. Consulta con tu veterinario para obtener orientación sobre una dieta adecuada y segura para tu mascota. Además, mantén los alimentos peligrosos fuera de su alcance para prevenir accidentes.",
         "asset": "assets/images/caution_human_foods.jpg"
     }
 }
