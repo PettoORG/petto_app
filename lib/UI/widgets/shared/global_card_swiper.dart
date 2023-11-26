@@ -8,7 +8,7 @@ class SharedCardSwiper extends StatefulWidget {
   final int itemCount;
   final bool autoAdvance;
   final List<Widget>? children;
-  final Function()? onTap;
+  final Function(int index)? onTap;
   const SharedCardSwiper(
       {super.key,
       required this.viewportFraction,
@@ -116,7 +116,9 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
                 scale: scale,
                 child: _Card(
                   opty: opty,
-                  onTap: widget.onTap,
+                  onTap: (){
+                    widget.onTap!(index);
+                  },
                   child: widget.children?[index] ?? Container(),
                 ),
               );
