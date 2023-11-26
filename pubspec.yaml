@@ -45,6 +45,7 @@ flutter:
     - assets/images/
     - assets/animations/
     - data/pettips_es.json
+    - data/pettips_en.json
     - data/politics_es.json
     - data/politics_en.json
     - data/terms_en.json

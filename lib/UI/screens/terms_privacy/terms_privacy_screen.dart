@@ -19,18 +19,16 @@ class TCScreen extends StatelessWidget {
           icon: BoxIcons.bx_book,
           onTap: () {
             showModalBottomSheet<void>(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
               isScrollControlled: true,
               context: context,
               builder: (BuildContext context) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.80,
-                  child: const Center(
-                    child: TermsAndCondicionsView(),
+                return ClipRRect(
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20 )),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.80,
+                    child: const Center(
+                      child: TermsAndCondicionsView(),
+                    ),
                   ),
                 );
               },
@@ -41,14 +39,16 @@ class TCScreen extends StatelessWidget {
           icon: BoxIcons.bx_shield,
           onTap: () {
             showModalBottomSheet<void>(
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(100))),
               isScrollControlled: true,
               context: context,
               builder: (BuildContext context) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.80,
-                  child: const Center(
-                    child: PrivacyPoliciesView(),
+                return ClipRRect(
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20 )),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.80,
+                    child: const Center(
+                      child: PrivacyPoliciesView(),
+                    ),
                   ),
                 );
               },
