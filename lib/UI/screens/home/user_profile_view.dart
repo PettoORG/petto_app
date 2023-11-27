@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/config/constants/colors.dart';
-import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -29,11 +28,12 @@ class UserProfileView extends StatelessWidget {
           onTap: () {
             context.pushNamed('notifications-settings');
           }),
-      _CardModel(
-        title: AppLocalizations.of(context)!.support,
-        icon: BoxIcons.bx_support,
-        onTap: () => context.pushNamed('suport'),
-      ),
+      //TODO: IMPLEMENTAR SOPORTE
+      // _CardModel(
+      //   title: AppLocalizations.of(context)!.support,
+      //   icon: BoxIcons.bx_support,
+      //   onTap: () => context.pushNamed('suport'),
+      // ),
       _CardModel(
           title: AppLocalizations.of(context)!.securityPolicies,
           icon: BoxIcons.bx_shield_quarter,
@@ -47,11 +47,8 @@ class UserProfileView extends StatelessWidget {
           try {
             await auth.signOut();
             if (!context.mounted) return;
-            logger.d(auth.getCurrentUser());
             context.pushReplacementNamed('auth');
-          } catch (e) {
-            logger.e('SIGN OUT ERROR: $e');
-          }
+          } catch (e) {}
         },
       ),
     ];
@@ -59,7 +56,7 @@ class UserProfileView extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       child: SizedBox(
         width: double.infinity,
-        height: 100.h,
+        height: 90.h,
         child: Stack(
           children: [
             const _DecorationBox(),

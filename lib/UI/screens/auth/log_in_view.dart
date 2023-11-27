@@ -23,9 +23,20 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   bool _passwordVisible = false;
   GlobalKey<FormState> logInKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.clear();
+    passwordController.clear();
+    emailController.dispose();
+    passwordController.dispose();
   }
 
   @override
@@ -62,9 +73,9 @@ class _LoginViewState extends State<LoginView> {
                 height: 2.h,
               ),
               TextFormField(
+                controller: emailController,
                 style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
-                onChanged: (value) => auth.email = value,
                 validator: (value) => auth.validateEmail(value, context),
                 decoration: InputDecoration(
                     prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: AppLocalizations.of(context)!.email),
@@ -73,9 +84,9 @@ class _LoginViewState extends State<LoginView> {
                 height: 2.h,
               ),
               TextFormField(
+                controller: passwordController,
                 obscureText: !_passwordVisible,
                 style: Theme.of(context).textTheme.bodyMedium,
-                onChanged: (value) => auth.password = value,
                 validator: (value) => auth.validatePassword(value, context),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
@@ -117,20 +128,10 @@ class _LoginViewState extends State<LoginView> {
                     ? null
                     : () async {
                         try {
-                          final bool isOnline = await context.read<ConnectionProvider>().checkInternetConnection();
-                          if (!isOnline) {
-                            context.pushNamed('offline');
-                            return;
-                          }
-                          if (auth.isValidForm(logInKey)) {
-                            auth.isLoading = true;
-                            await auth.logIn();
-                            auth.isLoading = false;
-                            context.pushReplacementNamed("home");
-                          }
+                          if (!auth.isValidForm(logInKey)) return;
+                          await auth.logIn(emailController.text, passwordController.text);
+                          context.pushReplacementNamed("home");
                         } catch (e) {
-                          auth.isLoading = false;
-                          logger.e('AUTH ERROR: $e');
                           if (e.toString().contains('INVALID_LOGIN_CREDENTIALS')) {
                             showToast(AppLocalizations.of(context)!.incorrectCredentials, context);
                           }

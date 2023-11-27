@@ -23,6 +23,7 @@ class ForgotPasswordView extends StatefulWidget {
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   GlobalKey<FormState> forgotPassKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
   Timer? _resendTimer;
   int _secondsRemaining = 30;
   bool _timerActive = false;
@@ -47,6 +48,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   @override
   void dispose() {
     _resendTimer?.cancel();
+    emailController.clear();
+    emailController.dispose();
     super.dispose();
   }
 
@@ -93,7 +96,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     key: forgotPassKey,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: TextFormField(
-                      onChanged: (value) => auth.email = value,
                       validator: (value) => auth.validateEmail(value, context),
                       autocorrect: true,
                       keyboardType: TextInputType.emailAddress,
@@ -108,17 +110,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         ? null
                         : () async {
                             try {
-                              auth.isLoading = true;
-                              if (auth.isValidForm(forgotPassKey)) {
-                                await auth.resetPassword();
-                                auth.isLoading = false;
-                                _startResendTimer();
-                              } else {
-                                showToast(AppLocalizations.of(context)!.enterValidEmail, context);
-                                auth.isLoading = false;
-                              }
+                              if (!auth.isValidForm(forgotPassKey)) return;
+                              await auth.sendPasswordResetEmail(emailController.text);
+                              _startResendTimer();
                             } catch (e) {
-                              auth.isLoading = false;
                               logger.e('AUTH ERROR: $e');
                             }
                           },

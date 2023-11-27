@@ -4,27 +4,51 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/auth_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/logger_prints.dart';
+import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   static const name = 'account';
+
+  const AccountScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
   final GlobalKey<FormState> myAccountKey = GlobalKey<FormState>();
-  AccountScreen({Key? key}) : super(key: key);
+  TextEditingController displayNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    AuthenticationProvider auth = context.read<AuthenticationProvider>();
+    displayNameController.text = auth.getCurrentUser()!.displayName!;
+    emailController.text = auth.getCurrentUser()!.email!;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    displayNameController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
+
+  bool isEdited() {
+    AuthenticationProvider auth = context.read<AuthenticationProvider>();
+    String displayName = auth.getCurrentUser()?.displayName ?? '';
+    String email = auth.getCurrentUser()?.email ?? '';
+    return displayNameController.text != displayName || emailController.text != email;
+  }
 
   @override
   Widget build(BuildContext context) {
     AuthenticationProvider auth = context.read<AuthenticationProvider>();
     TextTheme textStyle = Theme.of(context).textTheme;
-    ColorScheme colors = Theme.of(context).colorScheme;
-    bool isEdited() {
-      if (auth.displayName != auth.getCurrentUser()?.displayName || auth.email != auth.getCurrentUser()?.email) {
-        return true;
-      }
-      return false;
-    }
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -50,9 +74,8 @@ class AccountScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 1.h),
                   TextFormField(
-                    initialValue: auth.displayName,
+                    controller: displayNameController,
                     validator: (value) => auth.validateDisplayName(value, context),
-                    onChanged: (value) => auth.displayName = value,
                     autocorrect: true,
                     style: Theme.of(context).textTheme.bodyMedium,
                     onTapOutside: (event) => FocusScope.of(context).unfocus(),
@@ -67,9 +90,8 @@ class AccountScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 1.h),
                   TextFormField(
-                    initialValue: auth.email,
+                    controller: emailController,
                     validator: (value) => auth.validateEmail(value, context),
-                    onChanged: (value) => auth.email = value,
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: true,
                     style: textStyle.bodyMedium,
@@ -82,130 +104,51 @@ class AccountScreen extends StatelessWidget {
                   const _ChangePassword(),
                   SizedBox(height: 3.h),
                   Center(
-                      child: TextButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  backgroundColor: colors.surface,
-                                  surfaceTintColor: colors.surface,
-                                  shadowColor: colors.shadow,
-                                  elevation: 10,
-                                  actionsPadding: EdgeInsets.all(1.h),
-                                  actionsAlignment: MainAxisAlignment.spaceAround,
-                                  contentPadding: EdgeInsets.all(5.w),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () => context.pop(),
-                                        child: Text(AppLocalizations.of(context)!.cancel)),
-                                    TextButton(
-                                        onPressed: () {
-                                          try {
-                                            auth.isLoading = true;
-                                            auth.deleteAccount();
-                                            auth.isLoading = false;
-                                            context.pushReplacementNamed('auth');
-                                          } catch (e) {
-                                            auth.isLoading = false;
-                                            logger.e('AUTH ERROR: $e');
-                                          }
-                                        },
-                                        child: Text(AppLocalizations.of(context)!.confirm)),
-                                  ],
-                                  content: SizedBox(
-                                    height: 19.h,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          AppLocalizations.of(context)!.confirmDeleteAccount,
-                                          style: textStyle.titleMedium,
-                                        ),
-                                        SizedBox(height: 1.h),
-                                        Text(
-                                          AppLocalizations.of(context)!.warningDataLoss,
-                                          style: textStyle.titleSmall,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
+                    child: TextButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const _DeletAccountDialog();
                           },
-                          child: Text(AppLocalizations.of(context)!.deleteAccount))),
-                  const Spacer(),
+                        );
+                      },
+                      child: Text(AppLocalizations.of(context)!.deleteAccount),
+                    ),
+                  ),
+                  SizedBox(height: 3.h),
                   GlobalGeneralButton(
                     isLoading: context.watch<AuthenticationProvider>().isLoading,
                     onPressed: isEdited()
                         ? () async {
                             try {
                               if (!auth.isValidForm(myAccountKey)) return;
-                              auth.isLoading = true;
-                              if (auth.displayName != auth.getCurrentUser()?.displayName &&
-                                  auth.email != auth.getCurrentUser()?.email) {
-                                await auth.updateDisplayName();
-                                await auth.updateEmail();
-                                auth.isLoading = false;
+                              if (displayNameController.text != auth.getCurrentUser()?.displayName &&
+                                  emailController.text != auth.getCurrentUser()?.email) {
+                                await auth.updateDisplayName(displayNameController.text);
+                                await auth.updateEmail(emailController.text);
                                 return;
                               }
-                              if (auth.displayName != auth.getCurrentUser()?.displayName) {
-                                await auth.updateDisplayName();
-                                auth.isLoading = false;
+                              if (displayNameController.text != auth.getCurrentUser()?.displayName) {
+                                await auth.updateDisplayName(displayNameController.text);
                                 return;
                               }
-                              if (auth.email != auth.getCurrentUser()?.email) {
-                                await auth.updateEmail();
-                                auth.isLoading = false;
+                              if (emailController.text != auth.getCurrentUser()?.email) {
+                                await auth.updateEmail(emailController.text);
                                 return;
                               }
                             } catch (e) {
-                              auth.isLoading = false;
-                              logger.e('AUTH ERROR: $e');
-                              // showDialog(
-                              //   context: context,
-                              //   builder: (context) {
-                              //     return AlertDialog(
-                              //       backgroundColor: colors.surface,
-                              //       surfaceTintColor: colors.surface,
-                              //       shadowColor: colors.shadow,
-                              //       elevation: 10,
-                              //       actionsPadding: EdgeInsets.all(1.h),
-                              //       actionsAlignment: MainAxisAlignment.spaceAround,
-                              //       contentPadding: EdgeInsets.all(5.w),
-                              //       actions: [
-                              //         TextButton(onPressed: () => context.pop(), child: const Text('cancelar')),
-                              //         TextButton(onPressed: () {}, child: const Text('continuar')),
-                              //       ],
-                              //       content: SizedBox(
-                              //         height: 19.h,
-                              //         child: Column(
-                              //           children: [
-                              //             Text(
-                              //               'Comprueba tu identidad',
-                              //               style: textStyle.titleMedium,
-                              //             ),
-                              //             SizedBox(height: 1.h),
-                              //             Text(
-                              //               'Correo@gmail.com',
-                              //               style: textStyle.titleSmall,
-                              //             ),
-                              //             SizedBox(height: 3.h),
-                              //             TextFormField(
-                              //               style: Theme.of(context).textTheme.bodyMedium,
-                              //               onChanged: (value) => auth.password = value,
-                              //               validator: (value) => auth.validatePassword(value, context),
-                              //               decoration: InputDecoration(
-                              //                 prefixIcon: const Icon(BoxIcons.bx_lock),
-                              //                 labelText: AppLocalizations.of(context)!.password,
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     );
-                              //   },
-                              // );
+                              if (e.toString().contains('email-already-in-use')) {
+                                showToast(AppLocalizations.of(context)!.emailAlreadyRegistered, context);
+                              }
+                              if (e.toString().contains('requires-recent-login')) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const _ReAuthDialog();
+                                  },
+                                );
+                              }
                             }
                           }
                         : null,
@@ -215,6 +158,117 @@ class AccountScreen extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ReAuthDialog extends StatelessWidget {
+  const _ReAuthDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    AuthenticationProvider auth = context.read<AuthenticationProvider>();
+    TextTheme textStyle = Theme.of(context).textTheme;
+    ColorScheme colors = Theme.of(context).colorScheme;
+    TextEditingController passwordController = TextEditingController();
+    return AlertDialog(
+      backgroundColor: colors.surface,
+      surfaceTintColor: colors.surface,
+      shadowColor: colors.shadow,
+      elevation: 10,
+      actionsPadding: EdgeInsets.all(1.h),
+      actionsAlignment: MainAxisAlignment.spaceAround,
+      contentPadding: EdgeInsets.all(5.w),
+      actions: [
+        TextButton(onPressed: () => context.pop(), child: Text(AppLocalizations.of(context)!.cancel)),
+        TextButton(
+            onPressed: () async {
+              try {
+                await auth.reAuth(passwordController.text);
+                // ignore: use_build_context_synchronously
+                context.pop();
+              } catch (e) {
+                logger.e('AUTH ERROR: $e');
+              }
+            },
+            child: Text(AppLocalizations.of(context)!.next)),
+      ],
+      content: SizedBox(
+        height: 19.h,
+        child: Column(
+          children: [
+            Text(
+              AppLocalizations.of(context)!.checkYourIdentity,
+              style: textStyle.titleMedium,
+            ),
+            SizedBox(height: 1.h),
+            Text(
+              auth.getCurrentUser()!.email!,
+              style: textStyle.titleSmall,
+            ),
+            SizedBox(height: 3.h),
+            TextFormField(
+              controller: passwordController,
+              style: Theme.of(context).textTheme.bodyMedium,
+              validator: (value) => auth.validatePassword(value, context),
+              decoration: InputDecoration(
+                prefixIcon: const Icon(BoxIcons.bx_lock),
+                labelText: AppLocalizations.of(context)!.password,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DeletAccountDialog extends StatelessWidget {
+  const _DeletAccountDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    AuthenticationProvider auth = context.read<AuthenticationProvider>();
+    TextTheme textStyle = Theme.of(context).textTheme;
+    ColorScheme colors = Theme.of(context).colorScheme;
+    return AlertDialog(
+      backgroundColor: colors.surface,
+      surfaceTintColor: colors.surface,
+      shadowColor: colors.shadow,
+      elevation: 10,
+      actionsAlignment: MainAxisAlignment.spaceAround,
+      actions: [
+        TextButton(onPressed: () => context.pop(), child: Text(AppLocalizations.of(context)!.cancel)),
+        TextButton(
+            onPressed: () {
+              try {
+                auth.isLoading = true;
+                auth.deleteAccount();
+                auth.isLoading = false;
+                context.pushReplacementNamed('auth');
+              } catch (e) {
+                auth.isLoading = false;
+                logger.e('AUTH ERROR: $e');
+              }
+            },
+            child: Text(AppLocalizations.of(context)!.confirm)),
+      ],
+      content: SizedBox(
+        height: 19.h,
+        child: Column(
+          children: [
+            Text(
+              AppLocalizations.of(context)!.confirmDeleteAccount,
+              style: textStyle.titleMedium,
+            ),
+            SizedBox(height: 1.h),
+            Text(
+              AppLocalizations.of(context)!.warningDataLoss,
+              style: textStyle.titleSmall,
+            ),
+          ],
         ),
       ),
     );

@@ -1,25 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthenticationProvider with ChangeNotifier {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  String? password;
-
-  String? _email;
-  String? get email => _email;
-  set email(String? value) {
-    _email = value;
-    notifyListeners();
-  }
-
-  String? _displayName;
-  String? get displayName => _displayName;
-  set displayName(String? value) {
-    _displayName = value;
-    notifyListeners();
-  }
+  final FirebaseAuthService _firebaseAuth = FirebaseAuthService();
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -29,55 +15,130 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   AuthenticationProvider() {
-    displayName = _firebaseAuth.currentUser?.displayName;
-    email = _firebaseAuth.currentUser?.email;
     logger.d(getCurrentUser());
   }
 
-  Future<void> logIn() async {
-    await _firebaseAuth.signInWithEmailAndPassword(email: email!, password: password!);
-    logger.d(getCurrentUser());
+  Future<void> logIn(String email, String password) async {
+    try {
+      isLoading = true;
+      await _firebaseAuth.logIn(email, password);
+      isLoading = false;
+      logger.d(getCurrentUser());
+    } catch (e) {
+      isLoading = false;
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
   }
 
-  Future<void> signInUp() async {
-    UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email!,
-      password: password!,
-    );
-    await userCredential.user!.updateDisplayName(displayName);
-    logger.d(getCurrentUser());
+  Future<void> signInUp(String email, String password, String displayName) async {
+    try {
+      isLoading = true;
+      await _firebaseAuth.signInUp(email, password, displayName);
+      isLoading = false;
+      logger.d(getCurrentUser());
+    } catch (e) {
+      isLoading = false;
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
   }
 
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-    email = null;
-    password = null;
-    displayName = null;
-    logger.d(getCurrentUser());
+    try {
+      isLoading = true;
+      await _firebaseAuth.signOut();
+      isLoading = false;
+      logger.d(getCurrentUser());
+    } catch (e) {
+      isLoading = false;
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
   }
 
-  Future<void> updateDisplayName() async {
-    await _firebaseAuth.currentUser!.updateDisplayName(displayName);
+  Future<void> updateDisplayName(String newDisplayName) async {
+    try {
+      isLoading = true;
+      await _firebaseAuth.updateDisplayName(newDisplayName);
+      isLoading = false;
+    } catch (e) {
+      isLoading = false;
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
   }
 
   Future<void> updatePassWord(String newPassWord) async {
-    await _firebaseAuth.currentUser!.updatePassword(newPassWord);
+    try {
+      isLoading = true;
+      await _firebaseAuth.updatePassWord(newPassWord);
+      isLoading = false;
+    } catch (e) {
+      isLoading = false;
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
   }
 
-  Future<void> updateEmail() async {
-    await _firebaseAuth.currentUser!.updateEmail(email!);
+  Future<void> updateEmail(String email) async {
+    try {
+      isLoading = true;
+      await _firebaseAuth.updateEmail(email);
+      isLoading = false;
+    } catch (e) {
+      isLoading = false;
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
   }
 
-  Future<void> resetPassword() async {
-    await _firebaseAuth.sendPasswordResetEmail(email: email!);
+  Future<void> reAuth(String password) async {
+    try {
+      isLoading = true;
+      await _firebaseAuth.reAuth(EmailAuthProvider.credential(
+        email: _firebaseAuth.getCurrentUser()!.email!,
+        password: password,
+      ));
+      isLoading = false;
+    } catch (e) {
+      isLoading = false;
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      isLoading = true;
+      await _firebaseAuth.sendPasswordResetEmail(email);
+      isLoading = false;
+    } catch (e) {
+      isLoading = false;
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
   }
 
   Future<void> deleteAccount() async {
-    await _firebaseAuth.currentUser!.delete();
+    try {
+      isLoading = true;
+      await _firebaseAuth.deleteAccount();
+      isLoading = false;
+    } catch (e) {
+      isLoading = false;
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
   }
 
   User? getCurrentUser() {
-    return _firebaseAuth.currentUser;
+    try {
+      return _firebaseAuth.getCurrentUser();
+    } catch (e) {
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
   }
 
   bool isValidForm(GlobalKey<FormState> key) {

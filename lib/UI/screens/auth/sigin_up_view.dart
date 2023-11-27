@@ -21,6 +21,20 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   bool _passwordVisible = false;
   GlobalKey<FormState> sigInUpKey = GlobalKey<FormState>();
+  TextEditingController displayNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    displayNameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    displayNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,16 +68,17 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               SizedBox(height: 2.h),
               TextFormField(
+                controller: displayNameController,
                 style: Theme.of(context).textTheme.bodyMedium,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_user),
                   labelText: AppLocalizations.of(context)!.name,
                 ),
-                onChanged: (value) => auth.displayName = value,
                 validator: (value) => auth.validateDisplayName(value, context),
               ),
               SizedBox(height: 1.5.h),
               TextFormField(
+                controller: emailController,
                 style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
@@ -71,16 +86,15 @@ class _RegisterViewState extends State<RegisterView> {
                   labelText: AppLocalizations.of(context)!.email,
                 ),
                 validator: (value) => auth.validateEmail(value, context),
-                onChanged: (value) => auth.email = value,
               ),
               SizedBox(
                 height: 1.5.h,
               ),
               TextFormField(
+                controller: passwordController,
                 style: Theme.of(context).textTheme.bodyMedium,
                 obscureText: !_passwordVisible,
                 validator: (value) => auth.validatePassword(value, context),
-                onChanged: (value) => auth.password = value,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
                   labelText: AppLocalizations.of(context)!.password,
@@ -106,15 +120,14 @@ class _RegisterViewState extends State<RegisterView> {
                             context.pushNamed('offline');
                             return;
                           }
-                          if (auth.isValidForm(sigInUpKey)) {
-                            auth.isLoading = true;
-                            await auth.signInUp();
-                            auth.isLoading = false;
-                            context.pushReplacementNamed("pet-register");
-                          }
+                          if (!auth.isValidForm(sigInUpKey)) return;
+                          await auth.signInUp(
+                            emailController.text,
+                            passwordController.text,
+                            displayNameController.text,
+                          );
+                          context.pushReplacementNamed("pet-register");
                         } catch (e) {
-                          auth.isLoading = false;
-                          logger.e('AUTH ERROR: $e');
                           if (e.toString().contains('email-already-in-use')) {
                             showToast(AppLocalizations.of(context)!.emailAlreadyRegistered, context);
                           }

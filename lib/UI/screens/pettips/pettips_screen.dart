@@ -6,8 +6,7 @@ import 'package:sizer/sizer.dart';
 class PettipsScreen extends StatefulWidget {
   static const name = 'pettips';
   final Pettip pettip;
-  PettipsScreen({super.key, required this.pettip});
-
+  const PettipsScreen({super.key, required this.pettip});
 
   @override
   State<PettipsScreen> createState() => _PettipsScreenState();
@@ -19,19 +18,20 @@ class _PettipsScreenState extends State<PettipsScreen> {
     TextTheme textStyle = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.pettip.title,
-        style: textStyle.titleSmall,),
+        title: Text(
+          widget.pettip.title,
+          style: textStyle.titleSmall,
+        ),
         leading: IconButton(
-          onPressed:() => context.pop(),
-          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
       body: SingleChildScrollView(
         child: Center(
-          child:
-          Column(
+          child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: 50.h,
                 width: double.infinity,
                 child: ClipRRect(

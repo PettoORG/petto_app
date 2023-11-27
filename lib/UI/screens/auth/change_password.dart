@@ -19,12 +19,25 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController newPassWord = TextEditingController();
+  TextEditingController oldPassWord = TextEditingController();
+  TextEditingController confirmNewPassWord = TextEditingController();
+
+  @override
+  void dispose() {
+    newPassWord.clear();
+    oldPassWord.clear();
+    confirmNewPassWord.clear();
+    newPassWord.dispose();
+    oldPassWord.dispose();
+    confirmNewPassWord.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     AuthenticationProvider auth = context.read<AuthenticationProvider>();
-    TextEditingController newPassWord = TextEditingController();
-    TextEditingController oldPassWord = TextEditingController();
-    TextEditingController confirmNewPassWord = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cambiar contraseñá'),
