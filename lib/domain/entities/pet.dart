@@ -5,8 +5,14 @@ class Pet {
   final DateTime birthdate;
   final double weight;
   final String? image;
-  final String activityHabit;
-  final String dietaryHabit;
+  final String? activityHabit;
+  final String? dietaryHabit;
+  final int? microchipId;
+  final List<Medicine>? medicines;
+  final List<Illness>? illnesses;
+  final DateTime? lastVaccine;
+  final DateTime? nextVaccine;
+  final List<Vaccine>? vaccines;
 
   Pet({
     required this.specie,
@@ -14,9 +20,15 @@ class Pet {
     required this.gender,
     required this.birthdate,
     required this.weight,
-    this.image,
+    required this.image,
     required this.activityHabit,
     required this.dietaryHabit,
+    required this.microchipId,
+    required this.medicines,
+    required this.illnesses,
+    required this.lastVaccine,
+    required this.nextVaccine,
+    required this.vaccines,
   });
 
   factory Pet.fromMap(Map<String, dynamic> map) {
@@ -24,11 +36,17 @@ class Pet {
       specie: map['specie'],
       breed: map['breed'],
       gender: map['gender'],
-      birthdate: map['birthdate'],
+      birthdate: DateTime.parse(map['birthdate']),
       weight: map['weight'],
       image: map['image'],
       activityHabit: map['activityHabit'],
       dietaryHabit: map['dietaryHabit'],
+      microchipId: map['microchipId'],
+      medicines: (map['medicines'] as List<dynamic>?)?.map((item) => Medicine.fromMap(item)).toList(),
+      illnesses: (map['illnesses'] as List<dynamic>?)?.map((item) => Illness.fromMap(item)).toList(),
+      lastVaccine: map['lastVaccine'] != null ? DateTime.parse(map['lastVaccine']) : null,
+      nextVaccine: map['nextVaccine'] != null ? DateTime.parse(map['nextVaccine']) : null,
+      vaccines: (map['vaccines'] as List<dynamic>?)?.map((item) => Vaccine.fromMap(item)).toList(),
     );
   }
 
@@ -42,6 +60,78 @@ class Pet {
       'image': image,
       'activityHabit': activityHabit,
       'dietaryHabit': dietaryHabit,
+      'microchipId': microchipId,
+      'medicines': medicines?.map((medicine) => medicine.toMap()).toList(),
+      'illnesses': illnesses?.map((illness) => illness.toMap()).toList(),
+      'lastVaccine': lastVaccine?.toIso8601String(),
+      'nextVaccine': nextVaccine?.toIso8601String(),
+      'vaccines': vaccines?.map((vaccine) => vaccine.toMap()).toList(),
+    };
+  }
+}
+
+class Medicine {
+  final String name;
+  final String purpose;
+  final String interval;
+
+  Medicine({required this.name, required this.purpose, required this.interval});
+
+  factory Medicine.fromMap(Map<String, dynamic> map) {
+    return Medicine(
+      name: map['name'],
+      purpose: map['purpose'],
+      interval: map['interval'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'purpose': purpose,
+      'interval': interval,
+    };
+  }
+}
+
+class Illness {
+  final String name;
+  final String symptoms;
+
+  Illness({required this.name, required this.symptoms});
+
+  factory Illness.fromMap(Map<String, dynamic> map) {
+    return Illness(
+      name: map['name'],
+      symptoms: map['symptoms'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'symptoms': symptoms,
+    };
+  }
+}
+
+class Vaccine {
+  final String name;
+  final String date;
+
+  Vaccine({required this.name, required this.date});
+
+  factory Vaccine.fromMap(Map<String, dynamic> map) {
+    return Vaccine(
+      name: map['name'],
+      date: map['date'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'date': date,
     };
   }
 }

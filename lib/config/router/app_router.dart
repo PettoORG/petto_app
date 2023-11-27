@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petto_app/UI/screens/screens.dart';
 import 'package:petto_app/domain/entities/pettip.dart';
 
-final appRouter = GoRouter(initialLocation: '/splash', routes: [
+final appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
     path: '/',
     name: HomeScreen.name,
