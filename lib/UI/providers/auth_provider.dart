@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final FirebaseAuthService _firebaseAuth = FirebaseAuthService();
+  final FirestoreService _db = FirestoreService();
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -35,6 +37,15 @@ class AuthenticationProvider with ChangeNotifier {
     try {
       isLoading = true;
       await _firebaseAuth.signInUp(email, password, displayName);
+      Map<String, dynamic> user = UserModel(
+        displayName: displayName,
+        email: email,
+        image: null,
+        pets: <Pet>[],
+        allowEmailNotifications: true,
+        allowPhoneNotifications: true,
+      ).toMap();
+      await _db.addUser(user, _firebaseAuth.getCurrentUser()!.uid);
       isLoading = false;
       logger.d(getCurrentUser());
     } catch (e) {
@@ -61,6 +72,10 @@ class AuthenticationProvider with ChangeNotifier {
     try {
       isLoading = true;
       await _firebaseAuth.updateDisplayName(newDisplayName);
+      await _db.updateDisplayName(
+        _firebaseAuth.getCurrentUser()!.uid,
+        newDisplayName,
+      );
       isLoading = false;
     } catch (e) {
       isLoading = false;
@@ -81,10 +96,11 @@ class AuthenticationProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateEmail(String email) async {
+  Future<void> updateEmail(String newEmail) async {
     try {
       isLoading = true;
-      await _firebaseAuth.updateEmail(email);
+      await _firebaseAuth.updateEmail(newEmail);
+      await _db.updateEmail(_firebaseAuth.getCurrentUser()!.uid, newEmail);
       isLoading = false;
     } catch (e) {
       isLoading = false;
@@ -123,6 +139,7 @@ class AuthenticationProvider with ChangeNotifier {
   Future<void> deleteAccount() async {
     try {
       isLoading = true;
+      await _db.deleteUser(_firebaseAuth.getCurrentUser()!.uid);
       await _firebaseAuth.deleteAccount();
       isLoading = false;
     } catch (e) {

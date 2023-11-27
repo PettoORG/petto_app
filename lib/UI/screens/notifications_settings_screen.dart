@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/config/constants/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -17,10 +19,19 @@ class NotificationSettingScreen extends StatefulWidget {
 class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   @override
   Widget build(BuildContext context) {
+    DBProvider db = context.read<DBProvider>();
     ColorScheme color = Theme.of(context).colorScheme;
     List<_SwitchModel> options = [
-      _SwitchModel(title: AppLocalizations.of(context)!.email, icon: BoxIcons.bx_envelope, onTap: () {}),
-      _SwitchModel(title: AppLocalizations.of(context)!.notifications, icon: BoxIcons.bx_bell, onTap: () {}),
+      _SwitchModel(
+        title: AppLocalizations.of(context)!.email,
+        icon: BoxIcons.bx_envelope,
+        onTap: (value) => db.updateAllowEmailNotifications(value),
+      ),
+      _SwitchModel(
+        title: AppLocalizations.of(context)!.notifications,
+        icon: BoxIcons.bx_bell,
+        onTap: (value) => db.updateAllowPhoneNotifications(value),
+      ),
     ];
 
     return Scaffold(
@@ -105,6 +116,7 @@ class _IconNotificationState extends State<_IconNotification> {
                     light = value;
                   },
                 );
+                widget.option.onTap!(value);
               },
             ),
           ),
@@ -117,7 +129,7 @@ class _IconNotificationState extends State<_IconNotification> {
 class _SwitchModel {
   final String title;
   final IconData icon;
-  final Function()? onTap;
+  final Function(bool value)? onTap;
 
-  _SwitchModel({required this.title, required this.icon, required this.onTap});
+  _SwitchModel({required this.title, required this.icon, this.onTap});
 }

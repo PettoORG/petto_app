@@ -23,6 +23,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => ConnectionProvider()),
       ChangeNotifierProvider(create: (context) => PettipsProvider()),
       ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
+      ChangeNotifierProvider(create: (context) => DBProvider()),
     ],
     child: const MyApp(),
   ));

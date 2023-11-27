@@ -4,7 +4,7 @@ class Pet {
   final Gender gender;
   final DateTime birthdate;
   final double weight;
-  final String image;
+  final String? image;
   final ActivityHabit activityHabit;
   final DietaryHabit dietaryHabit;
 
@@ -14,10 +14,23 @@ class Pet {
     required this.gender,
     required this.birthdate,
     required this.weight,
-    required this.image,
+    this.image,
     required this.activityHabit,
     required this.dietaryHabit,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'specie': specie,
+      'breed': breed,
+      'gender': gender,
+      'birthdate': birthdate.toIso8601String(),
+      'weight': weight,
+      'image': image,
+      'activityHabit': activityHabit,
+      'dietaryHabit': dietaryHabit,
+    };
+  }
 }
 
 enum PetSpecie { dog, cat }
