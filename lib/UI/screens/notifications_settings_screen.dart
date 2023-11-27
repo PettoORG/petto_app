@@ -19,7 +19,7 @@ class NotificationSettingScreen extends StatefulWidget {
 class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   @override
   Widget build(BuildContext context) {
-    DBProvider db = context.read<DBProvider>();
+    UserProvider db = context.read<UserProvider>();
     ColorScheme color = Theme.of(context).colorScheme;
     List<_SwitchModel> options = [
       _SwitchModel(

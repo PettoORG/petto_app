@@ -1,6 +1,6 @@
 import 'package:petto_app/domain/entities/pet.dart';
 
-class UserModel {
+class User {
   final String displayName;
   final String email;
   final String? image;
@@ -8,7 +8,7 @@ class UserModel {
   final bool allowEmailNotifications;
   final bool allowPhoneNotifications;
 
-  UserModel({
+  User({
     required this.displayName,
     required this.email,
     required this.image,
@@ -16,6 +16,17 @@ class UserModel {
     required this.allowEmailNotifications,
     required this.allowPhoneNotifications,
   });
+
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      displayName: map['displayName'],
+      email: map['email'],
+      image: map['image'],
+      pets: (map['pets'] as List<dynamic>?)?.map((petMap) => Pet.fromMap(petMap)).toList() ?? [],
+      allowEmailNotifications: map['allowEmailNotifications'],
+      allowPhoneNotifications: map['allowPhoneNotifications'],
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {

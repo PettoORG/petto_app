@@ -1,13 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:petto_app/domain/entities/entities.dart';
+import 'package:petto_app/domain/entities/entities.dart' as entitie;
+import 'package:petto_app/infrastructure/datasources/firebase_user_datasource.dart';
+import 'package:petto_app/infrastructure/repositories/user_repository_impl.dart';
 import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthenticationProvider with ChangeNotifier {
+  final UserRepositoryImpl _userRepository = UserRepositoryImpl(FirestoreUserDatasource());
   final FirebaseAuthService _firebaseAuth = FirebaseAuthService();
-  final FirestoreService _db = FirestoreService();
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -37,15 +39,15 @@ class AuthenticationProvider with ChangeNotifier {
     try {
       isLoading = true;
       await _firebaseAuth.signInUp(email, password, displayName);
-      Map<String, dynamic> user = UserModel(
+      Map<String, dynamic> user = entitie.User(
         displayName: displayName,
         email: email,
         image: null,
-        pets: <Pet>[],
+        pets: <entitie.Pet>[],
         allowEmailNotifications: true,
         allowPhoneNotifications: true,
       ).toMap();
-      await _db.addUser(user, _firebaseAuth.getCurrentUser()!.uid);
+      await _userRepository.addUser(user);
       isLoading = false;
       logger.d(getCurrentUser());
     } catch (e) {
@@ -72,10 +74,7 @@ class AuthenticationProvider with ChangeNotifier {
     try {
       isLoading = true;
       await _firebaseAuth.updateDisplayName(newDisplayName);
-      await _db.updateDisplayName(
-        _firebaseAuth.getCurrentUser()!.uid,
-        newDisplayName,
-      );
+      await _userRepository.updateDisplayName(newDisplayName);
       isLoading = false;
     } catch (e) {
       isLoading = false;
@@ -100,7 +99,7 @@ class AuthenticationProvider with ChangeNotifier {
     try {
       isLoading = true;
       await _firebaseAuth.updateEmail(newEmail);
-      await _db.updateEmail(_firebaseAuth.getCurrentUser()!.uid, newEmail);
+      await _userRepository.updateEmail(newEmail);
       isLoading = false;
     } catch (e) {
       isLoading = false;
@@ -139,7 +138,7 @@ class AuthenticationProvider with ChangeNotifier {
   Future<void> deleteAccount() async {
     try {
       isLoading = true;
-      await _db.deleteUser(_firebaseAuth.getCurrentUser()!.uid);
+      await _userRepository.deleteUser();
       await _firebaseAuth.deleteAccount();
       isLoading = false;
     } catch (e) {

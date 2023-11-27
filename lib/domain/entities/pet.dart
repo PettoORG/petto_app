@@ -1,12 +1,12 @@
 class Pet {
-  final PetSpecie specie;
+  final String specie;
   final String breed;
-  final Gender gender;
+  final String gender;
   final DateTime birthdate;
   final double weight;
   final String? image;
-  final ActivityHabit activityHabit;
-  final DietaryHabit dietaryHabit;
+  final String activityHabit;
+  final String dietaryHabit;
 
   Pet({
     required this.specie,
@@ -18,6 +18,19 @@ class Pet {
     required this.activityHabit,
     required this.dietaryHabit,
   });
+
+  factory Pet.fromMap(Map<String, dynamic> map) {
+    return Pet(
+      specie: map['specie'],
+      breed: map['breed'],
+      gender: map['gender'],
+      birthdate: map['birthdate'],
+      weight: map['weight'],
+      image: map['image'],
+      activityHabit: map['activityHabit'],
+      dietaryHabit: map['dietaryHabit'],
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -32,11 +45,3 @@ class Pet {
     };
   }
 }
-
-enum PetSpecie { dog, cat }
-
-enum Gender { female, male }
-
-enum ActivityHabit { active, sedentary }
-
-enum DietaryHabit { natural, commercial }
