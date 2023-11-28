@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petto_app/domain/entities/entities.dart';
-import 'package:petto_app/infrastructure/datasources/firebase_user_datasource.dart';
+import 'package:petto_app/infrastructure/datasources/firestore_user_datasource.dart';
 import 'package:petto_app/infrastructure/repositories/user_repository_impl.dart';
 import 'package:petto_app/utils/utils.dart';
 

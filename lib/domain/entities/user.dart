@@ -1,10 +1,7 @@
-import 'package:petto_app/domain/entities/pet.dart';
-
 class User {
   final String displayName;
   final String email;
   final String? image;
-  final List<Pet> pets;
   final bool allowEmailNotifications;
   final bool allowPhoneNotifications;
 
@@ -12,7 +9,6 @@ class User {
     required this.displayName,
     required this.email,
     required this.image,
-    required this.pets,
     required this.allowEmailNotifications,
     required this.allowPhoneNotifications,
   });
@@ -22,7 +18,6 @@ class User {
       displayName: map['displayName'],
       email: map['email'],
       image: map['image'],
-      pets: (map['pets'] as List<dynamic>?)?.map((petMap) => Pet.fromMap(petMap)).toList() ?? [],
       allowEmailNotifications: map['allowEmailNotifications'],
       allowPhoneNotifications: map['allowPhoneNotifications'],
     );
@@ -33,7 +28,6 @@ class User {
       'displayName': displayName,
       'email': email,
       'image': image,
-      'pets': pets.map((pet) => pet.toMap()).toList(),
       'allowEmailNotifications': allowEmailNotifications,
       'allowPhoneNotifications': allowPhoneNotifications,
     };

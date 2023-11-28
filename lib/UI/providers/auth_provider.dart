@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:petto_app/domain/entities/entities.dart' as entitie;
-import 'package:petto_app/infrastructure/datasources/firebase_user_datasource.dart';
+import 'package:petto_app/infrastructure/datasources/firestore_user_datasource.dart';
 import 'package:petto_app/infrastructure/repositories/user_repository_impl.dart';
 import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/utils.dart';
@@ -43,7 +43,6 @@ class AuthenticationProvider with ChangeNotifier {
         displayName: displayName,
         email: email,
         image: null,
-        pets: <entitie.Pet>[],
         allowEmailNotifications: true,
         allowPhoneNotifications: true,
       ).toMap();

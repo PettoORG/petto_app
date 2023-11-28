@@ -16,7 +16,6 @@ class FirestoreUserDatasource extends UserDatasource {
         displayName: snapshot['displayName'],
         email: snapshot['email'],
         image: snapshot['image'],
-        pets: snapshot['pets'],
         allowEmailNotifications: snapshot['allowEmailNotifications'],
         allowPhoneNotifications: snapshot['allowPhoneNotifications'],
       );
