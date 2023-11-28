@@ -49,18 +49,14 @@ class PetRegisterScreen extends StatelessWidget {
                 onOptionSelected: (petType) {},
               ),
               SizedBox(height: 5.h),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(AppLocalizations.of(context)!.petSize, style: Theme.of(context).textTheme.titleMedium)),
-              SizedBox(height: 1.h),
-              _MuttSizeSection(
+              _DefaultSection(
+                title: AppLocalizations.of(context)!.petSize,
                 options: [
-                  _MuttSizeOption(asset: 'assets/small-dog.svg', text: AppLocalizations.of(context)!.small, size: 27.w),
-                  _MuttSizeOption(
-                      asset: 'assets/medium-dog.svg', text: AppLocalizations.of(context)!.medium, size: 27.w),
-                  _MuttSizeOption(asset: 'assets/big-dog.svg', text: AppLocalizations.of(context)!.large, size: 27.w),
+                  AppLocalizations.of(context)!.small,
+                  AppLocalizations.of(context)!.medium,
+                  AppLocalizations.of(context)!.large,
                 ],
-                onOptionSelected: (petSize) {},
+                onOptionSelected: (petType) {},
               ),
               SizedBox(height: 5.h),
               const _BirthPetPicker(),
@@ -113,18 +109,21 @@ class _DefaultSectionState extends State<_DefaultSection> {
           Row(
             children: List.generate(widget.options.length, (index) {
               final option = widget.options[index];
-              return OnboardingDefaultOption(
-                text: option,
-                color: cardColors[index],
-                onTap: () {
-                  setState(() {
-                    cardColors = List.generate(widget.options.length, (index) {
-                      return Theme.of(context).colorScheme.surfaceVariant;
+              return Padding(
+                padding: EdgeInsets.only(right: 5.w),
+                child: OnboardingDefaultOption(
+                  text: option,
+                  color: cardColors[index],
+                  onTap: () {
+                    setState(() {
+                      cardColors = List.generate(widget.options.length, (index) {
+                        return Theme.of(context).colorScheme.surfaceVariant;
+                      });
+                      cardColors[index] = Theme.of(context).colorScheme.primary;
                     });
-                    cardColors[index] = Theme.of(context).colorScheme.primary;
-                  });
-                  widget.onOptionSelected(option);
-                },
+                    widget.onOptionSelected(option);
+                  },
+                ),
               );
             }),
           ),
@@ -277,7 +276,7 @@ class _PetAvatar extends StatelessWidget {
           width: 35.w,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(17.w),
+            borderRadius: BorderRadius.circular(5.w),
             boxShadow: [
               BoxShadow(blurRadius: 5, color: Theme.of(context).colorScheme.shadow, offset: const Offset(0, 0))
             ],

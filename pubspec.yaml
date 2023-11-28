@@ -23,6 +23,7 @@ dependencies:
   go_router: ^12.1.1
   google_nav_bar: ^5.0.6
   icons_plus: ^4.0.0
+  image_picker: ^1.0.4
   intl: ^0.18.1
   logger: ^2.0.2+1
   lottie: ^2.7.0
