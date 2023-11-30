@@ -1,8 +1,10 @@
 class Pet {
+  final String name;
   final String specie;
-  final String breed;
   final String gender;
-  final DateTime birthdate;
+  final String breed;
+  final String size;
+  final String birthdate;
   final double weight;
   final String? image;
   final String? activityHabit;
@@ -15,28 +17,32 @@ class Pet {
   final List<Vaccine>? vaccines;
 
   Pet({
+    required this.name,
     required this.specie,
-    required this.breed,
     required this.gender,
+    required this.breed,
+    required this.size,
     required this.birthdate,
     required this.weight,
     required this.image,
-    required this.activityHabit,
-    required this.dietaryHabit,
-    required this.microchipId,
-    required this.medicines,
-    required this.illnesses,
-    required this.lastVaccine,
-    required this.nextVaccine,
-    required this.vaccines,
+    this.activityHabit,
+    this.dietaryHabit,
+    this.microchipId,
+    this.medicines,
+    this.illnesses,
+    this.lastVaccine,
+    this.nextVaccine,
+    this.vaccines,
   });
 
   factory Pet.fromMap(Map<String, dynamic> map) {
     return Pet(
+      name: map['name'],
       specie: map['specie'],
       breed: map['breed'],
+      size: map['size'],
       gender: map['gender'],
-      birthdate: DateTime.parse(map['birthdate']),
+      birthdate: map['birthdate'],
       weight: map['weight'],
       image: map['image'],
       activityHabit: map['activityHabit'],
@@ -55,7 +61,7 @@ class Pet {
       'specie': specie,
       'breed': breed,
       'gender': gender,
-      'birthdate': birthdate.toIso8601String(),
+      'birthdate': birthdate,
       'weight': weight,
       'image': image,
       'activityHabit': activityHabit,

@@ -1,3 +1,5 @@
+export 'package:petto_app/UI/providers/pet_provider.dart';
+
 export 'package:petto_app/UI/providers/user_provider.dart';
 
 export 'package:petto_app/UI/providers/auth_provider.dart';

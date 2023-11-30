@@ -111,6 +111,7 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               GlobalGeneralButton(
                 isLoading: context.watch<AuthenticationProvider>().isLoading,
+                text: AppLocalizations.of(context)!.register,
                 onPressed: context.watch<AuthenticationProvider>().isLoading
                     ? null
                     : () async {
@@ -133,7 +134,6 @@ class _RegisterViewState extends State<RegisterView> {
                           }
                         }
                       },
-                child: Text(AppLocalizations.of(context)!.register, style: TextStyle(color: color.surfaceVariant)),
               ),
               SizedBox(
                 height: 1.h,

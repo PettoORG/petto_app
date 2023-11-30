@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/domain/repositories/pet_repository.dart';
 import 'package:petto_app/infrastructure/datasources/firestore_pet_datasource.dart';
 import 'package:petto_app/infrastructure/repositories/pet_repository_impl.dart';
@@ -36,13 +39,26 @@ class PetProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> addPet(Map<String, dynamic> pet) async {
+  Future<String> addPet(Pet pet) async {
     try {
+      String petId;
       isLoading = true;
-      await _userRepository.addPet(pet);
+      petId = await _userRepository.addPet(pet);
       isLoading = false;
+      return petId;
     } catch (e) {
       logger.e('FIRESTORE ERROR: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> updatePetImage(String petId, File image) async {
+    try {
+      isLoading = true;
+      _userRepository.updatePetImage(petId, image);
+      isLoading = false;
+    } catch (e) {
+      logger.e('STORAGE ERROR: $e');
       rethrow;
     }
   }

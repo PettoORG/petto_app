@@ -124,6 +124,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               GlobalGeneralButton(
                 isLoading: context.watch<AuthenticationProvider>().isLoading,
+                text: AppLocalizations.of(context)!.signIn,
                 onPressed: context.watch<AuthenticationProvider>().isLoading
                     ? null
                     : () async {
@@ -137,7 +138,6 @@ class _LoginViewState extends State<LoginView> {
                           }
                         }
                       },
-                child: Text(AppLocalizations.of(context)!.signIn, style: TextStyle(color: color.surfaceVariant)),
               ),
               SizedBox(
                 height: 1.h,

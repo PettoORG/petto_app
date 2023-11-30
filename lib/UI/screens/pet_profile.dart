@@ -303,8 +303,8 @@ class _PetAvatarSection extends StatelessWidget {
       height: 25.h,
       child: Stack(
         children: [
-          SharedStackDecoration(size: 40.w, left: -10.w, angle: 50),
-          SharedStackDecoration(size: 50.w, right: -15.w, bottom: -2.h, angle: -40),
+          GlobalStackDecoration(size: 40.w, left: -10.w, angle: 50),
+          GlobalStackDecoration(size: 50.w, right: -15.w, bottom: -2.h, angle: -40),
           Center(
             child: Container(
               height: 40.w,

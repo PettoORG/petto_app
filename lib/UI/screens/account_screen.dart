@@ -119,6 +119,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(height: 3.h),
                   GlobalGeneralButton(
                     isLoading: context.watch<AuthenticationProvider>().isLoading,
+                    text: AppLocalizations.of(context)!.save,
                     onPressed: isEdited()
                         ? () async {
                             try {
@@ -152,7 +153,6 @@ class _AccountScreenState extends State<AccountScreen> {
                             }
                           }
                         : null,
-                    child: Text(AppLocalizations.of(context)!.save),
                   ),
                 ],
               ),
@@ -250,7 +250,14 @@ class _DeletAccountDialog extends StatelessWidget {
                 context.pushReplacementNamed('auth');
               } catch (e) {
                 auth.isLoading = false;
-                logger.e('AUTH ERROR: $e');
+                if (e.toString().contains('requires-recent-login')) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const _ReAuthDialog();
+                    },
+                  );
+                }
               }
             },
             child: Text(AppLocalizations.of(context)!.confirm)),

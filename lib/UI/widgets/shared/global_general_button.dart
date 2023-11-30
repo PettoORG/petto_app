@@ -4,9 +4,9 @@ import 'package:sizer/sizer.dart';
 
 class GlobalGeneralButton extends StatelessWidget {
   final Function()? onPressed;
-  final Widget? child;
+  final String text;
   final bool isLoading;
-  const GlobalGeneralButton({super.key, this.onPressed, this.child, this.isLoading = false});
+  const GlobalGeneralButton({super.key, this.onPressed, required this.text, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,11 @@ class GlobalGeneralButton extends StatelessWidget {
           elevation: MaterialStateProperty.all(10),
           side: MaterialStateProperty.all(BorderSide.none),
         ),
-        child: isLoading ? PettoLoading(color: Theme.of(context).colorScheme.primary, size: 10.w) : child,
+        child: isLoading
+            ? PettoLoading(color: Theme.of(context).colorScheme.primary, size: 10.w)
+            : Text(
+                text,
+              ),
       ),
     );
   }

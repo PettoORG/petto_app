@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SharedStackDecoration extends StatelessWidget {
+class GlobalStackDecoration extends StatelessWidget {
   final double size;
   final double angle;
   final double? left;
@@ -9,7 +9,7 @@ class SharedStackDecoration extends StatelessWidget {
   final double? top;
   final double? bottom;
 
-  const SharedStackDecoration({
+  const GlobalStackDecoration({
     super.key,
     required this.size,
     this.angle = 0,

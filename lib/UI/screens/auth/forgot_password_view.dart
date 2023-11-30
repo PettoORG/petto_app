@@ -106,6 +106,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   SizedBox(height: 5.h),
                   GlobalGeneralButton(
                     isLoading: context.watch<AuthenticationProvider>().isLoading,
+                    text: buttonText,
                     onPressed: _timerActive
                         ? null
                         : () async {
@@ -117,10 +118,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                               logger.e('AUTH ERROR: $e');
                             }
                           },
-                    child: Text(
-                      buttonText,
-                      style: TextStyle(color: colors.surfaceVariant),
-                    ),
                   ),
                 ],
               ),

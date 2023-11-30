@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:petto_app/domain/datasources/pet_datasource.dart';
 import 'package:petto_app/domain/entities/pet.dart';
 import 'package:petto_app/domain/repositories/pet_repository.dart';
@@ -7,8 +9,8 @@ class PetRepositoryImpl extends PetRepository {
   PetRepositoryImpl(this.datasource);
 
   @override
-  Future<void> addPet(Map<String, dynamic> pet) async {
-    await datasource.addPet(pet);
+  Future<String> addPet(Pet pet) async {
+    return await datasource.addPet(pet);
   }
 
   @override
@@ -29,5 +31,10 @@ class PetRepositoryImpl extends PetRepository {
   @override
   Future<void> updatePetName(String newDisplayName) async {
     await datasource.updatePetName(newDisplayName);
+  }
+
+  @override
+  Future<void> updatePetImage(String petId, File imageFile) async {
+    return await datasource.updatePetImage(petId, imageFile);
   }
 }

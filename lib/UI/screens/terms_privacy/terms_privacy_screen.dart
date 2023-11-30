@@ -23,7 +23,7 @@ class TCScreen extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return ClipRRect(
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20 )),
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.80,
                     child: const Center(
@@ -43,7 +43,7 @@ class TCScreen extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return ClipRRect(
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20 )),
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.80,
                     child: const Center(
@@ -59,10 +59,7 @@ class TCScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        title: Text(
-          AppLocalizations.of(context)!.securityPolicies,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
+        title: Text(AppLocalizations.of(context)!.securityPolicies),
         leading: IconButton(
             onPressed: () {
               context.pop();

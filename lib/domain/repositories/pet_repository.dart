@@ -15,5 +15,5 @@ abstract class PetRepository extends PetDatasource {
   Future<void> updatePetName(String newDisplayName);
 
   @override
-  Future<void> addPet(Map<String, dynamic> pet);
+  Future<String> addPet(Pet pet);
 }

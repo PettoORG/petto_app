@@ -1,82 +1,297 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:petto_app/UI/providers/pet_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
+import 'package:petto_app/domain/entities/entities.dart';
+import 'package:petto_app/services/services.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class PetRegisterScreen extends StatelessWidget {
+class PetRegisterScreen extends StatefulWidget {
   static const name = 'pet-register';
-  const PetRegisterScreen({super.key});
+  const PetRegisterScreen({Key? key}) : super(key: key);
+
+  @override
+  State<PetRegisterScreen> createState() => _PetRegisterScreenState();
+}
+
+class _PetRegisterScreenState extends State<PetRegisterScreen> {
+  File? petImage;
+  TextEditingController petName = TextEditingController();
+  String? petSpecie;
+  String? petBreed;
+  String? petSize;
+  String? petGender;
+  String? petBirthDate;
+  double? petWeight;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    petName.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 10.h),
-              Text(
-                AppLocalizations.of(context)!.aboutYourPet,
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 5.h),
-              const _PetAvatar(),
-              SizedBox(height: 5.h),
-              const _PetNameSection(),
-              SizedBox(height: 5.h),
-              _DefaultSection(
-                title: AppLocalizations.of(context)!.petType,
-                options: [AppLocalizations.of(context)!.dog, AppLocalizations.of(context)!.cat],
-                onOptionSelected: (petType) {},
-              ),
-              SizedBox(height: 5.h),
-              _DefaultSection(
-                title: AppLocalizations.of(context)!.gender,
-                options: [AppLocalizations.of(context)!.female, AppLocalizations.of(context)!.male],
-                onOptionSelected: (petType) {},
-              ),
-              SizedBox(height: 5.h),
-              _DefaultSection(
-                title: AppLocalizations.of(context)!.petBreed,
-                options: [AppLocalizations.of(context)!.purebred, AppLocalizations.of(context)!.mutt],
-                onOptionSelected: (petType) {},
-              ),
-              SizedBox(height: 5.h),
-              _DefaultSection(
-                title: AppLocalizations.of(context)!.petSize,
-                options: [
-                  AppLocalizations.of(context)!.small,
-                  AppLocalizations.of(context)!.medium,
-                  AppLocalizations.of(context)!.large,
-                ],
-                onOptionSelected: (petType) {},
-              ),
-              SizedBox(height: 5.h),
-              const _BirthPetPicker(),
-              SizedBox(height: 5.h),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(AppLocalizations.of(context)!.petWeight, style: Theme.of(context).textTheme.titleMedium),
-              ),
-              SizedBox(height: 1.h),
-              const _PetWeightSection(),
-              SizedBox(height: 5.h),
-              const _SaveButton(),
-              SizedBox(height: 1.h),
-            ],
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
+          child: Form(
+            key: formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.aboutYourPet,
+                  style: Theme.of(context).textTheme.titleLarge,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 5.h),
+                _PickPetImage(
+                  petImage: petImage,
+                  onTap: () async {
+                    File? selectedImage = await ImagePickerService().pickImage();
+                    if (selectedImage != null) {
+                      setState(() {
+                        petImage = selectedImage;
+                      });
+                    }
+                  },
+                ),
+                SizedBox(height: 3.h),
+                TextFormField(
+                  controller: petName,
+                  style: Theme.of(context).inputDecorationTheme.labelStyle,
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.pets),
+                    label: Text(AppLocalizations.of(context)!.name),
+                  ),
+                ),
+                SizedBox(height: 3.h),
+                _DefaultSection(
+                  title: AppLocalizations.of(context)!.petType,
+                  options: [AppLocalizations.of(context)!.dog, AppLocalizations.of(context)!.cat],
+                  onOptionSelected: (option) => petSpecie = option,
+                ),
+                SizedBox(height: 3.h),
+                _DefaultSection(
+                  title: AppLocalizations.of(context)!.petBreed,
+                  options: [AppLocalizations.of(context)!.purebred, AppLocalizations.of(context)!.mutt],
+                  onOptionSelected: (option) => petBreed = option,
+                ),
+                SizedBox(height: 3.h),
+                _DefaultSection(
+                  title: AppLocalizations.of(context)!.petSize,
+                  options: [
+                    AppLocalizations.of(context)!.small,
+                    AppLocalizations.of(context)!.medium,
+                    AppLocalizations.of(context)!.large,
+                  ],
+                  onOptionSelected: (option) => petSize = option,
+                ),
+                SizedBox(height: 3.h),
+                _DefaultSection(
+                  title: AppLocalizations.of(context)!.gender,
+                  options: [AppLocalizations.of(context)!.female, AppLocalizations.of(context)!.male],
+                  onOptionSelected: (option) => petGender = option,
+                ),
+                SizedBox(height: 3.h),
+                _BirthPetPicker(onTap: (date) => petBirthDate = date),
+                SizedBox(height: 3.h),
+                _PetWeightSection((value) => petWeight = double.parse(value)),
+                SizedBox(height: 3.h),
+                GlobalGeneralButton(
+                  isLoading: context.watch<PetProvider>().isLoading,
+                  text: AppLocalizations.of(context)!.save,
+                  onPressed: () async {
+                    final String petId = await context.read<PetProvider>().addPet(Pet(
+                        name: petName.text,
+                        specie: petSpecie!,
+                        gender: petGender!,
+                        breed: petBreed!,
+                        size: petSize!,
+                        birthdate: petBirthDate!,
+                        weight: petWeight!,
+                        image: null));
+                    if (petImage != null) {
+                      context.read<PetProvider>().updatePetImage(petId, petImage!);
+                    }
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+class _PickPetImage extends StatelessWidget {
+  const _PickPetImage({
+    required this.petImage,
+    this.onTap,
+  });
+
+  final File? petImage;
+  final Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(5.w),
+          child: Ink(
+            height: 35.w,
+            width: 35.w,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(5.w),
+              boxShadow: [
+                BoxShadow(blurRadius: 5, color: Theme.of(context).colorScheme.shadow, offset: const Offset(0, 0))
+              ],
+            ),
+            child: petImage != null
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(5.w),
+                    child: Image.file(
+                      petImage!,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : Center(
+                    child: SvgPicture.asset(
+                      'assets/petto.svg',
+                      height: 32.w,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.primary,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+          ),
+        ),
+        SizedBox(width: 5.w),
+        Flexible(
+          child: Text(
+            AppLocalizations.of(context)!.imageOfYourPet,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          ),
+        )
+      ],
+    );
+  }
+}
+// class PetRegisterScreen extends StatelessWidget {
+//   static const name = 'pet-register';
+//   const PetRegisterScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     PetProvider petProvider = context.read<PetProvider>();
+//     File? petImage;
+//     String? petName;
+//     String? petSpecie;
+//     String? petGender;
+//     String? petBreed;
+//     String? petSize;
+//     String? petBirthdate;
+//     double? petWeight;
+//     return Scaffold(
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             children: [
+//               SizedBox(height: 10.h),
+//               Text(
+//                 AppLocalizations.of(context)!.aboutYourPet,
+//                 style: Theme.of(context).textTheme.titleLarge,
+//                 textAlign: TextAlign.center,
+//               ),
+//               SizedBox(height: 5.h),
+//               _PetAvatar(
+//                 onTap: () async {
+//                   try {
+//                     petImage = await ImagePickerService().pickImage();
+//                   } catch (e) {
+//                     logger.e('ERROR: $e');
+//                   }
+//                 },
+//                 image: petImage,
+//               ),
+//               SizedBox(height: 5.h),
+//               _PetNameSection((value) => petName = value),
+//               SizedBox(height: 5.h),
+//
+//               SizedBox(height: 5.h),
+//               _DefaultSection(
+//                 title: AppLocalizations.of(context)!.gender,
+//                 options: [AppLocalizations.of(context)!.female, AppLocalizations.of(context)!.male],
+//                 onOptionSelected: (option) => petGender = option,
+//               ),
+//
+//               SizedBox(height: 5.h),
+//               _BirthPetPicker((date) => petBirthdate = date),
+//               SizedBox(height: 5.h),
+//               Align(
+//                 alignment: Alignment.centerLeft,
+//                 child: Text(AppLocalizations.of(context)!.petWeight, style: Theme.of(context).textTheme.titleMedium),
+//               ),
+//               SizedBox(height: 1.h),
+//               _PetWeightSection((value) => petWeight = double.parse(value)),
+//               SizedBox(height: 5.h),
+//               GlobalGeneralButton(
+//                 onPressed: () async {
+//                   String? petImageUrl;
+//                   if (petImage != null) {
+//                     petImageUrl = await FirebaseStorageService().uploadImage(petImage!, petImage!.path);
+//                   }
+//                   petProvider.addPet(
+//                     Pet(
+//                       name: petName!,
+//                       specie: petSpecie!,
+//                       gender: petGender!,
+//                       breed: petBreed!,
+//                       size: petSize!,
+//                       birthdate: petBirthdate!,
+//                       weight: petWeight!,
+//                       image: petImageUrl,
+//                     ),
+//                   );
+//                 },
+//                 child: Text(AppLocalizations.of(context)!.save),
+//               ),
+//               // _SaveButton(Pet(
+//               //   name: petName!,
+//               //   specie: petSpecie!,
+//               //   gender: petGender!,
+//               //   breed: petBreed!,
+//               //   size: petSize!,
+//               //   birthdate: petBirthdate!,
+//               //   weight: petWeight!,
+//               //   image: petImage,
+//               // )),
+//               SizedBox(height: 1.h),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _DefaultSection extends StatefulWidget {
   final List options;
@@ -133,72 +348,9 @@ class _DefaultSectionState extends State<_DefaultSection> {
   }
 }
 
-class _MuttSizeSection extends StatefulWidget {
-  final List<_MuttSizeOption> options;
-  final Function(String) onOptionSelected;
-
-  const _MuttSizeSection({
-    required this.options,
-    required this.onOptionSelected,
-  });
-
-  @override
-  State<_MuttSizeSection> createState() => _MuttSizeSectionState();
-}
-
-class _MuttSizeSectionState extends State<_MuttSizeSection> {
-  List<Color> cardColors = [];
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    cardColors = List.generate(widget.options.length, (index) => Theme.of(context).colorScheme.surfaceVariant);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(widget.options.length, (index) {
-        final option = widget.options[index];
-        return OnboardingPetSizeOption(
-          asset: option.asset,
-          color: cardColors[index],
-          text: option.text,
-          width: option.size,
-          onTap: () {
-            setState(() {
-              cardColors = List.generate(widget.options.length, (index) {
-                return Theme.of(context).colorScheme.surfaceVariant;
-              });
-              cardColors[index] = Theme.of(context).colorScheme.primaryContainer;
-            });
-            widget.onOptionSelected(option.text);
-          },
-        );
-      }),
-    );
-  }
-}
-
-class _SaveButton extends StatelessWidget {
-  const _SaveButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return OutlinedButton(
-        onPressed: () {
-          context.pushReplacementNamed('home');
-        },
-        style: OutlinedButton.styleFrom(
-          fixedSize: Size(75.w, 6.5.h),
-        ),
-        child: Text(AppLocalizations.of(context)!.next));
-  }
-}
-
 class _PetWeightSection extends StatelessWidget {
-  const _PetWeightSection();
+  final Function(String)? onChanged;
+  const _PetWeightSection(this.onChanged);
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +359,7 @@ class _PetWeightSection extends StatelessWidget {
         SizedBox(
           width: 27.w,
           child: TextFormField(
+            onChanged: onChanged,
             inputFormatters: [LengthLimitingTextInputFormatter(3)],
             style: Theme.of(context).inputDecorationTheme.labelStyle,
             keyboardType: TextInputType.number,
@@ -236,12 +389,24 @@ class _PetWeightSection extends StatelessWidget {
   }
 }
 
-class _BirthPetPicker extends StatelessWidget {
-  const _BirthPetPicker();
+class _BirthPetPicker extends StatefulWidget {
+  final Function(String date) onTap;
+  const _BirthPetPicker({required this.onTap});
+
+  @override
+  _BirthPetPickerState createState() => _BirthPetPickerState();
+}
+
+class _BirthPetPickerState extends State<_BirthPetPicker> {
+  TextEditingController dateController = TextEditingController();
+  @override
+  void dispose() {
+    dateController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController dateController = TextEditingController();
     return TextFormField(
       style: Theme.of(context).inputDecorationTheme.labelStyle,
       controller: dateController,
@@ -256,78 +421,13 @@ class _BirthPetPicker extends StatelessWidget {
         if (selectedDate != null) {
           String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
           dateController.text = formattedDate;
+          widget.onTap(formattedDate);
         }
       },
       decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.pets), label: Text(AppLocalizations.of(context)!.petDateOfBirth)),
-    );
-  }
-}
-
-class _PetAvatar extends StatelessWidget {
-  const _PetAvatar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          height: 35.w,
-          width: 35.w,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(5.w),
-            boxShadow: [
-              BoxShadow(blurRadius: 5, color: Theme.of(context).colorScheme.shadow, offset: const Offset(0, 0))
-            ],
-          ),
-          child: Center(
-            child: SvgPicture.asset(
-              'assets/petto.svg',
-              height: 32.w,
-              colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
-            ),
-          ),
-        ),
-        SizedBox(width: 5.w),
-        Flexible(
-          child: Text(
-            AppLocalizations.of(context)!.imageOfYourPet,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class _PetNameSection extends StatelessWidget {
-  const _PetNameSection();
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      style: Theme.of(context).textTheme.bodyMedium,
-      autocorrect: false,
-      onTapOutside: (event) => FocusScope.of(context).unfocus(),
-      decoration: InputDecoration(
         prefixIcon: const Icon(Icons.pets),
-        label: Text(AppLocalizations.of(context)!.name),
+        label: Text(AppLocalizations.of(context)!.petDateOfBirth),
       ),
     );
   }
-}
-
-class _MuttSizeOption {
-  final String asset;
-  final String text;
-  final double size;
-
-  _MuttSizeOption({
-    required this.asset,
-    required this.text,
-    required this.size,
-  });
 }

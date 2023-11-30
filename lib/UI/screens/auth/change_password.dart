@@ -6,7 +6,7 @@ import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   static const name = 'change-password';
@@ -95,6 +95,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               SizedBox(height: 3.h),
               GlobalGeneralButton(
                 isLoading: context.watch<AuthenticationProvider>().isLoading,
+                text: AppLocalizations.of(context)!.save,
                 onPressed: () {
                   try {
                     if (!auth.isValidForm(formKey)) return;
@@ -107,7 +108,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     //TODO: MANEJAR ERRORES
                   }
                 },
-                child: const Text('Guardar'),
               )
             ],
           ),

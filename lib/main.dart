@@ -24,6 +24,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => PettipsProvider()),
       ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
       ChangeNotifierProvider(create: (context) => UserProvider()),
+      ChangeNotifierProvider(create: (context) => PetProvider()),
     ],
     child: const MyApp(),
   ));
