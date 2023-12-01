@@ -5,6 +5,7 @@ class Pet {
   final String breed;
   final String size;
   final String birthdate;
+  final String age;
   final double weight;
   final String? image;
   final String? activityHabit;
@@ -23,8 +24,9 @@ class Pet {
     required this.breed,
     required this.size,
     required this.birthdate,
+    required this.age,
     required this.weight,
-    required this.image,
+    this.image,
     this.activityHabit,
     this.dietaryHabit,
     this.microchipId,
@@ -43,6 +45,7 @@ class Pet {
       size: map['size'],
       gender: map['gender'],
       birthdate: map['birthdate'],
+      age: map['age'],
       weight: map['weight'],
       image: map['image'],
       activityHabit: map['activityHabit'],

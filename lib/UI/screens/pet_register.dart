@@ -50,6 +50,7 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    PetProvider petProvider = context.read<PetProvider>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -129,8 +130,13 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                   text: AppLocalizations.of(context)!.save,
                   onPressed: () async {
                     if (validateData()) {
+                      DateTime birthdate = DateTime.parse(petBirthDate!);
+                      DateTime currentDate = DateTime.now();
+                      Duration difference = currentDate.difference(birthdate);
+                      String petAge = (difference.inDays / 365).toStringAsFixed(1);
                       try {
-                        final String petId = await context.read<PetProvider>().addPet(Pet(
+                        final String petId = await petProvider.addPet(
+                          Pet(
                             name: petName.text,
                             specie: petSpecie!,
                             gender: petGender!,
@@ -138,9 +144,11 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                             size: petSize!,
                             birthdate: petBirthDate!,
                             weight: petWeight!,
-                            image: null));
+                            age: petAge,
+                          ),
+                        );
                         if (petImage != null) {
-                          await context.read<PetProvider>().updatePetImage(petId, petImage!);
+                          await petProvider.updatePetImage(petId, petImage!);
                         }
                         context.pushReplacementNamed('home');
                       } catch (e) {
