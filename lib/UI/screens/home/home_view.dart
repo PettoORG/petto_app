@@ -14,24 +14,25 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme color = Theme.of(context).colorScheme;
+    ColorScheme colors = Theme.of(context).colorScheme;
+    TextTheme textStyles = Theme.of(context).textTheme;
     List<OptionModel> options = [
       OptionModel(
-          child: Icon(BoxIcons.bx_health, color: color.primary),
+          child: Icon(BoxIcons.bx_health, color: colors.primary),
           title: AppLocalizations.of(context)!.health,
-          color: color.primaryContainer),
+          color: colors.primaryContainer),
       OptionModel(
-          child: Icon(BoxIcons.bx_cut, color: color.secondary),
+          child: Icon(BoxIcons.bx_cut, color: colors.secondary),
           title: AppLocalizations.of(context)!.grooming,
-          color: color.secondaryContainer),
+          color: colors.secondaryContainer),
       OptionModel(
-          child: Icon(BoxIcons.bxs_cat, color: color.primary),
+          child: Icon(BoxIcons.bxs_cat, color: colors.primary),
           title: AppLocalizations.of(context)!.activity,
-          color: color.primaryContainer),
+          color: colors.primaryContainer),
       OptionModel(
-          child: Icon(BoxIcons.bx_bowl_rice, color: color.tertiary),
+          child: Icon(BoxIcons.bx_bowl_rice, color: colors.tertiary),
           title: AppLocalizations.of(context)!.food,
-          color: color.tertiaryContainer),
+          color: colors.tertiaryContainer),
     ];
 
     return CustomScrollView(
@@ -46,6 +47,34 @@ class HomeView extends StatelessWidget {
               onTap: (_) {
                 context.pushNamed('pet-profile');
               },
+              children: List.generate(
+                5,
+                (index) => Padding(
+                  padding: EdgeInsets.all(3.w),
+                  child: Row(
+                    children: [
+                      Ink(
+                        height: 30.w,
+                        width: 30.w,
+                        decoration: BoxDecoration(
+                          color: colors.primaryContainer,
+                          borderRadius: BorderRadius.circular(5.w),
+                        ),
+                      ),
+                      SizedBox(width: 2.w),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Nombre', style: textStyles.bodySmall),
+                          Text('Especie', style: textStyles.bodySmall),
+                          Text('Edad', style: textStyles.bodySmall),
+                          Text('Genero', style: textStyles.bodySmall),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
@@ -84,7 +113,7 @@ class _Pettips extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SharedCardSwiper(
-              onTap:  (index) => context.pushNamed('pettips', extra: {"pettip": snapshot.data![index]}),
+              onTap: (index) => context.pushNamed('pettips', extra: {"pettip": snapshot.data![index]}),
               viewportFraction: .8,
               itemCount: snapshot.data!.length,
               autoAdvance: true,
