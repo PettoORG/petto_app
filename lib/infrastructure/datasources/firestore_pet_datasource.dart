@@ -33,7 +33,6 @@ class FirestorePetDatasource extends PetDatasource {
       Pet pet = Pet.fromMap(document.data() as Map<String, dynamic>);
       pets.add(pet);
     }
-
     return pets;
   }
 

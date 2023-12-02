@@ -18,12 +18,18 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
-  void _listener(AnimationStatus status) {
+  void _listener(AnimationStatus status) async {
+    PetProvider petsProvider = context.read<PetProvider>();
     if (status == AnimationStatus.completed) {
       final bool shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding') == true;
       if (shouldShowOnboarding) return context.pushReplacementNamed('onboarding');
       if (context.read<AuthenticationProvider>().getCurrentUser() != null) {
-        return context.pushReplacementNamed('home');
+        await context.read<PetProvider>().getPets();
+        if (petsProvider.pets == null || petsProvider.pets!.isEmpty) {
+          return context.pushReplacementNamed('pet-register');
+        } else {
+          return context.pushReplacementNamed('home');
+        }
       } else {
         return context.pushReplacementNamed('auth');
       }

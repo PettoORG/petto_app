@@ -9,6 +9,7 @@ import 'package:petto_app/utils/utils.dart';
 
 class PetProvider extends ChangeNotifier {
   final PetRepository _userRepository = PetRepositoryImpl(FirestorePetDatasource());
+  late List<Pet>? pets;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -17,10 +18,10 @@ class PetProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getPets(String petId) async {
+  Future<void> getPets() async {
     try {
       isLoading = true;
-      await _userRepository.getPets();
+      pets = await _userRepository.getPets();
       isLoading = false;
     } catch (e) {
       logger.e('FIRESTORE ERROR: $e');
