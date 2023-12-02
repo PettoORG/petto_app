@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:petto_app/UI/providers/pet_provider.dart';
 import 'package:petto_app/UI/providers/pettips_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
+import 'package:petto_app/domain/entities/pet.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,6 +18,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
     TextTheme textStyles = Theme.of(context).textTheme;
+    List<Pet> pets = context.read<PetProvider>().pets!;
     List<OptionModel> options = [
       OptionModel(
           child: Icon(BoxIcons.bx_health, color: colors.primary),
@@ -43,13 +46,13 @@ class HomeView extends StatelessWidget {
           children: [
             SharedCardSwiper(
               viewportFraction: .7,
-              itemCount: 5,
+              itemCount: pets.length,
               onTap: (_) {
                 context.pushNamed('pet-profile');
               },
-              children: List.generate(
-                5,
-                (index) => Padding(
+              children: List.generate(pets.length, (index) {
+                Pet pet = pets[index];
+                return Padding(
                   padding: EdgeInsets.all(3.w),
                   child: Row(
                     children: [
@@ -65,16 +68,16 @@ class HomeView extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Nombre', style: textStyles.bodySmall),
-                          Text('Especie', style: textStyles.bodySmall),
-                          Text('Edad', style: textStyles.bodySmall),
-                          Text('Genero', style: textStyles.bodySmall),
+                          Text(pet.name, style: textStyles.bodySmall),
+                          Text(pet.specie, style: textStyles.bodySmall),
+                          Text('${pet.age} años', style: textStyles.bodySmall),
+                          Text(pet.gender, style: textStyles.bodySmall),
                         ],
                       )
                     ],
                   ),
-                ),
-              ),
+                );
+              }),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),

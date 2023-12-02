@@ -61,10 +61,13 @@ class Pet {
 
   Map<String, dynamic> toMap() {
     return {
+      'name': name,
       'specie': specie,
       'breed': breed,
+      'size': size,
       'gender': gender,
       'birthdate': birthdate,
+      'age': age,
       'weight': weight,
       'image': image,
       'activityHabit': activityHabit,
