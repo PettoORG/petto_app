@@ -148,7 +148,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return const _ReAuthDialog();
+                                    return _ReAuthDialog();
                                   },
                                 );
                               }
@@ -166,15 +166,29 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 }
 
-class _ReAuthDialog extends StatelessWidget {
-  const _ReAuthDialog();
+class _ReAuthDialog extends StatefulWidget {
+  _ReAuthDialog();
+
+  @override
+  State<_ReAuthDialog> createState() => _ReAuthDialogState();
+}
+
+class _ReAuthDialogState extends State<_ReAuthDialog> {
+  bool _passwordVisible = false;
+  late TextEditingController passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
     AuthenticationProvider auth = context.read<AuthenticationProvider>();
     TextTheme textStyle = Theme.of(context).textTheme;
     ColorScheme colors = Theme.of(context).colorScheme;
-    TextEditingController passwordController = TextEditingController();
+
     return AlertDialog(
       backgroundColor: colors.surface,
       surfaceTintColor: colors.surface,
@@ -186,38 +200,50 @@ class _ReAuthDialog extends StatelessWidget {
       actions: [
         TextButton(onPressed: () => context.pop(), child: Text(AppLocalizations.of(context)!.cancel)),
         TextButton(
-            onPressed: () async {
-              try {
-                await auth.reAuth(passwordController.text);
-                // ignore: use_build_context_synchronously
-                context.pop();
-              } catch (e) {
-                logger.e('AUTH ERROR: $e');
-              }
-            },
-            child: Text(AppLocalizations.of(context)!.next)),
+          onPressed: () async {
+            try {
+              await auth.reAuth(passwordController.text);
+              context.pop();
+            } catch (e) {
+              logger.e('AUTH ERROR: $e');
+            }
+          },
+          child: Text(AppLocalizations.of(context)!.next),
+        ),
       ],
       content: SizedBox(
-        height: 19.h,
+        height: 23.h,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               AppLocalizations.of(context)!.checkYourIdentity,
               style: textStyle.titleMedium,
             ),
             SizedBox(height: 1.h),
-            Text(
-              auth.getCurrentUser()!.email!,
-              style: textStyle.titleSmall,
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                auth.getCurrentUser()!.email!,
+                style: textStyle.titleSmall,
+                textAlign: TextAlign.left,
+              ),
             ),
             SizedBox(height: 3.h),
             TextFormField(
               controller: passwordController,
               style: Theme.of(context).textTheme.bodyMedium,
+              obscureText: !_passwordVisible,
               validator: (value) => auth.validatePassword(value, context),
               decoration: InputDecoration(
                 prefixIcon: const Icon(BoxIcons.bx_lock),
                 labelText: AppLocalizations.of(context)!.password,
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() => _passwordVisible = !_passwordVisible);
+                  },
+                  child: !_passwordVisible ? const Icon(BoxIcons.bx_hide) : const Icon(BoxIcons.bx_show),
+                ),
               ),
             ),
           ],
@@ -226,6 +252,7 @@ class _ReAuthDialog extends StatelessWidget {
     );
   }
 }
+
 
 class _DeletAccountDialog extends StatelessWidget {
   const _DeletAccountDialog();
@@ -256,7 +283,7 @@ class _DeletAccountDialog extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) {
-                      return const _ReAuthDialog();
+                      return _ReAuthDialog();
                     },
                   );
                 }
@@ -267,7 +294,9 @@ class _DeletAccountDialog extends StatelessWidget {
       content: SizedBox(
         height: 19.h,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Flexible(child: Container()),
             Text(
               AppLocalizations.of(context)!.confirmDeleteAccount,
               style: textStyle.titleMedium,
