@@ -73,8 +73,11 @@ class TCScreen extends StatelessWidget {
             Column(children: [
               ...List.generate(
                 options.length,
-                (index) => GlobalCardOption(
-                  options[index],
+                (index) => Padding(
+                  padding: EdgeInsets.only(bottom: 2.h),
+                  child: GlobalCardOption(
+                    options[index],
+                  ),
                 ),
               ),
             ])

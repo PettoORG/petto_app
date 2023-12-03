@@ -1,10 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
+import 'package:petto_app/UI/screens/screens.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -153,8 +155,42 @@ class _LoginViewState extends State<LoginView> {
                       AppLocalizations.of(context)!.register,
                       style: TextStyle(color: color.primary),
                     ),
-                  )
+                  ),
                 ],
+              ),
+              SizedBox(height: 1.h,),
+              RichText(
+                text: TextSpan(
+                        text: AppLocalizations.of(context)!.byregisteringyouaccept,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 3.2.w,
+                          ),
+                      children: <TextSpan>[
+                        TextSpan( text: AppLocalizations.of(context)!.termsAndConditions.toLowerCase(),
+                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 3.2.w,
+                            color: color.primary, 
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap = () {
+                            showModalBottomSheet<void>(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ClipRRect(
+                                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                  child: SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.80,
+                                    child: const Center(
+                                      child: TermsAndCondicionsView(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        )
+                      ]
+                )
               )
             ],
           ),
