@@ -102,7 +102,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     auth.isLoading = true;
                     auth.updatePassWord(newPassWord.text);
                     auth.isLoading = true;
-                    showToast('Cambio de contraseña exitoso', context);
+                    showToast(AppLocalizations.of(context)!.successfulPasswordChange, '', context);
                   } catch (e) {
                     logger.e('AUTH ERROR: $e');
                     //TODO: MANEJAR ERRORES

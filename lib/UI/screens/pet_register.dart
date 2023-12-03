@@ -152,10 +152,10 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                         }
                         context.pushReplacementNamed('home');
                       } catch (e) {
-                        showToast('error', context);
+                        showToast(AppLocalizations.of(context)!.error, AppLocalizations.of(context)!.tryAgainError, context);
                       }
                     } else {
-                      showToast('Datos faltantes o incorrectos', context);
+                      showToast(AppLocalizations.of(context)!.error, AppLocalizations.of(context)!.missingIncorrectData, context);
                     }
                   },
                 )

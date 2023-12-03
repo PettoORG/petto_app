@@ -130,7 +130,7 @@ class _RegisterViewState extends State<RegisterView> {
                           context.pushReplacementNamed("pet-register");
                         } catch (e) {
                           if (e.toString().contains('email-already-in-use')) {
-                            showToast(AppLocalizations.of(context)!.emailAlreadyRegistered, context);
+                            showToast(AppLocalizations.of(context)!.emailAlreadyRegistered, AppLocalizations.of(context)!.tryAnotherEmail,context);
                           }
                         }
                       },

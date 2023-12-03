@@ -136,7 +136,7 @@ class _LoginViewState extends State<LoginView> {
                           context.pushReplacementNamed("home");
                         } catch (e) {
                           if (e.toString().contains('INVALID_LOGIN_CREDENTIALS')) {
-                            showToast(AppLocalizations.of(context)!.incorrectCredentials, context);
+                            showToast(AppLocalizations.of(context)!.incorrectCredentials, AppLocalizations.of(context)!.tryAgainError, context);
                           }
                         }
                       },
