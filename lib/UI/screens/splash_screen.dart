@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       if (shouldShowOnboarding) return context.pushReplacementNamed('onboarding');
       if (context.read<AuthenticationProvider>().getCurrentUser() != null) {
         await context.read<PetProvider>().getPets();
-        if (petsProvider.pets == null || petsProvider.pets!.isEmpty) {
+        if (petsProvider.pets.isEmpty) {
           return context.pushReplacementNamed('pet-register');
         } else {
           return context.pushReplacementNamed('home');

@@ -158,40 +158,43 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ],
               ),
-              SizedBox(height: 1.h,),
+              SizedBox(
+                height: 1.h,
+              ),
               RichText(
-                text: TextSpan(
-                        text: AppLocalizations.of(context)!.byregisteringyouaccept,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  text: TextSpan(
+                      text: AppLocalizations.of(context)!.byregisteringyouaccept,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 3.2.w,
                           ),
                       children: <TextSpan>[
-                        TextSpan( text: AppLocalizations.of(context)!.termsAndConditions.toLowerCase(),
-                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    TextSpan(
+                      text: AppLocalizations.of(context)!.termsAndConditions.toLowerCase(),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 3.2.w,
-                            color: color.primary, 
+                            color: color.primary,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap = () {
-                            showModalBottomSheet<void>(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (BuildContext context) {
-                                return ClipRRect(
-                                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-                                  child: SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.80,
-                                    child: const Center(
-                                      child: TermsAndCondicionsView(),
-                                    ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          showModalBottomSheet<void>(
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                child: SizedBox(
+                                  height: MediaQuery.of(context).size.height * 0.80,
+                                  child: const Center(
+                                    child: TermsAndCondicionsView(),
                                   ),
-                                );
-                              },
-                            );
-                          },
-                        )
-                      ]
-                )
-              )
+                                ),
+                              );
+                            },
+                          );
+                        },
+                    )
+                  ]))
             ],
           ),
         ),
