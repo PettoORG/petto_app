@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/auth_provider.dart';
+import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
+import 'package:petto_app/utils/form_validatros.dart';
 import 'package:petto_app/utils/logger_prints.dart';
 import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +49,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AuthenticationProvider auth = context.read<AuthenticationProvider>();
+    UserProvider userProvider = context.read<UserProvider>();
     TextTheme textStyle = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
@@ -75,7 +77,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(height: 1.h),
                   TextFormField(
                     controller: displayNameController,
-                    validator: (value) => auth.validateDisplayName(value, context),
+                    validator: (value) => FormValidators.validateName(value, context),
                     autocorrect: true,
                     style: Theme.of(context).textTheme.bodyMedium,
                     onTapOutside: (event) => FocusScope.of(context).unfocus(),
@@ -91,7 +93,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(height: 1.h),
                   TextFormField(
                     controller: emailController,
-                    validator: (value) => auth.validateEmail(value, context),
+                    validator: (value) => FormValidators.validateEmail(value, context),
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: true,
                     style: textStyle.bodyMedium,
@@ -123,19 +125,19 @@ class _AccountScreenState extends State<AccountScreen> {
                     onPressed: isEdited()
                         ? () async {
                             try {
-                              if (!auth.isValidForm(myAccountKey)) return;
-                              if (displayNameController.text != auth.getCurrentUser()?.displayName &&
-                                  emailController.text != auth.getCurrentUser()?.email) {
-                                await auth.updateDisplayName(displayNameController.text);
-                                await auth.updateEmail(emailController.text);
+                              if (!FormValidators.isValidForm(myAccountKey)) return;
+                              if (displayNameController.text != userProvider.getAuthUser()!.displayName &&
+                                  emailController.text != userProvider.getAuthUser()!.email) {
+                                await userProvider.updateDisplayName(displayNameController.text);
+                                await userProvider.updateEmail(emailController.text);
                                 return;
                               }
-                              if (displayNameController.text != auth.getCurrentUser()?.displayName) {
-                                await auth.updateDisplayName(displayNameController.text);
+                              if (displayNameController.text != userProvider.getAuthUser()!.displayName) {
+                                await userProvider.updateDisplayName(displayNameController.text);
                                 return;
                               }
-                              if (emailController.text != auth.getCurrentUser()?.email) {
-                                await auth.updateEmail(emailController.text);
+                              if (emailController.text != userProvider.getAuthUser()!.email) {
+                                await userProvider.updateEmail(emailController.text);
                                 return;
                               }
                             } catch (e) {

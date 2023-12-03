@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/domain/repositories/pet_repository.dart';
@@ -9,7 +8,7 @@ import 'package:petto_app/utils/utils.dart';
 
 class PetProvider extends ChangeNotifier {
   final PetRepository _userRepository = PetRepositoryImpl(FirestorePetDatasource());
-  late List<Pet>? pets;
+  late List<Pet> pets;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

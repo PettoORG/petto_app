@@ -97,7 +97,6 @@ class AuthenticationProvider with ChangeNotifier {
   Future<void> updateEmail(String newEmail) async {
     try {
       isLoading = true;
-      await _firebaseAuth.updateEmail(newEmail);
       await _userRepository.updateEmail(newEmail);
       isLoading = false;
     } catch (e) {

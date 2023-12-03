@@ -37,7 +37,6 @@ class HomeView extends StatelessWidget {
           title: AppLocalizations.of(context)!.food,
           color: colors.tertiaryContainer),
     ];
-
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [

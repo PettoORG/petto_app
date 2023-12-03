@@ -40,4 +40,19 @@ class UserRepositoryImpl extends UserRepository {
   Future<void> addUser(Map<String, dynamic> user) async {
     await datasource.addUser(user);
   }
+
+  @override
+  Future<void> updatePassWord(String newPassWord) async {
+    await datasource.updatePassWord(newPassWord);
+  }
+
+  @override
+  Future<void> signOut() async {
+    await datasource.signOut();
+  }
+
+  @override
+  getAuthUser() {
+    return datasource.getAuthUser();
+  }
 }

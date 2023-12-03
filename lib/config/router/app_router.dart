@@ -49,18 +49,23 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
         path: 'notifications',
         builder: (context, state) => const NotificationsScreen(),
       ),
-      GoRoute(name: TCScreen.name, path: 'tc', builder: (context, state) => const TCScreen(), routes: [
-        GoRoute(
-          name: TermsAndCondicionsView.name,
-          path: 'terms',
-          builder: (context, state) => const TermsAndCondicionsView(),
-        ),
-        GoRoute(
-          name: PrivacyPoliciesView.name,
-          path: 'privacy',
-          builder: (context, state) => const PrivacyPoliciesView(),
-        )
-      ]),
+      GoRoute(
+        name: TCScreen.name,
+        path: 'tc',
+        builder: (context, state) => const TCScreen(),
+        routes: [
+          GoRoute(
+            name: TermsAndCondicionsView.name,
+            path: 'terms',
+            builder: (context, state) => const TermsAndCondicionsView(),
+          ),
+          GoRoute(
+            name: PrivacyPoliciesView.name,
+            path: 'privacy',
+            builder: (context, state) => const PrivacyPoliciesView(),
+          )
+        ],
+      ),
     ],
   ),
   GoRoute(

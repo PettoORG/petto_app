@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/config/constants/colors.dart';
+import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,7 +15,7 @@ class UserProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthenticationProvider auth = context.read<AuthenticationProvider>();
+    UserProvider userProvider = context.read<UserProvider>();
     List<_CardModel> options = [
       _CardModel(
           title: AppLocalizations.of(context)!.myAccount,
@@ -29,6 +30,7 @@ class UserProfileView extends StatelessWidget {
             context.pushNamed('notifications-settings');
           }),
       //TODO: IMPLEMENTAR SOPORTE
+
       // _CardModel(
       //   title: AppLocalizations.of(context)!.support,
       //   icon: BoxIcons.bx_support,
@@ -45,10 +47,12 @@ class UserProfileView extends StatelessWidget {
         icon: BoxIcons.bx_log_out_circle,
         onTap: () async {
           try {
-            await auth.signOut();
+            await userProvider.signOut();
             if (!context.mounted) return;
             context.pushReplacementNamed('auth');
-          } catch (e) {}
+          } catch (e) {
+            showToast('Error', context);
+          }
         },
       ),
     ];
@@ -146,6 +150,8 @@ class _UserResume extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = context.read<UserProvider>();
+    PetProvider petProvider = context.read<PetProvider>();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.w),
       margin: EdgeInsets.symmetric(horizontal: 7.w),
@@ -189,9 +195,9 @@ class _UserResume extends StatelessWidget {
             ],
           ),
           SizedBox(height: .5.h),
-          const Text('Jorge Arrieta'),
+          Text(userProvider.getAuthUser()!.displayName!),
           SizedBox(height: .5.h),
-          const Text('jorge.arrieta@gmail.com'),
+          Text(userProvider.getAuthUser()!.email!),
           SizedBox(height: 2.h),
           Expanded(
             child: Row(
@@ -200,7 +206,7 @@ class _UserResume extends StatelessWidget {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => const _PetAvatar(),
-                    itemCount: 5,
+                    itemCount: petProvider.pets.length,
                   ),
                 ),
               ],

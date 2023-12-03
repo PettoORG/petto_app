@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petto_app/domain/entities/entities.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:petto_app/infrastructure/datasources/firestore_user_datasource.dart';
 import 'package:petto_app/infrastructure/repositories/user_repository_impl.dart';
 import 'package:petto_app/utils/utils.dart';
@@ -83,6 +84,39 @@ class UserProvider extends ChangeNotifier {
     } catch (e) {
       isLoading = false;
       logger.e('FIRESTORE ERROR: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> updatePassWord(String newPassword) async {
+    try {
+      isLoading = true;
+      await _userRepository.updatePassWord(newPassword);
+      isLoading = false;
+    } catch (e) {
+      isLoading = false;
+      logger.e('FIRESTORE/AUTH ERROR: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      isLoading = true;
+      await _userRepository.signOut();
+      isLoading = false;
+    } catch (e) {
+      isLoading = false;
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
+  }
+
+  auth.User? getAuthUser() {
+    try {
+      return _userRepository.getAuthUser();
+    } catch (e) {
+      logger.e('AUTH ERROR: $e');
       rethrow;
     }
   }

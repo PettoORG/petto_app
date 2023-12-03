@@ -44,11 +44,13 @@ class FirestoreUserDatasource extends UserDatasource {
 
   @override
   Future<void> updateDisplayName(String newDisplayName) async {
+    await _firebaseAuth.currentUser!.updateDisplayName(newDisplayName);
     await _db.collection('users').doc(_getUid()).update({'displayName': newDisplayName});
   }
 
   @override
   Future<void> updateEmail(String newEmail) async {
+    await _firebaseAuth.currentUser!.updateEmail(newEmail);
     await _db.collection('users').doc(_getUid()).update({'displayName': newEmail});
   }
 
@@ -59,5 +61,20 @@ class FirestoreUserDatasource extends UserDatasource {
       logger.e('AUTH ERROR: $e');
       rethrow;
     }
+  }
+
+  @override
+  Future<void> updatePassWord(String newPassWord) async {
+    await _firebaseAuth.currentUser!.updatePassword(newPassWord);
+  }
+
+  @override
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
+  }
+
+  @override
+  getAuthUser() {
+    return _firebaseAuth.currentUser;
   }
 }
