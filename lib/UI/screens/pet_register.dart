@@ -346,6 +346,7 @@ class _BirthPetPickerState extends State<_BirthPetPicker> {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme color = Theme.of(context).colorScheme;
     return TextFormField(
       style: Theme.of(context).inputDecorationTheme.labelStyle,
       controller: dateController,
@@ -357,6 +358,20 @@ class _BirthPetPickerState extends State<_BirthPetPicker> {
           initialDate: DateTime.now(),
           firstDate: DateTime(1980),
           lastDate: DateTime.now(),
+          builder: (BuildContext context, Widget? child) {
+            return Theme(
+              data: ThemeData.light().copyWith(
+                primaryColor: color.surface,
+                colorScheme: ColorScheme.dark(
+                  primary: color.primary,
+                  onPrimary: color.surface,
+                  surface: color.surface,
+                  onSurface: color.primary,
+                ),
+              ),
+              child: child!,
+            );
+          },
         );
         if (selectedDate != null) {
           String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
