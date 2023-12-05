@@ -9,13 +9,16 @@ class SharedCardSwiper extends StatefulWidget {
   final bool autoAdvance;
   final List<Widget>? children;
   final Function(int index)? onTap;
-  const SharedCardSwiper(
-      {super.key,
-      required this.viewportFraction,
-      required this.itemCount,
-      this.autoAdvance = false,
-      this.onTap,
-      this.children});
+  final Function(int index) listener;
+  const SharedCardSwiper({
+    super.key,
+    required this.viewportFraction,
+    required this.itemCount,
+    required this.listener,
+    this.autoAdvance = false,
+    this.onTap,
+    this.children,
+  });
 
   @override
   State<SharedCardSwiper> createState() => _SharedCardSwiperState();
@@ -31,6 +34,7 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
     setState(() {
       _currentPage = _controller.page!;
       _resetInactivityTimer();
+      widget.listener(_controller.page!.floor());
     });
   }
 
@@ -116,7 +120,7 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
                 scale: scale,
                 child: _Card(
                   opty: opty,
-                  onTap: (){
+                  onTap: () {
                     widget.onTap!(index);
                   },
                   child: widget.children?[index] ?? Container(),

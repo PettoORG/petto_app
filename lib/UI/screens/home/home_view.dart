@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/pet_provider.dart';
@@ -11,14 +12,34 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  int currentPet = 0;
+
+  Future<void> _loadPets() async {
+    final petProvider = context.read<PetProvider>();
+    if (petProvider.pets.isEmpty) {
+      await petProvider.getPets();
+    }
+  }
+
+  @override
+  void initState() {
+    _loadPets();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
     TextTheme textStyles = Theme.of(context).textTheme;
-    List<Pet> pets = context.read<PetProvider>().pets;
+    List<Pet> pets = context.watch<PetProvider>().pets;
     List<OptionModel> options = [
       OptionModel(
           child: Icon(BoxIcons.bx_health, color: colors.primary),
@@ -37,6 +58,11 @@ class HomeView extends StatelessWidget {
           title: AppLocalizations.of(context)!.food,
           color: colors.tertiaryContainer),
     ];
+    if (pets.isEmpty) {
+      return Center(
+        child: PettoLoading(color: colors.primary, size: 10.h),
+      );
+    }
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -49,6 +75,9 @@ class HomeView extends StatelessWidget {
               onTap: (_) {
                 context.pushNamed('pet-profile');
               },
+              listener: (page) => setState(() {
+                currentPet = page;
+              }),
               children: List.generate(pets.length, (index) {
                 Pet pet = pets[index];
                 return Padding(
@@ -83,13 +112,34 @@ class HomeView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(options.length, (index) => GlobalPetOptionCard(option: options[index])),
-                  ),
-                  SizedBox(height: 2.h),
+                  //TODO: IMPLEMENTAR PANTALLAS DE REGISTRO Y SEGUIMIENTO
+
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: List.generate(options.length, (index) => GlobalPetOptionCard(option: options[index])),
+                  // ),
+                  // SizedBox(height: 2.h),
                   const _RemindersTitle(),
-                  Column(children: List.generate(3, (index) => const GlobalReminderCard())),
+                  (pets[currentPet].reminders == null)
+                      ? Container(
+                          margin: EdgeInsets.all(1.w),
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/svgs/reminder.svg',
+                                height: 20.h,
+                              ),
+                              SizedBox(height: 2.h),
+                              Text(
+                                'No tienes recordatorios pendientes',
+                                style: textStyles.titleSmall,
+                              )
+                            ],
+                          ),
+                        )
+                      : Column(children: List.generate(3, (index) => const GlobalReminderCard())),
                   SizedBox(height: 2.h),
                   Text(AppLocalizations.of(context)!.pettips, style: Theme.of(context).textTheme.titleMedium),
                 ],
@@ -116,6 +166,7 @@ class _Pettips extends StatelessWidget {
         if (snapshot.hasData) {
           return SharedCardSwiper(
               onTap: (index) => context.pushNamed('pettips', extra: {"pettip": snapshot.data![index]}),
+              listener: (page) {},
               viewportFraction: .8,
               itemCount: snapshot.data!.length,
               autoAdvance: true,

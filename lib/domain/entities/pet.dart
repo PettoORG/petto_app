@@ -12,6 +12,7 @@ class Pet {
   final String? dietaryHabit;
   final int? microchipId;
   final List<Medicine>? medicines;
+  final List<Reminder>? reminders;
   final List<Illness>? illnesses;
   final DateTime? lastVaccine;
   final DateTime? nextVaccine;
@@ -30,6 +31,7 @@ class Pet {
     this.activityHabit,
     this.dietaryHabit,
     this.microchipId,
+    this.reminders,
     this.medicines,
     this.illnesses,
     this.lastVaccine,
@@ -51,6 +53,7 @@ class Pet {
       activityHabit: map['activityHabit'],
       dietaryHabit: map['dietaryHabit'],
       microchipId: map['microchipId'],
+      reminders: (map['reminders'] as List<dynamic>?)?.map((item) => Reminder.fromMap(item)).toList(),
       medicines: (map['medicines'] as List<dynamic>?)?.map((item) => Medicine.fromMap(item)).toList(),
       illnesses: (map['illnesses'] as List<dynamic>?)?.map((item) => Illness.fromMap(item)).toList(),
       lastVaccine: map['lastVaccine'] != null ? DateTime.parse(map['lastVaccine']) : null,
@@ -73,6 +76,7 @@ class Pet {
       'activityHabit': activityHabit,
       'dietaryHabit': dietaryHabit,
       'microchipId': microchipId,
+      'reminders': reminders?.map((reminder) => reminder.toMap()).toList(),
       'medicines': medicines?.map((medicine) => medicine.toMap()).toList(),
       'illnesses': illnesses?.map((illness) => illness.toMap()).toList(),
       'lastVaccine': lastVaccine?.toIso8601String(),
@@ -143,6 +147,27 @@ class Vaccine {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
+      'date': date,
+    };
+  }
+}
+
+class Reminder {
+  final String reminder;
+  final String date;
+
+  Reminder({required this.reminder, required this.date});
+
+  factory Reminder.fromMap(Map<String, dynamic> map) {
+    return Reminder(
+      reminder: map['name'],
+      date: map['date'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': reminder,
       'date': date,
     };
   }
