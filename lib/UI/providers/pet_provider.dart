@@ -19,9 +19,7 @@ class PetProvider extends ChangeNotifier {
 
   Future<void> getPets() async {
     try {
-      isLoading = true;
       pets = await _userRepository.getPets();
-      isLoading = false;
     } catch (e) {
       logger.e('FIRESTORE ERROR: $e');
       rethrow;

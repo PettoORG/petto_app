@@ -26,6 +26,7 @@ class _HomeViewState extends State<HomeView> {
     final petProvider = context.read<PetProvider>();
     if (petProvider.pets.isEmpty) {
       await petProvider.getPets();
+      setState(() {});
     }
   }
 
@@ -39,7 +40,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
     TextTheme textStyles = Theme.of(context).textTheme;
-    List<Pet> pets = context.watch<PetProvider>().pets;
+    List<Pet> pets = context.read<PetProvider>().pets;
     List<OptionModel> options = [
       OptionModel(
           child: Icon(BoxIcons.bx_health, color: colors.primary),
