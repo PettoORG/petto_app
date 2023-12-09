@@ -49,7 +49,8 @@ class Pet {
       birthdate: map['birthdate'],
       age: map['age'],
       weight: map['weight'],
-      image: map['image'],
+      image: map['image'] ??
+          'https://firebasestorage.googleapis.com/v0/b/petto-18ace.appspot.com/o/avatars%2Fpetto-avatar.png?alt=media&token=8fe0315f-ef69-4fca-8d03-e3e4bef73ad3',
       activityHabit: map['activityHabit'],
       dietaryHabit: map['dietaryHabit'],
       microchipId: map['microchipId'],

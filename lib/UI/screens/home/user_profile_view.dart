@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/config/constants/colors.dart';
+import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -71,7 +72,7 @@ class UserProfileView extends StatelessWidget {
               child: Column(
                 children: [
                   const _UserResume(),
-                  SizedBox(height: 3.h),
+                  SizedBox(height: 4.h),
                   ...List.generate(
                     options.length,
                     (index) => Column(
@@ -99,45 +100,48 @@ class _CardOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 7.w),
-      child: InkWell(
-        onTap: option.onTap,
-        borderRadius: BorderRadius.circular(5.w),
-        child: Ink(
-          padding: EdgeInsets.all(4.w),
-          width: double.infinity,
-          height: 9.h,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceVariant,
-            borderRadius: BorderRadius.circular(5.w),
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 5,
-                color: Theme.of(context).colorScheme.shadow,
-                offset: const Offset(0, 0),
-              )
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                  height: 5.5.h,
-                  width: 5.5.h,
-                  decoration: BoxDecoration(color: lightPrimaryContainer, borderRadius: BorderRadius.circular(1.h)),
-                  child: Icon(option.icon, color: lightPrimary)),
-              SizedBox(
-                width: 3.w,
-              ),
-              Text(
-                option.title,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const Spacer(),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 7.w,
-                color: lightShadowColor,
-              )
-            ],
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: option.onTap,
+          borderRadius: BorderRadius.circular(5.w),
+          child: Ink(
+            padding: EdgeInsets.all(4.w),
+            width: double.infinity,
+            height: 9.h,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(5.w),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 5,
+                  color: Theme.of(context).colorScheme.shadow,
+                  offset: const Offset(0, 0),
+                )
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                    height: 5.5.h,
+                    width: 5.5.h,
+                    decoration: BoxDecoration(color: lightPrimaryContainer, borderRadius: BorderRadius.circular(1.h)),
+                    child: Icon(option.icon, color: lightPrimary)),
+                SizedBox(
+                  width: 3.w,
+                ),
+                Text(
+                  option.title,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                const Spacer(),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 7.w,
+                  color: lightShadowColor,
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -155,7 +159,7 @@ class _UserResume extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.w),
       margin: EdgeInsets.symmetric(horizontal: 7.w),
-      height: 35.h,
+      height: 25.h,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceVariant,
@@ -170,31 +174,31 @@ class _UserResume extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_world)),
-              Container(
-                height: 12.h,
-                width: 12.h,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5.w),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 5,
-                      color: Theme.of(context).colorScheme.shadow,
-                      offset: const Offset(0, 0),
-                    ),
-                  ],
-                ),
-              ),
-              IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_brightness)),
-            ],
-          ),
-          SizedBox(height: .5.h),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   children: [
+          //     IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_world)),
+          //     Container(
+          //       height: 12.h,
+          //       width: 12.h,
+          //       decoration: BoxDecoration(
+          //         color: Theme.of(context).colorScheme.primaryContainer,
+          //         borderRadius: BorderRadius.all(
+          //           Radius.circular(5.w),
+          //         ),
+          //         boxShadow: [
+          //           BoxShadow(
+          //             blurRadius: 5,
+          //             color: Theme.of(context).colorScheme.shadow,
+          //             offset: const Offset(0, 0),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //     IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_brightness)),
+          //   ],
+          // ),
+          // SizedBox(height: .5.h),
           Text(userProvider.getAuthUser()!.displayName!),
           SizedBox(height: .5.h),
           Text(userProvider.getAuthUser()!.email!),
@@ -205,7 +209,10 @@ class _UserResume extends StatelessWidget {
                 Expanded(
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => const _PetAvatar(),
+                    itemBuilder: (context, index) {
+                      Pet pet = petProvider.pets[index];
+                      return _PetAvatar(pet: pet);
+                    },
                     itemCount: petProvider.pets.length,
                   ),
                 ),
@@ -219,16 +226,43 @@ class _UserResume extends StatelessWidget {
 }
 
 class _PetAvatar extends StatelessWidget {
-  const _PetAvatar();
+  final Pet pet;
+  const _PetAvatar({required this.pet});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 2.w),
-      child: Container(
-        width: 20.w,
-        height: 20.w,
-        decoration: BoxDecoration(color: lightBackground, borderRadius: BorderRadius.circular(10.w)),
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 2.w),
+        child: Column(
+          children: [
+            Container(
+              width: 20.w,
+              height: 20.w,
+              decoration: BoxDecoration(
+                color: lightBackground,
+                borderRadius: BorderRadius.circular(10.w),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.w),
+                child: Image.network(
+                  pet.image!,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 20.w,
+              child: Center(
+                child: Text(
+                  pet.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -89,8 +89,30 @@ class _HomeViewState extends State<HomeView> {
                         height: 30.w,
                         width: 30.w,
                         decoration: BoxDecoration(
-                          color: colors.primaryContainer,
+                          color: Colors.grey.shade300,
                           borderRadius: BorderRadius.circular(5.w),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5.w),
+                          child: Image.network(
+                            pet.image!,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, progress) {
+                              if (progress == null) return child;
+                              return Shimmer.fromColors(
+                                baseColor: Colors.grey.shade300,
+                                highlightColor: Colors.grey.shade100,
+                                enabled: true,
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: lightSurfaceVariant,
+                                    borderRadius: BorderRadius.circular(5.w),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       SizedBox(width: 2.w),
