@@ -22,20 +22,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int currentPet = 0;
 
-  Future<void> _loadPets() async {
-    final petProvider = context.read<PetProvider>();
-    if (petProvider.pets.isEmpty) {
-      await petProvider.getPets();
-      setState(() {});
-    }
-  }
-
-  @override
-  void initState() {
-    _loadPets();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
@@ -59,11 +45,6 @@ class _HomeViewState extends State<HomeView> {
           title: AppLocalizations.of(context)!.food,
           color: colors.tertiaryContainer),
     ];
-    if (pets.isEmpty) {
-      return Center(
-        child: PettoLoading(color: colors.primary, size: 10.h),
-      );
-    }
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [

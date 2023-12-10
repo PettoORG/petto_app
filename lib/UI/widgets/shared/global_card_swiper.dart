@@ -50,12 +50,12 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
 
   void _startAutoAdvance() {
     autoPlayTimer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
-      if (_currentPage < widget.itemCount - 1) {
+      if (_controller.hasClients && _currentPage < widget.itemCount - 1) {
         _controller.nextPage(
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
-      } else {
+      } else if (_controller.hasClients) {
         Future.delayed(
           const Duration(milliseconds: 500),
           () => _controller.animateToPage(0, duration: const Duration(milliseconds: 1500), curve: Curves.easeInOutBack),

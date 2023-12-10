@@ -101,6 +101,7 @@ class _CardOption extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 7.w),
       child: Material(
+        borderRadius: BorderRadius.circular(5.w),
         color: Colors.transparent,
         child: InkWell(
           onTap: option.onTap,
@@ -155,7 +156,7 @@ class _UserResume extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = context.read<UserProvider>();
-    PetProvider petProvider = context.read<PetProvider>();
+    PetProvider petProvider = context.watch<PetProvider>();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.w),
       margin: EdgeInsets.symmetric(horizontal: 7.w),
@@ -210,16 +211,63 @@ class _UserResume extends StatelessWidget {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      Pet pet = petProvider.pets[index];
+                      if (index == 0) {
+                        return const _AddPet();
+                      }
+                      Pet pet = petProvider.pets[index - 1];
                       return _PetAvatar(pet: pet);
                     },
-                    itemCount: petProvider.pets.length,
+                    itemCount: petProvider.pets.length + 1,
                   ),
                 ),
               ],
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class _AddPet extends StatelessWidget {
+  const _AddPet();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 2.w),
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () => context.pushNamed('pet-register'),
+              child: Container(
+                  width: 20.w,
+                  height: 20.w,
+                  decoration: BoxDecoration(
+                    color: lightPrimaryContainer,
+                    borderRadius: BorderRadius.circular(10.w),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      BoxIcons.bx_plus_circle,
+                      color: lightPrimary,
+                      size: 7.h,
+                    ),
+                  )),
+            ),
+            SizedBox(
+              width: 20.w,
+              child: const Center(
+                child: Text(
+                  'Agregar',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

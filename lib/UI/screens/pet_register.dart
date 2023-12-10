@@ -150,7 +150,12 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                         if (petImage != null) {
                           await petProvider.updatePetImage(petId, petImage!);
                         }
-                        context.pushReplacementNamed('home');
+                        await petProvider.getPets();
+                        if (context.canPop()) {
+                          return context.pop();
+                        } else {
+                          return context.pushReplacementNamed('home');
+                        }
                       } catch (e) {
                         showToast('error', context);
                       }
