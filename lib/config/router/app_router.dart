@@ -12,6 +12,13 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
         name: PetProfileScreen.name,
         path: 'pet-profile',
         builder: (context, state) => const PetProfileScreen(),
+        routes: [
+        GoRoute(
+          path: 'pet-info-editor',
+          name: PetInfoEditorScreen.name,
+          builder: (context, state) => const PetInfoEditorScreen(),
+        )
+      ]
       ),
       GoRoute(
         name: NotificationSettingScreen.name,
@@ -72,13 +79,7 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
       path: '/pet-register',
       name: PetRegisterScreen.name,
       builder: (context, state) => const PetRegisterScreen(),
-      routes: [
-        GoRoute(
-          path: 'pet-info-register',
-          name: PetInfoRegisterScreen.name,
-          builder: (context, state) => const PetInfoRegisterScreen(),
-        )
-      ]),
+  ),
   GoRoute(
     path: '/onboarding',
     name: OnboardingScreen.name,
