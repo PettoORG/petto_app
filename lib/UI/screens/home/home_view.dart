@@ -26,7 +26,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
     TextTheme textStyles = Theme.of(context).textTheme;
-    List<Pet> pets = context.read<PetProvider>().pets;
+    List<Pet> pets = context.watch<PetProvider>().pets;
     List<OptionModel> options = [
       OptionModel(
           child: Icon(BoxIcons.bx_health, color: colors.primary),
@@ -45,6 +45,9 @@ class _HomeViewState extends State<HomeView> {
           title: AppLocalizations.of(context)!.food,
           color: colors.tertiaryContainer),
     ];
+    if (pets.isEmpty) {
+      return PettoLoading(color: Colors.red, size: 50);
+    }
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -55,7 +58,7 @@ class _HomeViewState extends State<HomeView> {
               viewportFraction: .7,
               itemCount: pets.length,
               onTap: (_) {
-                context.pushNamed('pet-profile');
+                context.pushNamed('pet-profile', extra: {'pet': pets[currentPet]});
               },
               listener: (page) => setState(() {
                 currentPet = page;

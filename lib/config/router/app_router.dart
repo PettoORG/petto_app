@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:petto_app/UI/screens/screens.dart';
+import 'package:petto_app/domain/entities/pet.dart';
 import 'package:petto_app/domain/entities/pettip.dart';
 
 final appRouter = GoRouter(initialLocation: '/splash', routes: [
@@ -11,7 +12,11 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
       GoRoute(
         name: PetProfileScreen.name,
         path: 'pet-profile',
-        builder: (context, state) => const PetProfileScreen(),
+        builder: (context, state) {
+          Map<String, dynamic> extraData = state.extra as Map<String, dynamic>;
+          Pet pet = extraData['pet'] as Pet;
+          return PetProfileScreen(pet: pet);
+        },
       ),
       GoRoute(
         name: NotificationSettingScreen.name,
@@ -28,8 +33,8 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
         path: 'pettips',
         builder: (context, state) {
           Map<String, dynamic> extraData = state.extra as Map<String, dynamic>;
-          Pettip? pettip = extraData['pettip'] as Pettip?;
-          return PettipsScreen(pettip: pettip!);
+          Pettip pettip = extraData['pettip'] as Pettip;
+          return PettipsScreen(pettip: pettip);
         },
       ),
       GoRoute(

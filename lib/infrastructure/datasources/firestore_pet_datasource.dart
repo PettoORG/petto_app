@@ -14,8 +14,8 @@ class FirestorePetDatasource extends PetDatasource {
 
   @override
   Future<String> addPet(Pet pet) async {
-    final DocumentReference petRef = await _db.collection('users').doc(_getUid()).collection('pets').add(pet.toMap());
-    return petRef.id;
+    final docRef = await _db.collection('users').doc(_getUid()).collection('pets').add(pet.toMap());
+    return docRef.id;
   }
 
   @override
@@ -30,7 +30,7 @@ class FirestorePetDatasource extends PetDatasource {
 
     List<Pet> pets = [];
     for (DocumentSnapshot document in snapshot.docs) {
-      Pet pet = Pet.fromMap(document.data() as Map<String, dynamic>);
+      Pet pet = Pet.fromMap(document.data() as Map<String, dynamic>, document.id);
       pets.add(pet);
     }
     return pets;

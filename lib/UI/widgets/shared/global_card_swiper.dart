@@ -49,6 +49,7 @@ class _SharedCardSwiperState extends State<SharedCardSwiper> {
   }
 
   void _startAutoAdvance() {
+    _stopAutoAdvance();
     autoPlayTimer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
       if (_controller.hasClients && _currentPage < widget.itemCount - 1) {
         _controller.nextPage(

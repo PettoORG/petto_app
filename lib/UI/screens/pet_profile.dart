@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:petto_app/UI/providers/pet_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
+import 'package:petto_app/domain/entities/pet.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetProfileScreen extends StatelessWidget {
   static const name = 'pet-profile';
-
-  const PetProfileScreen({Key? key}) : super(key: key);
+  final Pet pet;
+  const PetProfileScreen({Key? key, required this.pet}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,8 @@ class PetProfileScreen extends StatelessWidget {
           ),
           SliverList.list(
             children: [
-              const _PetAvatarSection(),
-              const _BasicInformation(),
+              _PetAvatarSection(pet.image!),
+              _BasicInformation(pet),
               SizedBox(height: 3.h),
               const _GeneralInformation(),
               SizedBox(height: 3.h),
@@ -35,9 +38,56 @@ class PetProfileScreen extends StatelessWidget {
               SizedBox(height: 3.h),
               const _Diseases(),
               SizedBox(height: 3.h),
+              _DeleteButton(pet.id!),
+              SizedBox(height: 3.h),
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _DeleteButton extends StatelessWidget {
+  final String petId;
+  const _DeleteButton(this.petId);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: TextButton(
+        child: const Text('Eliminar mascota'),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (context) {
+            TextTheme textStyle = Theme.of(context).textTheme;
+            ColorScheme colors = Theme.of(context).colorScheme;
+            return AlertDialog(
+              backgroundColor: colors.surface,
+              surfaceTintColor: colors.surface,
+              shadowColor: colors.shadow,
+              elevation: 10,
+              actionsPadding: EdgeInsets.all(1.h),
+              actionsAlignment: MainAxisAlignment.spaceAround,
+              contentPadding: EdgeInsets.all(5.w),
+              actions: [
+                TextButton(onPressed: () => context.pop(), child: Text(AppLocalizations.of(context)!.cancel)),
+                TextButton(
+                    onPressed: () async {
+                      PetProvider petProvider = context.read<PetProvider>();
+                      await petProvider.deletePet(petId);
+                      await petProvider.getPets();
+                      if (petProvider.pets.isEmpty) {
+                        context.pushReplacementNamed('pet-register');
+                      } else {
+                        context.pop();
+                      }
+                    },
+                    child: const Text('aceptar')),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -230,7 +280,8 @@ class _GeneralInformation extends StatelessWidget {
 }
 
 class _BasicInformation extends StatelessWidget {
-  const _BasicInformation();
+  final Pet pet;
+  const _BasicInformation(this.pet);
 
   @override
   Widget build(BuildContext context) {
@@ -241,31 +292,31 @@ class _BasicInformation extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('9', style: textStyle.bodySmall!.copyWith(color: color.primary)),
-              Text('meses', style: textStyle.bodySmall!.copyWith(color: color.primary)),
+              Text(pet.age, style: textStyle.bodySmall!.copyWith(color: color.primary)),
+              Text('años', style: textStyle.bodySmall!.copyWith(color: color.primary)),
             ],
           ),
           title: AppLocalizations.of(context)!.age,
           color: color.primaryContainer),
       OptionModel(
           child: Icon(
-            BoxIcons.bx_female_sign,
+            (pet.gender == 'Macho' || pet.gender == 'Male') ? BoxIcons.bx_male_sign : BoxIcons.bx_female_sign,
             color: color.secondary,
           ),
           title: AppLocalizations.of(context)!.gender,
           color: color.secondaryContainer),
-      OptionModel(
-          child: Icon(
-            BoxIcons.bx_check_circle,
-            color: color.primary,
-          ),
-          title: AppLocalizations.of(context)!.vaccinated,
-          color: color.primaryContainer),
+      // OptionModel(
+      //     child: Icon(
+      //       BoxIcons.bx_check_circle,
+      //       color: color.primary,
+      //     ),
+      //     title: AppLocalizations.of(context)!.vaccinated,
+      //     color: color.primaryContainer),
       OptionModel(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('8', style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
+              Text('${pet.weight}', style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
               Text('Kg', style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
             ],
           ),
@@ -277,11 +328,11 @@ class _BasicInformation extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Kamrexito',
+            pet.name,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           Text(
-            '${AppLocalizations.of(context)!.dog}(raza)',
+            pet.specie,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           SizedBox(height: 3.h),
@@ -295,7 +346,8 @@ class _BasicInformation extends StatelessWidget {
 }
 
 class _PetAvatarSection extends StatelessWidget {
-  const _PetAvatarSection();
+  final String petImage;
+  const _PetAvatarSection(this.petImage);
 
   @override
   Widget build(BuildContext context) {
@@ -319,6 +371,13 @@ class _PetAvatarSection extends StatelessWidget {
                     offset: Offset(0, 0),
                   )
                 ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5.w),
+                child: Image.network(
+                  petImage,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           )

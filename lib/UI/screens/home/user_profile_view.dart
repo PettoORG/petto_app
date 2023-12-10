@@ -98,11 +98,13 @@ class _CardOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colors = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 7.w),
       child: Material(
+        elevation: 10,
+        shadowColor: colors.shadow,
         borderRadius: BorderRadius.circular(5.w),
-        color: Colors.transparent,
         child: InkWell(
           onTap: option.onTap,
           borderRadius: BorderRadius.circular(5.w),
@@ -111,23 +113,16 @@ class _CardOption extends StatelessWidget {
             width: double.infinity,
             height: 9.h,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceVariant,
+              color: colors.surfaceVariant,
               borderRadius: BorderRadius.circular(5.w),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 5,
-                  color: Theme.of(context).colorScheme.shadow,
-                  offset: const Offset(0, 0),
-                )
-              ],
             ),
             child: Row(
               children: [
                 Container(
                     height: 5.5.h,
                     width: 5.5.h,
-                    decoration: BoxDecoration(color: lightPrimaryContainer, borderRadius: BorderRadius.circular(1.h)),
-                    child: Icon(option.icon, color: lightPrimary)),
+                    decoration: BoxDecoration(color: colors.primaryContainer, borderRadius: BorderRadius.circular(1.h)),
+                    child: Icon(option.icon, color: colors.primary)),
                 SizedBox(
                   width: 3.w,
                 ),
@@ -139,7 +134,7 @@ class _CardOption extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 7.w,
-                  color: lightShadowColor,
+                  color: colors.shadow,
                 )
               ],
             ),

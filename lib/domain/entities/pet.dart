@@ -7,6 +7,7 @@ class Pet {
   final String birthdate;
   final String age;
   final double weight;
+  final String? id;
   final String? image;
   final String? activityHabit;
   final String? dietaryHabit;
@@ -27,6 +28,7 @@ class Pet {
     required this.birthdate,
     required this.age,
     required this.weight,
+    this.id,
     this.image,
     this.activityHabit,
     this.dietaryHabit,
@@ -39,8 +41,9 @@ class Pet {
     this.vaccines,
   });
 
-  factory Pet.fromMap(Map<String, dynamic> map) {
+  factory Pet.fromMap(Map<String, dynamic> map, String id) {
     return Pet(
+      id: id,
       name: map['name'],
       specie: map['specie'],
       breed: map['breed'],
@@ -65,6 +68,7 @@ class Pet {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'specie': specie,
       'breed': breed,
