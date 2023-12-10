@@ -10,14 +10,20 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
     builder: (context, state) => const HomeScreen(),
     routes: [
       GoRoute(
-        name: PetProfileScreen.name,
-        path: 'pet-profile',
-        builder: (context, state) {
-          Map<String, dynamic> extraData = state.extra as Map<String, dynamic>;
-          Pet pet = extraData['pet'] as Pet;
-          return PetProfileScreen(pet: pet);
-        },
-      ),
+          name: PetProfileScreen.name,
+          path: 'pet-profile',
+          builder: (context, state) {
+            Map<String, dynamic> extraData = state.extra as Map<String, dynamic>;
+            Pet pet = extraData['pet'] as Pet;
+            return PetProfileScreen(pet: pet);
+          },
+          routes: [
+            GoRoute(
+              path: 'pet-info-editor',
+              name: PetInfoEditorScreen.name,
+              builder: (context, state) => const PetInfoEditorScreen(),
+            )
+          ]),
       GoRoute(
         name: NotificationSettingScreen.name,
         path: 'notifications-settings',
@@ -74,16 +80,10 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
     ],
   ),
   GoRoute(
-      path: '/pet-register',
-      name: PetRegisterScreen.name,
-      builder: (context, state) => const PetRegisterScreen(),
-      routes: [
-        GoRoute(
-          path: 'pet-info-register',
-          name: PetInfoRegisterScreen.name,
-          builder: (context, state) => const PetInfoRegisterScreen(),
-        )
-      ]),
+    path: '/pet-register',
+    name: PetRegisterScreen.name,
+    builder: (context, state) => const PetRegisterScreen(),
+  ),
   GoRoute(
     path: '/onboarding',
     name: OnboardingScreen.name,

@@ -23,7 +23,7 @@ class PetProfileScreen extends StatelessWidget {
           SliverAppBar(
             floating: true,
             leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-            actions: [IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_edit)), SizedBox(width: 1.w)],
+            actions: [IconButton(onPressed: () {context.pushNamed('pet-info-editor');}, icon: const Icon(BoxIcons.bx_edit)), SizedBox(width: 1.w)],
           ),
           SliverList.list(
             children: [
