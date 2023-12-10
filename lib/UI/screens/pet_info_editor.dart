@@ -1,0 +1,358 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:petto_app/UI/providers/providers.dart';
+import 'package:petto_app/UI/widgets/onboarding_default_option.dart';
+import 'package:petto_app/UI/widgets/shared/global_general_button.dart';
+import 'package:petto_app/domain/entities/pet.dart';
+import 'package:petto_app/services/image_pick_service.dart';
+import 'package:petto_app/utils/form_validatros.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
+class PetInfoEditorScreen extends StatefulWidget {
+  static const name = 'pet-info-editor';
+  
+
+  const PetInfoEditorScreen({Key? key}) : super(key: key);
+
+  @override
+  State<PetInfoEditorScreen> createState() => _PetInfoEditorScreenState();
+}
+
+class _PetInfoEditorScreenState extends State<PetInfoEditorScreen> {
+  @override
+  Widget build(BuildContext context) {
+    String? petSize;
+    double? petWeight;
+    File? petImage;
+    String? petBirthDate;
+    List<Pet> pets = context.read<PetProvider>().pets;
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+        title: Text(pets[0].name,),
+        centerTitle: true,
+      ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
+              child: Column(
+                children:[
+                  SizedBox(height: 3.h),
+                  _PickPetImage(
+                      petImage: petImage,
+                      onTap: () async {
+                        File? selectedImage = await ImagePickerService().pickImage();
+                        if (selectedImage != null) {
+                          setState(() {
+                            petImage = selectedImage;
+                          });
+                        }
+                      },
+                    ),
+                  SizedBox(height: 3.h),
+                  _DefaultSection(
+                    title: AppLocalizations.of(context)!.petSize,
+                    options: [
+                      AppLocalizations.of(context)!.small,
+                      AppLocalizations.of(context)!.medium,
+                      AppLocalizations.of(context)!.large,
+                    ],
+                    onOptionSelected: (option) => petSize = option,
+                  ),
+                  SizedBox(height: 3.h),
+                  _PetWeightSection((value) {
+                    if (RegExp(r'^\d+\.?\d{0,2}').hasMatch(value)) {
+                      petWeight = double.parse(value);
+                    }
+                  }),
+                  SizedBox(height: 3.h),
+                  _DefaultSection(
+                    title: AppLocalizations.of(context)!.food,
+                    options: [
+                      AppLocalizations.of(context)!.comercial,
+                      AppLocalizations.of(context)!.natural,
+                    ],
+                    onOptionSelected: (option) => petSize = option,
+                  ),
+                  SizedBox(height: 3.h),
+                  _DatePetPicker(onTap: (date) => 
+                    petBirthDate = date,
+                    label: AppLocalizations.of(context)!.lastDeworming, 
+                    title: AppLocalizations.of(context)!.deworming,),
+                  SizedBox(height: 3.h),
+                  _DatePetPicker(onTap: (date) => 
+                    petBirthDate = date,
+                    label: AppLocalizations.of(context)!.lastVeterinarySession, 
+                    title: AppLocalizations.of(context)!.veterinarySession,),
+                  SizedBox(height: 12.h),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 3.h,
+            left: 50,
+            child: GlobalGeneralButton(
+            isLoading: context.watch<AuthenticationProvider>().isLoading,
+            text: AppLocalizations.of(context)!.save,
+            onPressed: (){},
+            ),)
+        ],
+      ),
+    );
+  }
+}
+
+class _PickPetImage extends StatelessWidget {
+  const _PickPetImage({
+    required this.petImage,
+    this.onTap,
+  });
+
+  final File? petImage;
+  final Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(5.w),
+          child: Ink(
+            height: 35.w,
+            width: 35.w,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(5.w),
+              boxShadow: [
+                BoxShadow(blurRadius: 5, color: Theme.of(context).colorScheme.shadow, offset: const Offset(0, 0))
+              ],
+            ),
+            child: petImage != null
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(5.w),
+                    child: Image.file(
+                      petImage!,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : Center(
+                    child: SvgPicture.asset(
+                      'assets/petto.svg',
+                      height: 32.w,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.primary,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+          ),
+        ),
+        SizedBox(width: 5.w),
+        Flexible(
+          child: Text(
+            AppLocalizations.of(context)!.imageOfYourPet,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+
+class _DefaultSection extends StatefulWidget {
+  final List options;
+  final String title;
+  final Function(String) onOptionSelected;
+  const _DefaultSection({required this.options, required this.title, required this.onOptionSelected});
+
+  @override
+  State<_DefaultSection> createState() => _DefaultSectionState();
+}
+
+class _DefaultSectionState extends State<_DefaultSection> {
+  List<Color> cardColors = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    cardColors = List.generate(widget.options.length, (index) => Theme.of(context).colorScheme.surfaceVariant);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(widget.title, style: Theme.of(context).textTheme.titleMedium),
+          SizedBox(height: 1.h),
+          Row(
+            children: List.generate(widget.options.length, (index) {
+              final option = widget.options[index];
+              return Padding(
+                padding: EdgeInsets.only(right: 5.w),
+                child: OnboardingDefaultOption(
+                  text: option,
+                  color: cardColors[index],
+                  onTap: () {
+                    setState(() {
+                      cardColors = List.generate(widget.options.length, (index) {
+                        return Theme.of(context).colorScheme.surfaceVariant;
+                      });
+                      cardColors[index] = Theme.of(context).colorScheme.primary;
+                    });
+                    widget.onOptionSelected(option);
+                  },
+                ),
+              );
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PetWeightSection extends StatelessWidget {
+  final Function(String)? onChanged;
+  const _PetWeightSection(this.onChanged);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(AppLocalizations.of(context)!.petWeight, style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.start,),
+              SizedBox(height: 1.h),
+          Row(
+            children: [
+              SizedBox(
+                width: 27.w,
+                child: TextFormField(
+                  onChanged: onChanged,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                    LengthLimitingTextInputFormatter(4)
+                  ],
+                  validator: (value) => FormValidators.validateWeight(value, context),
+                  style: Theme.of(context).inputDecorationTheme.labelStyle,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: const InputDecoration(
+                    suffixIcon: Center(
+                      widthFactor: 1,
+                      child: Text(
+                        'Kg',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 6.w),
+              Flexible(
+                  child: Text(
+                AppLocalizations.of(context)!.enterYourPetsWeight,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+                textAlign: TextAlign.justify,
+              ))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DatePetPicker extends StatefulWidget {
+  final Function(String date) onTap;
+  final String label;
+  final String title;
+  const _DatePetPicker({required this.onTap, required this.label, required this.title});
+
+  @override
+  _DatePetPickerState createState() => _DatePetPickerState();
+}
+
+class _DatePetPickerState extends State<_DatePetPicker> {
+  TextEditingController dateController = TextEditingController();
+  
+  @override
+  void dispose() {
+    dateController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ColorScheme color = Theme.of(context).colorScheme;
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(widget.title, style: Theme.of(context).textTheme.titleMedium),
+            SizedBox(height: 1.h),
+          TextFormField(
+            style: Theme.of(context).inputDecorationTheme.labelStyle,
+            controller: dateController,
+            validator: (value) => FormValidators.validateDate(value, context),
+            readOnly: true,
+            onTap: () async {
+              DateTime? selectedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(1980),
+                lastDate: DateTime.now(),
+                builder: (BuildContext context, Widget? child) {
+                  return Theme(
+                    data: ThemeData.light().copyWith(
+                      primaryColor: color.surface,
+                      colorScheme: ColorScheme.dark(
+                        primary: color.primary,
+                        onPrimary: color.surface,
+                        surface: color.surface,
+                        onSurface: color.primary,
+                      ),
+                    ),
+                    child: child!,
+                  );
+                },
+              );
+              if (selectedDate != null) {
+                String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+                dateController.text = formattedDate;
+                widget.onTap(formattedDate);
+              }
+            },
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.pets),
+              label: Text(widget.label),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

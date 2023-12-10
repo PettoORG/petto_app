@@ -1,6 +1,6 @@
 export 'package:petto_app/UI/screens/pettips_screen.dart';
 
-export 'package:petto_app/UI/screens/pet_info_register.dart';
+export 'package:petto_app/UI/screens/pet_info_editor.dart';
 
 export 'package:petto_app/UI/screens/suport_screen.dart';
 
