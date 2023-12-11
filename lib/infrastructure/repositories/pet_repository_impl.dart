@@ -24,17 +24,12 @@ class PetRepositoryImpl extends PetRepository {
   }
 
   @override
-  Future<void> updateBirthdate(String birthdate) async {
-    await datasource.updateBirthdate(birthdate);
-  }
-
-  @override
-  Future<void> updatePetName(String newDisplayName) async {
-    await datasource.updatePetName(newDisplayName);
-  }
-
-  @override
   Future<void> updatePetImage(String petId, File imageFile) async {
     return await datasource.updatePetImage(petId, imageFile);
+  }
+
+  @override
+  Future<void> updatePet(petId, petData) async {
+    await datasource.updatePet(petId, petData);
   }
 }

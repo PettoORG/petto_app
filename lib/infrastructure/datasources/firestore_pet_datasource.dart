@@ -36,12 +36,6 @@ class FirestorePetDatasource extends PetDatasource {
     return pets;
   }
 
-  @override
-  Future<void> updateBirthdate(String birthdate) async {}
-
-  @override
-  Future<void> updatePetName(String newDisplayName) async {}
-
   String _getUid() {
     try {
       return _firebaseAuth.currentUser!.uid;
@@ -56,9 +50,14 @@ class FirestorePetDatasource extends PetDatasource {
     final imageRef = _storage.ref('${_getUid()}/$petId/');
     final uploadTask = await imageRef.putFile(imageFile);
     final imageUrl = await uploadTask.ref.getDownloadURL();
-    final petRef = FirebaseFirestore.instance.collection('users').doc(_getUid()).collection('pets').doc(petId);
+    final petRef = _db.collection('users').doc(_getUid()).collection('pets').doc(petId);
     await petRef.update({
       'image': imageUrl,
     });
+  }
+
+  @override
+  Future<void> updatePet(petId, petData) async {
+    await _db.collection('users').doc(_getUid()).collection('pets').doc(petId).update(petData);
   }
 }

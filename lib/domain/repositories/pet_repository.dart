@@ -9,11 +9,5 @@ abstract class PetRepository extends PetDatasource {
   Future<List<Pet>> getPets();
 
   @override
-  Future<void> updateBirthdate(String birthdate);
-
-  @override
-  Future<void> updatePetName(String newDisplayName);
-
-  @override
   Future<String> addPet(Pet pet);
 }

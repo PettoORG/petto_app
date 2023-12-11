@@ -6,11 +6,9 @@ abstract class PetDatasource {
 
   Future<String> addPet(Pet pet);
 
-  Future<void> updatePetName(String newDisplayName);
-
-  Future<void> updateBirthdate(String birthdate);
-
   Future<void> deletePet(String petId);
 
   Future<void> updatePetImage(String petId, File imageFile);
+
+  Future<void> updatePet(String petId, Map<Object, Object?> petData);
 }

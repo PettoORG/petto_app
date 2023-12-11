@@ -1,5 +1,6 @@
-import 'dart:io';
+// ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,27 +12,32 @@ import 'package:petto_app/UI/widgets/shared/global_general_button.dart';
 import 'package:petto_app/domain/entities/pet.dart';
 import 'package:petto_app/services/image_pick_service.dart';
 import 'package:petto_app/utils/form_validatros.dart';
+import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetProfileEditorScreen extends StatefulWidget {
   static const name = 'pet-info-editor';
+  final Pet pet;
 
-  const PetProfileEditorScreen({Key? key}) : super(key: key);
+  const PetProfileEditorScreen({Key? key, required this.pet}) : super(key: key);
 
   @override
   State<PetProfileEditorScreen> createState() => _PetProfileEditorScreenState();
 }
 
 class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
+  File? petImageFile;
+  String? petSize;
+  String? petWeight;
+  String? foodType;
+  String? lastDeworming;
+  String? lastVeterinarySession;
+
   @override
   Widget build(BuildContext context) {
-    String? petSize;
-    double? petWeight;
-    File? petImage;
-    String? petBirthDate;
-    List<Pet> pets = context.read<PetProvider>().pets;
+    PetProvider petProvider = context.read<PetProvider>();
     return Scaffold(
       body: Stack(
         children: [
@@ -45,7 +51,7 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
                   icon: const Icon(Icons.arrow_back_ios_new_rounded),
                 ),
                 title: Text(
-                  pets[0].name,
+                  widget.pet.name,
                 ),
                 centerTitle: true,
               ),
@@ -56,12 +62,12 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
                     children: [
                       SizedBox(height: 3.h),
                       _PickPetImage(
-                        petImage: petImage,
+                        petImage: petImageFile,
                         onTap: () async {
                           File? selectedImage = await ImagePickerService().pickImage();
                           if (selectedImage != null) {
                             setState(() {
-                              petImage = selectedImage;
+                              petImageFile = selectedImage;
                             });
                           }
                         },
@@ -79,7 +85,7 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
                       SizedBox(height: 3.h),
                       _PetWeightSection((value) {
                         if (RegExp(r'^\d+\.?\d{0,2}').hasMatch(value)) {
-                          petWeight = double.parse(value);
+                          petWeight = value;
                         }
                       }),
                       SizedBox(height: 3.h),
@@ -89,17 +95,17 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
                           AppLocalizations.of(context)!.comercial,
                           AppLocalizations.of(context)!.natural,
                         ],
-                        onOptionSelected: (option) => petSize = option,
+                        onOptionSelected: (option) => foodType = option,
                       ),
                       SizedBox(height: 3.h),
                       _DatePetPicker(
-                        onTap: (date) => petBirthDate = date,
+                        onTap: (date) => lastDeworming = date,
                         label: AppLocalizations.of(context)!.lastDeworming,
                         title: AppLocalizations.of(context)!.deworming,
                       ),
                       SizedBox(height: 3.h),
                       _DatePetPicker(
-                        onTap: (date) => petBirthDate = date,
+                        onTap: (date) => lastVeterinarySession = date,
                         label: AppLocalizations.of(context)!.lastVeterinarySession,
                         title: AppLocalizations.of(context)!.veterinarySession,
                       ),
@@ -115,9 +121,32 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
             left: 0,
             right: 0,
             child: GlobalGeneralButton(
-              isLoading: context.watch<AuthenticationProvider>().isLoading,
+              isLoading: context.watch<PetProvider>().isLoading,
               text: AppLocalizations.of(context)!.save,
-              onPressed: () {},
+              onPressed: () async {
+                if (petSize == null ||
+                    petWeight == null ||
+                    foodType == null ||
+                    lastDeworming == null ||
+                    lastVeterinarySession == null) {
+                  showToast('Campos vacios o incorrectos', context);
+                } else {
+                  if (petImageFile != null) {
+                    await petProvider.updatePetImage(widget.pet.id!, petImageFile!);
+                  }
+                  await petProvider.updatePet(
+                    widget.pet.id!,
+                    {
+                      'size': petSize,
+                      'weight': petWeight,
+                      'foodType': foodType,
+                      'lastDeworming': lastDeworming,
+                      'lastVeterinarySession': lastVeterinarySession,
+                    },
+                  );
+                  context.pushReplacementNamed('home');
+                }
+              },
             ),
           )
         ],

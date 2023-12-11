@@ -21,7 +21,11 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
             GoRoute(
               path: 'pet-info-editor',
               name: PetProfileEditorScreen.name,
-              builder: (context, state) => const PetProfileEditorScreen(),
+              builder: (context, state) {
+                Map<String, dynamic> extraData = state.extra as Map<String, dynamic>;
+                Pet pet = extraData['pet'] as Pet;
+                return PetProfileEditorScreen(pet: pet);
+              },
             )
           ]),
       GoRoute(

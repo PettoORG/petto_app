@@ -63,4 +63,16 @@ class PetProvider extends ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<void> updatePet(String petId, Map<Object, Object?> petData) async {
+    try {
+      isLoading = true;
+      await _userRepository.updatePet(petId, petData);
+      await getPets();
+      isLoading = false;
+    } catch (e) {
+      logger.e('STORAGE ERROR: $e');
+      rethrow;
+    }
+  }
 }

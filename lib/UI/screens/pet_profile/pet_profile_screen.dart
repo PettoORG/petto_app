@@ -29,7 +29,7 @@ class PetProfileScreen extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    context.pushNamed('pet-info-editor');
+                    context.pushNamed('pet-info-editor', extra: {'pet': pet});
                   },
                   icon: const Icon(BoxIcons.bx_edit)),
               SizedBox(width: 1.w)
