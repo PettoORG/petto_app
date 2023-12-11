@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -5,6 +7,7 @@ import 'package:petto_app/UI/providers/pet_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:petto_app/domain/entities/pet.dart';
+import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,20 +26,21 @@ class PetProfileScreen extends StatelessWidget {
           SliverAppBar(
             floating: true,
             leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-            actions: [IconButton(onPressed: () {context.pushNamed('pet-info-editor');}, icon: const Icon(BoxIcons.bx_edit)), SizedBox(width: 1.w)],
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    context.pushNamed('pet-info-editor');
+                  },
+                  icon: const Icon(BoxIcons.bx_edit)),
+              SizedBox(width: 1.w)
+            ],
           ),
           SliverList.list(
             children: [
               _PetAvatarSection(pet.image!),
               _BasicInformation(pet),
               SizedBox(height: 3.h),
-              const _GeneralInformation(),
-              SizedBox(height: 3.h),
-              const _Vaccines(),
-              SizedBox(height: 3.h),
-              const _Medicaments(),
-              SizedBox(height: 3.h),
-              const _Diseases(),
+              _GeneralInformation(pet),
               SizedBox(height: 3.h),
               _DeleteButton(pet.id!),
               SizedBox(height: 3.h),
@@ -73,7 +77,8 @@ class _DeleteButton extends StatelessWidget {
               actions: [
                 TextButton(onPressed: () => context.pop(), child: Text(AppLocalizations.of(context)!.cancel)),
                 TextButton(
-                    onPressed: () async {
+                  onPressed: () async {
+                    try {
                       PetProvider petProvider = context.read<PetProvider>();
                       await petProvider.deletePet(petId);
                       await petProvider.getPets();
@@ -82,8 +87,12 @@ class _DeleteButton extends StatelessWidget {
                       } else {
                         context.pop();
                       }
-                    },
-                    child: const Text('aceptar')),
+                    } catch (e) {
+                      showToast('error', context);
+                    }
+                  },
+                  child: const Text('aceptar'),
+                ),
               ],
             );
           },
@@ -93,147 +102,9 @@ class _DeleteButton extends StatelessWidget {
   }
 }
 
-class _Medicaments extends StatelessWidget {
-  const _Medicaments();
-
-  @override
-  Widget build(BuildContext context) {
-    TextTheme textStyle = Theme.of(context).textTheme;
-    ColorScheme color = Theme.of(context).colorScheme;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(AppLocalizations.of(context)!.medications, style: textStyle.titleMedium),
-          SizedBox(height: 1.h),
-          Container(
-            padding: EdgeInsets.all(3.w),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: color.surfaceVariant,
-              borderRadius: BorderRadius.circular(5.w),
-              boxShadow: [
-                BoxShadow(
-                  color: color.shadow,
-                  blurRadius: 5,
-                  offset: const Offset(0, 0),
-                )
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const _Title(title: 'MEDICAMENTO 1'),
-                SizedBox(height: .5.h),
-                const _Title(title: 'MEDICAMENTO 2'),
-                SizedBox(height: .5.h),
-                const _Title(title: 'MEDICAMENTO 3'),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Diseases extends StatelessWidget {
-  const _Diseases();
-
-  @override
-  Widget build(BuildContext context) {
-    TextTheme textStyle = Theme.of(context).textTheme;
-    ColorScheme color = Theme.of(context).colorScheme;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(AppLocalizations.of(context)!.diseases, style: textStyle.titleMedium),
-          SizedBox(height: 1.h),
-          Container(
-            padding: EdgeInsets.all(3.w),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: color.surfaceVariant,
-              borderRadius: BorderRadius.circular(5.w),
-              boxShadow: [
-                BoxShadow(
-                  color: color.shadow,
-                  blurRadius: 5,
-                  offset: const Offset(0, 0),
-                )
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const _Title(title: 'ENFERMEDAD 1'),
-                SizedBox(height: .5.h),
-                const _Title(title: 'ENFERMEDAD 2'),
-                SizedBox(height: .5.h),
-                const _Title(title: 'ENFERMEDAD 3'),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Vaccines extends StatelessWidget {
-  const _Vaccines();
-
-  @override
-  Widget build(BuildContext context) {
-    TextTheme textStyle = Theme.of(context).textTheme;
-    ColorScheme color = Theme.of(context).colorScheme;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(AppLocalizations.of(context)!.vaccinations, style: textStyle.titleMedium),
-          SizedBox(height: 1.h),
-          Container(
-            padding: EdgeInsets.all(3.w),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: color.surfaceVariant,
-              borderRadius: BorderRadius.circular(5.w),
-              boxShadow: [
-                BoxShadow(
-                  color: color.shadow,
-                  blurRadius: 5,
-                  offset: const Offset(0, 0),
-                )
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _Title(title: AppLocalizations.of(context)!.lastApplication.toUpperCase()),
-                SizedBox(height: .5.h),
-                _Title(title: AppLocalizations.of(context)!.nextApplication.toUpperCase()),
-                SizedBox(height: .5.h),
-                _Title(title: AppLocalizations.of(context)!.pendingApplications.toUpperCase()),
-                SizedBox(height: .5.h),
-                _Title(title: AppLocalizations.of(context)!.vaccineComponentAllergies.toUpperCase()),
-                SizedBox(height: .5.h),
-                _Title(title: AppLocalizations.of(context)!.recommendedPlanCompliance.toUpperCase()),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _GeneralInformation extends StatelessWidget {
-  const _GeneralInformation();
+  final Pet pet;
+  const _GeneralInformation(this.pet);
 
   @override
   Widget build(BuildContext context) {
@@ -264,12 +135,16 @@ class _GeneralInformation extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _Title(title: AppLocalizations.of(context)!.food.toUpperCase()),
+                _Text(title: pet.foodType == null ? 'No registrado' : pet.foodType!),
                 SizedBox(height: .5.h),
                 _Title(title: AppLocalizations.of(context)!.lastVeterinarySession.toUpperCase()),
+                _Text(title: pet.lastVeterinarySession == null ? 'No registrado' : pet.lastVeterinarySession!),
                 SizedBox(height: .5.h),
                 _Title(title: AppLocalizations.of(context)!.lastDeworming.toUpperCase()),
+                _Text(title: pet.lastDeworming == null ? 'No registrado' : pet.lastDeworming!),
                 SizedBox(height: .5.h),
                 _Title(title: AppLocalizations.of(context)!.microchip.toUpperCase()),
+                _Text(title: pet.microchipId == null ? 'No registrado' : pet.microchipId!),
               ],
             ),
           )
@@ -316,7 +191,7 @@ class _BasicInformation extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('${pet.weight}', style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
+              Text('pet.weight', style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
               Text('Kg', style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
             ],
           ),
@@ -402,6 +277,27 @@ class _Title extends StatelessWidget {
         Text(
           title,
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+}
+
+class _Text extends StatelessWidget {
+  final String title;
+
+  const _Text({
+    required this.title,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.bodyMedium!,
         ),
       ],
     );

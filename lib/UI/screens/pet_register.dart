@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +31,7 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
   String? petSize;
   String? petGender;
   String? petBirthDate;
-  double? petWeight;
+  String? petWeight;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   bool validateData() {
@@ -121,7 +123,7 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                 SizedBox(height: 3.h),
                 _PetWeightSection((value) {
                   if (RegExp(r'^\d+\.?\d{0,2}').hasMatch(value)) {
-                    petWeight = double.parse(value);
+                    petWeight = value;
                   }
                 }),
                 SizedBox(height: 3.h),

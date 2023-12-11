@@ -46,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
           color: colors.tertiaryContainer),
     ];
     if (pets.isEmpty) {
-      return PettoLoading(color: Colors.red, size: 50);
+      return const PettoLoading(color: Colors.red, size: 50);
     }
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -120,7 +120,6 @@ class _HomeViewState extends State<HomeView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //TODO: IMPLEMENTAR PANTALLAS DE REGISTRO Y SEGUIMIENTO
-
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: List.generate(options.length, (index) => GlobalPetOptionCard(option: options[index])),
