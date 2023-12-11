@@ -191,7 +191,7 @@ class _BasicInformation extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('pet.weight', style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
+              Text(pet.weight, style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
               Text('Kg', style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
             ],
           ),

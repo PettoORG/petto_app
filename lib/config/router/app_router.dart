@@ -20,8 +20,8 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
           routes: [
             GoRoute(
               path: 'pet-info-editor',
-              name: PetInfoEditorScreen.name,
-              builder: (context, state) => const PetInfoEditorScreen(),
+              name: PetProfileEditorScreen.name,
+              builder: (context, state) => const PetProfileEditorScreen(),
             )
           ]),
       GoRoute(

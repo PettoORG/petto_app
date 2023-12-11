@@ -15,18 +15,16 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
-class PetInfoEditorScreen extends StatefulWidget {
+class PetProfileEditorScreen extends StatefulWidget {
   static const name = 'pet-info-editor';
-  
 
-  const PetInfoEditorScreen({Key? key}) : super(key: key);
+  const PetProfileEditorScreen({Key? key}) : super(key: key);
 
   @override
-  State<PetInfoEditorScreen> createState() => _PetInfoEditorScreenState();
+  State<PetProfileEditorScreen> createState() => _PetProfileEditorScreenState();
 }
 
-class _PetInfoEditorScreenState extends State<PetInfoEditorScreen> {
+class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
   @override
   Widget build(BuildContext context) {
     String? petSize;
@@ -35,79 +33,93 @@ class _PetInfoEditorScreenState extends State<PetInfoEditorScreen> {
     String? petBirthDate;
     List<Pet> pets = context.read<PetProvider>().pets;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-        title: Text(pets[0].name,),
-        centerTitle: true,
-      ),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: Column(
-                children:[
-                  SizedBox(height: 3.h),
-                  _PickPetImage(
-                      petImage: petImage,
-                      onTap: () async {
-                        File? selectedImage = await ImagePickerService().pickImage();
-                        if (selectedImage != null) {
-                          setState(() {
-                            petImage = selectedImage;
-                          });
-                        }
-                      },
-                    ),
-                  SizedBox(height: 3.h),
-                  _DefaultSection(
-                    title: AppLocalizations.of(context)!.petSize,
-                    options: [
-                      AppLocalizations.of(context)!.small,
-                      AppLocalizations.of(context)!.medium,
-                      AppLocalizations.of(context)!.large,
-                    ],
-                    onOptionSelected: (option) => petSize = option,
-                  ),
-                  SizedBox(height: 3.h),
-                  _PetWeightSection((value) {
-                    if (RegExp(r'^\d+\.?\d{0,2}').hasMatch(value)) {
-                      petWeight = double.parse(value);
-                    }
-                  }),
-                  SizedBox(height: 3.h),
-                  _DefaultSection(
-                    title: AppLocalizations.of(context)!.food,
-                    options: [
-                      AppLocalizations.of(context)!.comercial,
-                      AppLocalizations.of(context)!.natural,
-                    ],
-                    onOptionSelected: (option) => petSize = option,
-                  ),
-                  SizedBox(height: 3.h),
-                  _DatePetPicker(onTap: (date) => 
-                    petBirthDate = date,
-                    label: AppLocalizations.of(context)!.lastDeworming, 
-                    title: AppLocalizations.of(context)!.deworming,),
-                  SizedBox(height: 3.h),
-                  _DatePetPicker(onTap: (date) => 
-                    petBirthDate = date,
-                    label: AppLocalizations.of(context)!.lastVeterinarySession, 
-                    title: AppLocalizations.of(context)!.veterinarySession,),
-                  SizedBox(height: 12.h),
-                ],
+          CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                floating: true,
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                  onPressed: () => context.pop(),
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                ),
+                title: Text(
+                  pets[0].name,
+                ),
+                centerTitle: true,
               ),
-            ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 3.h),
+                      _PickPetImage(
+                        petImage: petImage,
+                        onTap: () async {
+                          File? selectedImage = await ImagePickerService().pickImage();
+                          if (selectedImage != null) {
+                            setState(() {
+                              petImage = selectedImage;
+                            });
+                          }
+                        },
+                      ),
+                      SizedBox(height: 3.h),
+                      _DefaultSection(
+                        title: AppLocalizations.of(context)!.petSize,
+                        options: [
+                          AppLocalizations.of(context)!.small,
+                          AppLocalizations.of(context)!.medium,
+                          AppLocalizations.of(context)!.large,
+                        ],
+                        onOptionSelected: (option) => petSize = option,
+                      ),
+                      SizedBox(height: 3.h),
+                      _PetWeightSection((value) {
+                        if (RegExp(r'^\d+\.?\d{0,2}').hasMatch(value)) {
+                          petWeight = double.parse(value);
+                        }
+                      }),
+                      SizedBox(height: 3.h),
+                      _DefaultSection(
+                        title: AppLocalizations.of(context)!.food,
+                        options: [
+                          AppLocalizations.of(context)!.comercial,
+                          AppLocalizations.of(context)!.natural,
+                        ],
+                        onOptionSelected: (option) => petSize = option,
+                      ),
+                      SizedBox(height: 3.h),
+                      _DatePetPicker(
+                        onTap: (date) => petBirthDate = date,
+                        label: AppLocalizations.of(context)!.lastDeworming,
+                        title: AppLocalizations.of(context)!.deworming,
+                      ),
+                      SizedBox(height: 3.h),
+                      _DatePetPicker(
+                        onTap: (date) => petBirthDate = date,
+                        label: AppLocalizations.of(context)!.lastVeterinarySession,
+                        title: AppLocalizations.of(context)!.veterinarySession,
+                      ),
+                      SizedBox(height: 12.h),
+                    ],
+                  ),
+                ),
+              )
+            ],
           ),
           Positioned(
             bottom: 3.h,
-            left: 50,
+            left: 0,
+            right: 0,
             child: GlobalGeneralButton(
-            isLoading: context.watch<AuthenticationProvider>().isLoading,
-            text: AppLocalizations.of(context)!.save,
-            onPressed: (){},
-            ),)
+              isLoading: context.watch<AuthenticationProvider>().isLoading,
+              text: AppLocalizations.of(context)!.save,
+              onPressed: () {},
+            ),
+          )
         ],
       ),
     );
@@ -173,7 +185,6 @@ class _PickPetImage extends StatelessWidget {
     );
   }
 }
-
 
 class _DefaultSection extends StatefulWidget {
   final List options;
@@ -241,8 +252,12 @@ class _PetWeightSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(AppLocalizations.of(context)!.petWeight, style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.start,),
-              SizedBox(height: 1.h),
+          Text(
+            AppLocalizations.of(context)!.petWeight,
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.start,
+          ),
+          SizedBox(height: 1.h),
           Row(
             children: [
               SizedBox(
@@ -297,7 +312,7 @@ class _DatePetPicker extends StatefulWidget {
 
 class _DatePetPickerState extends State<_DatePetPicker> {
   TextEditingController dateController = TextEditingController();
-  
+
   @override
   void dispose() {
     dateController.dispose();
@@ -313,7 +328,7 @@ class _DatePetPickerState extends State<_DatePetPicker> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(widget.title, style: Theme.of(context).textTheme.titleMedium),
-            SizedBox(height: 1.h),
+          SizedBox(height: 1.h),
           TextFormField(
             style: Theme.of(context).inputDecorationTheme.labelStyle,
             controller: dateController,
