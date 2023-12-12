@@ -6,8 +6,8 @@ class ReminderRepositoryImpl extends ReminderRepository {
   ReminderRepositoryImpl(this.datasource);
 
   @override
-  addReminder() {
-    datasource.addReminder();
+  Future<void> addReminder({required String title, required String body, required String payload}) async {
+    await datasource.addReminder(title: title, body: body, payload: payload);
   }
 
   @override

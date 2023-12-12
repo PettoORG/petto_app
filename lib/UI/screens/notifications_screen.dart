@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:petto_app/UI/providers/providers.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -29,6 +31,13 @@ class NotificationsScreen extends StatelessWidget {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        context.read<ReminderProvider>().addReminder(
+              title: 'Hola',
+              body: 'Esta es una notificacion simple',
+              payload: 'No se para que es este texto',
+            );
+      }),
     );
   }
 }

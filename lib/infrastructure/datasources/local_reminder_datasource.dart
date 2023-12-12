@@ -1,5 +1,8 @@
 import 'package:petto_app/domain/datasources/reminder_datasource.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class LocalReminderDatasource extends ReminderDatasource {
   static final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -13,10 +16,15 @@ class LocalReminderDatasource extends ReminderDatasource {
         LinuxInitializationSettings(defaultActionName: 'Open notification');
     final InitializationSettings initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsDarwin, linux: initializationSettingsLinux);
-    _flutterLocalNotificationsPlugin.initialize(initializationSettings, onDidReceiveNotificationResponse: (details) {});
+    _flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (response) {},
+    );
   }
 
-  static Future showSimpleNotification({required String title, required String body, required String payload}) async {
+  @override
+  Future<void> addReminder({required String title, required String body, required String payload}) async {
+    tz.initializeTimeZones();
     const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
       'channelId',
       'channelName',
@@ -26,13 +34,15 @@ class LocalReminderDatasource extends ReminderDatasource {
       ticker: 'ticker',
     );
     const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
-    await _flutterLocalNotificationsPlugin.show(0, title, body, notificationDetails);
-  }
-
-  @override
-  addReminder() {
-    // TODO: implement addReminder
-    throw UnimplementedError();
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        title,
+        body,
+        tz.TZDateTime.now(tz.local).add(
+          const Duration(seconds: 20),
+        ),
+        notificationDetails,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
   }
 
   @override
