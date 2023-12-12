@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/config/router/app_router.dart';
 import 'package:petto_app/firebase_options.dart';
+import 'package:petto_app/infrastructure/datasources/local_reminder_datasource.dart';
 import 'package:petto_app/utils/local_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -13,9 +14,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await LocalStorage.configPrefs();
+  await LocalReminderDatasource.init();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await LocalStorage.configPrefs();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => LanguageProvider()),
@@ -25,6 +27,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
       ChangeNotifierProvider(create: (context) => UserProvider()),
       ChangeNotifierProvider(create: (context) => PetProvider()),
+      ChangeNotifierProvider(create: (context) => ReminderProvider()),
     ],
     child: const MyApp(),
   ));
