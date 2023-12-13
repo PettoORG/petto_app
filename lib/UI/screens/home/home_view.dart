@@ -6,6 +6,7 @@ import 'package:petto_app/UI/providers/pettips_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:petto_app/domain/entities/pet.dart';
+import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -124,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
                   //   children: List.generate(options.length, (index) => GlobalPetOptionCard(option: options[index])),
                   // ),
                   // SizedBox(height: 2.h),
-                  const _RemindersTitle(),
+                  _RemindersTitle(petName: pets[currentPet].name),
                   // (pets[currentPet].reminders == null)
                   //     ? Container(
                   //         margin: EdgeInsets.all(1.w),
@@ -230,7 +231,8 @@ class _Pettips extends StatelessWidget {
 }
 
 class _RemindersTitle extends StatelessWidget {
-  const _RemindersTitle();
+  final String petName;
+  const _RemindersTitle({required this.petName});
 
   @override
   Widget build(BuildContext context) {
@@ -243,12 +245,91 @@ class _RemindersTitle extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return _AddReminderDialog(
+                    petName: petName,
+                  );
+                },
+              );
+            },
             icon: Icon(
               BoxIcons.bx_plus_circle,
               color: color.primary,
             ))
       ],
+    );
+  }
+}
+
+class _AddReminderDialog extends StatelessWidget {
+  final String petName;
+  const _AddReminderDialog({required this.petName});
+
+  @override
+  Widget build(BuildContext context) {
+    TextTheme textStyle = Theme.of(context).textTheme;
+    ColorScheme colors = Theme.of(context).colorScheme;
+    return AlertDialog(
+      backgroundColor: colors.surface,
+      surfaceTintColor: colors.surface,
+      shadowColor: colors.shadow,
+      elevation: 10,
+      actionsPadding: EdgeInsets.only(bottom: 1.h),
+      contentPadding: EdgeInsets.fromLTRB(6.w, 6.w, 6.w, 0.0),
+      actionsAlignment: MainAxisAlignment.spaceAround,
+      actions: [
+        TextButton(
+          onPressed: () => context.pop(),
+          child: const Text('Cancelar'),
+        ),
+        TextButton(
+          onPressed: () {},
+          child: const Text('Aceptar'),
+        ),
+      ],
+      content: SizedBox(
+        height: 40.h,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Agregar recordatorio para $petName',
+              style: textStyle.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 2.h),
+            TextFormField(
+              validator: (value) => FormValidators.validateName(value, context),
+              style: Theme.of(context).inputDecorationTheme.labelStyle,
+              onTapOutside: (event) => FocusScope.of(context).unfocus(),
+              decoration: const InputDecoration(
+                label: Text('Titulo del recordatorio'),
+              ),
+            ),
+            SizedBox(height: 2.h),
+            TextFormField(
+              validator: (value) => FormValidators.validateName(value, context),
+              style: Theme.of(context).inputDecorationTheme.labelStyle,
+              onTapOutside: (event) => FocusScope.of(context).unfocus(),
+              decoration: const InputDecoration(
+                label: Text('Descripcion'),
+              ),
+            ),
+            SizedBox(height: 2.h),
+            TextFormField(
+              validator: (value) => FormValidators.validateName(value, context),
+              style: Theme.of(context).inputDecorationTheme.labelStyle,
+              onTapOutside: (event) => FocusScope.of(context).unfocus(),
+              decoration: const InputDecoration(
+                label: Text('Fecha'),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

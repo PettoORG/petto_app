@@ -5,6 +5,7 @@ class Reminder {
   final String body;
   final String payload;
   final String date;
+  final String image;
 
   Reminder({
     required this.petId,
@@ -13,6 +14,7 @@ class Reminder {
     required this.body,
     required this.payload,
     required this.date,
+    required this.image,
   });
 
   factory Reminder.fromMap(Map<String, dynamic> map) {
@@ -23,6 +25,7 @@ class Reminder {
       body: map['body'],
       payload: map['payload'],
       date: map['date'],
+      image: map['image'],
     );
   }
 
@@ -34,6 +37,7 @@ class Reminder {
       'body': body,
       'payload': payload,
       'date': date,
+      'image': image,
     };
   }
 }

@@ -240,6 +240,8 @@ class _DeletAccountDialog extends StatelessWidget {
       shadowColor: colors.shadow,
       elevation: 10,
       actionsAlignment: MainAxisAlignment.spaceAround,
+      actionsPadding: EdgeInsets.only(bottom: 1.h),
+      contentPadding: EdgeInsets.fromLTRB(6.w, 6.w, 6.w, 0.0),
       actions: [
         TextButton(onPressed: () => context.pop(), child: Text(AppLocalizations.of(context)!.cancel)),
         TextButton(
@@ -266,15 +268,18 @@ class _DeletAccountDialog extends StatelessWidget {
       content: SizedBox(
         height: 19.h,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               AppLocalizations.of(context)!.confirmDeleteAccount,
               style: textStyle.titleMedium,
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 1.h),
+            SizedBox(height: 2.h),
             Text(
               AppLocalizations.of(context)!.warningDataLoss,
               style: textStyle.titleSmall,
+              textAlign: TextAlign.center,
             ),
           ],
         ),

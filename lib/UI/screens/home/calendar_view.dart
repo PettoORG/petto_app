@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:uuid/uuid.dart';
+import 'package:uuid/v4.dart';
 
 class CalendarView extends StatelessWidget {
   const CalendarView({Key? key}) : super(key: key);
@@ -25,20 +27,9 @@ class CalendarView extends StatelessWidget {
               children: [
                 const _Calendar(),
                 SizedBox(height: 3.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.upcomingReminders,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          BoxIcons.bx_plus_circle,
-                          color: colors.primary,
-                        ))
-                  ],
+                Text(
+                  AppLocalizations.of(context)!.upcomingReminders,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 SizedBox(height: 1.h),
                 ...List.generate(7, (index) => const GlobalReminderCard()),

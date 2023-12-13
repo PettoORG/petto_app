@@ -30,7 +30,12 @@ class FirestoreReminderDatasource extends ReminderDatasource {
   @override
   Future<void> addReminder(Reminder reminder) async {
     tz.initializeTimeZones();
-    await _db.collection('users').doc(_getUid()).collection('reminders').add(reminder.toMap());
+    await _db
+        .collection('users')
+        .doc(_getUid())
+        .collection('reminders')
+        .doc(reminder.id.toString())
+        .set(reminder.toMap());
     final tzDateTime = tz.TZDateTime.from(DateTime.parse(reminder.date), tz.local);
 
     const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
