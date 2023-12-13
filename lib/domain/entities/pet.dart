@@ -13,7 +13,6 @@ class Pet {
   final String? lastDeworming;
   final String? image;
   final String? microchipId;
-  final List<Reminder>? reminders;
 
   Pet({
     required this.name,
@@ -30,7 +29,6 @@ class Pet {
     this.id,
     this.image,
     this.microchipId,
-    this.reminders,
   });
 
   factory Pet.fromMap(Map<String, dynamic> map, String id) {
@@ -50,7 +48,6 @@ class Pet {
       image: map['image'] ??
           'https://firebasestorage.googleapis.com/v0/b/petto-18ace.appspot.com/o/avatars%2Fpetto-avatar.png?alt=media&token=8fe0315f-ef69-4fca-8d03-e3e4bef73ad3',
       microchipId: map['microchipId'],
-      reminders: (map['reminders'] as List<dynamic>?)?.map((item) => Reminder.fromMap(item)).toList(),
     );
   }
 
@@ -70,28 +67,6 @@ class Pet {
       'lastDeworming': lastDeworming,
       'image': image,
       'microchipId': microchipId,
-      'reminders': reminders?.map((reminder) => reminder.toMap()).toList(),
-    };
-  }
-}
-
-class Reminder {
-  final String reminder;
-  final String date;
-
-  Reminder({required this.reminder, required this.date});
-
-  factory Reminder.fromMap(Map<String, dynamic> map) {
-    return Reminder(
-      reminder: map['name'],
-      date: map['date'],
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'name': reminder,
-      'date': date,
     };
   }
 }

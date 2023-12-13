@@ -59,11 +59,11 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
           )
         ],
       ),
-      GoRoute(
-        name: NotificationsScreen.name,
-        path: 'notifications',
-        builder: (context, state) => const NotificationsScreen(),
-      ),
+      // GoRoute(
+      //   name: NotificationsScreen.name,
+      //   path: 'notifications',
+      //   builder: (context, state) => const NotificationsScreen(),
+      // ),
       GoRoute(
         name: TCScreen.name,
         path: 'tc',

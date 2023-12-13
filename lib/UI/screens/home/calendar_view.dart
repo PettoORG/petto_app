@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/language_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ class CalendarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colors = Theme.of(context).colorScheme;
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -23,9 +25,20 @@ class CalendarView extends StatelessWidget {
               children: [
                 const _Calendar(),
                 SizedBox(height: 3.h),
-                Text(
-                  AppLocalizations.of(context)!.upcomingReminders,
-                  style: Theme.of(context).textTheme.titleMedium,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.upcomingReminders,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          BoxIcons.bx_plus_circle,
+                          color: colors.primary,
+                        ))
+                  ],
                 ),
                 SizedBox(height: 1.h),
                 ...List.generate(7, (index) => const GlobalReminderCard()),

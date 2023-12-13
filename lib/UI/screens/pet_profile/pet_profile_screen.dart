@@ -64,7 +64,6 @@ class _DeleteButton extends StatelessWidget {
         onPressed: () => showDialog(
           context: context,
           builder: (context) {
-            TextTheme textStyle = Theme.of(context).textTheme;
             ColorScheme colors = Theme.of(context).colorScheme;
             return AlertDialog(
               backgroundColor: colors.surface,

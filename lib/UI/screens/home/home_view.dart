@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/pet_provider.dart';
@@ -27,24 +26,24 @@ class _HomeViewState extends State<HomeView> {
     ColorScheme colors = Theme.of(context).colorScheme;
     TextTheme textStyles = Theme.of(context).textTheme;
     List<Pet> pets = context.watch<PetProvider>().pets;
-    List<OptionModel> options = [
-      OptionModel(
-          child: Icon(BoxIcons.bx_health, color: colors.primary),
-          title: AppLocalizations.of(context)!.health,
-          color: colors.primaryContainer),
-      OptionModel(
-          child: Icon(BoxIcons.bx_cut, color: colors.secondary),
-          title: AppLocalizations.of(context)!.grooming,
-          color: colors.secondaryContainer),
-      OptionModel(
-          child: Icon(BoxIcons.bxs_cat, color: colors.primary),
-          title: AppLocalizations.of(context)!.activity,
-          color: colors.primaryContainer),
-      OptionModel(
-          child: Icon(BoxIcons.bx_bowl_rice, color: colors.tertiary),
-          title: AppLocalizations.of(context)!.food,
-          color: colors.tertiaryContainer),
-    ];
+    // List<OptionModel> options = [
+    //   OptionModel(
+    //       child: Icon(BoxIcons.bx_health, color: colors.primary),
+    //       title: AppLocalizations.of(context)!.health,
+    //       color: colors.primaryContainer),
+    //   OptionModel(
+    //       child: Icon(BoxIcons.bx_cut, color: colors.secondary),
+    //       title: AppLocalizations.of(context)!.grooming,
+    //       color: colors.secondaryContainer),
+    //   OptionModel(
+    //       child: Icon(BoxIcons.bxs_cat, color: colors.primary),
+    //       title: AppLocalizations.of(context)!.activity,
+    //       color: colors.primaryContainer),
+    //   OptionModel(
+    //       child: Icon(BoxIcons.bx_bowl_rice, color: colors.tertiary),
+    //       title: AppLocalizations.of(context)!.food,
+    //       color: colors.tertiaryContainer),
+    // ];
     if (pets.isEmpty) {
       return const PettoLoading(color: Colors.red, size: 50);
     }
@@ -90,7 +89,7 @@ class _HomeViewState extends State<HomeView> {
                                 child: Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: lightSurfaceVariant,
+                                    color: colors.surface,
                                     borderRadius: BorderRadius.circular(5.w),
                                   ),
                                 ),
@@ -126,26 +125,26 @@ class _HomeViewState extends State<HomeView> {
                   // ),
                   // SizedBox(height: 2.h),
                   const _RemindersTitle(),
-                  (pets[currentPet].reminders == null)
-                      ? Container(
-                          margin: EdgeInsets.all(1.w),
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/svgs/reminder.svg',
-                                height: 20.h,
-                              ),
-                              SizedBox(height: 2.h),
-                              Text(
-                                'No tienes recordatorios pendientes',
-                                style: textStyles.titleSmall,
-                              )
-                            ],
-                          ),
-                        )
-                      : Column(children: List.generate(3, (index) => const GlobalReminderCard())),
+                  // (pets[currentPet].reminders == null)
+                  //     ? Container(
+                  //         margin: EdgeInsets.all(1.w),
+                  //         width: double.infinity,
+                  //         child: Column(
+                  //           crossAxisAlignment: CrossAxisAlignment.center,
+                  //           children: [
+                  //             SvgPicture.asset(
+                  //               'assets/svgs/reminder.svg',
+                  //               height: 20.h,
+                  //             ),
+                  //             SizedBox(height: 2.h),
+                  //             Text(
+                  //               'No tienes recordatorios pendientes',
+                  //               style: textStyles.titleSmall,
+                  //             )
+                  //           ],
+                  //         ),
+                  //       )
+                  //     : Column(children: List.generate(3, (index) => const GlobalReminderCard())),
                   SizedBox(height: 2.h),
                   Text(AppLocalizations.of(context)!.pettips, style: Theme.of(context).textTheme.titleMedium),
                 ],
@@ -267,10 +266,10 @@ class _SliverAppbar extends StatelessWidget {
         AppLocalizations.of(context)!.petto,
         style: textStyle.bodyLarge!.copyWith(fontFamily: 'Pacifico-Regular', fontSize: 17.sp),
       ),
-      actions: [
-        IconButton(onPressed: () => context.pushNamed('notifications'), icon: const Icon(BoxIcons.bx_bell)),
-        SizedBox(width: 1.w)
-      ],
+      // actions: [
+      //   IconButton(onPressed: () => context.pushNamed('notifications'), icon: const Icon(BoxIcons.bx_bell)),
+      //   SizedBox(width: 1.w)
+      // ],
     );
   }
 }

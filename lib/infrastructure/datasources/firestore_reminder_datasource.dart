@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:petto_app/domain/datasources/reminder_datasource.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:petto_app/domain/entities/entities.dart';
+import 'package:petto_app/utils/utils.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-class LocalReminderDatasource extends ReminderDatasource {
+class FirestoreReminderDatasource extends ReminderDatasource {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
   static final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static Future init() async {
@@ -23,26 +28,30 @@ class LocalReminderDatasource extends ReminderDatasource {
   }
 
   @override
-  Future<void> addReminder({required String title, required String body, required String payload}) async {
+  Future<void> addReminder(Reminder reminder) async {
     tz.initializeTimeZones();
+    await _db.collection('users').doc(_getUid()).collection('reminders').add(reminder.toMap());
+    final tzDateTime = tz.TZDateTime.from(DateTime.parse(reminder.date), tz.local);
+
     const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-      'channelId',
-      'channelName',
-      channelDescription: 'channelDescription',
+      'pet-care-reminders',
+      'Reminders channel',
+      channelDescription: 'Reminders about caring for your pets',
       importance: Importance.max,
       priority: Priority.max,
-      ticker: 'ticker',
+      ticker: 'Tu mascota necesita atención',
     );
     const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
+
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        title,
-        body,
-        tz.TZDateTime.now(tz.local).add(
-          const Duration(seconds: 20),
-        ),
-        notificationDetails,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+      reminder.id,
+      reminder.title,
+      reminder.body,
+      payload: reminder.payload,
+      tzDateTime.add(const Duration(hours: 7)),
+      notificationDetails,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+    );
   }
 
   @override
@@ -55,5 +64,14 @@ class LocalReminderDatasource extends ReminderDatasource {
   getReminders() {
     // TODO: implement getReminders
     throw UnimplementedError();
+  }
+
+  String _getUid() {
+    try {
+      return _firebaseAuth.currentUser!.uid;
+    } catch (e) {
+      logger.e('AUTH ERROR: $e');
+      rethrow;
+    }
   }
 }

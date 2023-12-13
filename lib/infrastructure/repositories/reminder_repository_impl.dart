@@ -1,4 +1,5 @@
 import 'package:petto_app/domain/datasources/reminder_datasource.dart';
+import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/domain/repositories/reminder_repository.dart';
 
 class ReminderRepositoryImpl extends ReminderRepository {
@@ -6,8 +7,8 @@ class ReminderRepositoryImpl extends ReminderRepository {
   ReminderRepositoryImpl(this.datasource);
 
   @override
-  Future<void> addReminder({required String title, required String body, required String payload}) async {
-    await datasource.addReminder(title: title, body: body, payload: payload);
+  Future<void> addReminder(Reminder reminder) async {
+    await datasource.addReminder(reminder);
   }
 
   @override
