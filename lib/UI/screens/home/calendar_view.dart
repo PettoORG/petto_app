@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/language_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:uuid/uuid.dart';
-import 'package:uuid/v4.dart';
 
 class CalendarView extends StatelessWidget {
   const CalendarView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme colors = Theme.of(context).colorScheme;
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
