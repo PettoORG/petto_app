@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:intl/intl.dart';
 import 'package:petto_app/UI/providers/pet_provider.dart';
 import 'package:petto_app/UI/providers/pettips_provider.dart';
+import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:petto_app/domain/entities/pet.dart';
@@ -125,7 +127,7 @@ class _HomeViewState extends State<HomeView> {
                   //   children: List.generate(options.length, (index) => GlobalPetOptionCard(option: options[index])),
                   // ),
                   // SizedBox(height: 2.h),
-                  _RemindersTitle(petName: pets[currentPet].name),
+                  _RemindersTitle(pet: pets[currentPet]),
                   // (pets[currentPet].reminders == null)
                   //     ? Container(
                   //         margin: EdgeInsets.all(1.w),
@@ -231,8 +233,8 @@ class _Pettips extends StatelessWidget {
 }
 
 class _RemindersTitle extends StatelessWidget {
-  final String petName;
-  const _RemindersTitle({required this.petName});
+  final Pet pet;
+  const _RemindersTitle({required this.pet});
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +252,7 @@ class _RemindersTitle extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return _AddReminderDialog(
-                    petName: petName,
+                    pet: pet,
                   );
                 },
               );
@@ -264,9 +266,26 @@ class _RemindersTitle extends StatelessWidget {
   }
 }
 
-class _AddReminderDialog extends StatelessWidget {
-  final String petName;
-  const _AddReminderDialog({required this.petName});
+class _AddReminderDialog extends StatefulWidget {
+  final Pet pet;
+  const _AddReminderDialog({required this.pet});
+
+  @override
+  State<_AddReminderDialog> createState() => _AddReminderDialogState();
+}
+
+class _AddReminderDialogState extends State<_AddReminderDialog> {
+  TextEditingController dateController = TextEditingController();
+  TextEditingController bodyController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    dateController.clear();
+    dateController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -286,48 +305,101 @@ class _AddReminderDialog extends StatelessWidget {
           child: const Text('Cancelar'),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () async {
+            if (!FormValidators.isValidForm(formKey)) return;
+            await context
+                .read<ReminderProvider>()
+                .addReminder(
+                  widget.pet.id!,
+                  widget.pet.image!,
+                  titleController.text,
+                  bodyController.text,
+                  dateController.text,
+                )
+                .then(
+                  (_) => context.pop(),
+                )
+                .catchError(
+                  (_) => showToast('Error', context),
+                );
+          },
           child: const Text('Aceptar'),
         ),
       ],
       content: SizedBox(
-        height: 40.h,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Agregar recordatorio para $petName',
-              style: textStyle.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 2.h),
-            TextFormField(
-              validator: (value) => FormValidators.validateName(value, context),
-              style: Theme.of(context).inputDecorationTheme.labelStyle,
-              onTapOutside: (event) => FocusScope.of(context).unfocus(),
-              decoration: const InputDecoration(
-                label: Text('Titulo del recordatorio'),
+        height: 50.h,
+        child: Form(
+          key: formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Agregar recordatorio para ${widget.pet.name}',
+                style: textStyle.titleMedium,
+                textAlign: TextAlign.center,
               ),
-            ),
-            SizedBox(height: 2.h),
-            TextFormField(
-              validator: (value) => FormValidators.validateName(value, context),
-              style: Theme.of(context).inputDecorationTheme.labelStyle,
-              onTapOutside: (event) => FocusScope.of(context).unfocus(),
-              decoration: const InputDecoration(
-                label: Text('Descripcion'),
+              SizedBox(height: 2.h),
+              TextFormField(
+                controller: titleController,
+                validator: (value) => FormValidators.validateReminderTitle(value, context),
+                style: Theme.of(context).inputDecorationTheme.labelStyle,
+                onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                decoration: const InputDecoration(
+                  label: Text('Titulo del recordatorio'),
+                ),
               ),
-            ),
-            SizedBox(height: 2.h),
-            TextFormField(
-              validator: (value) => FormValidators.validateName(value, context),
-              style: Theme.of(context).inputDecorationTheme.labelStyle,
-              onTapOutside: (event) => FocusScope.of(context).unfocus(),
-              decoration: const InputDecoration(
-                label: Text('Fecha'),
+              SizedBox(height: 2.h),
+              TextFormField(
+                controller: bodyController,
+                validator: (value) => FormValidators.validateReminderBody(value, context),
+                style: Theme.of(context).inputDecorationTheme.labelStyle,
+                onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                decoration: const InputDecoration(
+                  label: Text('Descripcion'),
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 2.h),
+              TextFormField(
+                controller: dateController,
+                style: Theme.of(context).inputDecorationTheme.labelStyle,
+                validator: (value) => FormValidators.validateDate(value, context),
+                readOnly: true,
+                onTap: () async {
+                  DateTime now = DateTime.now();
+                  DateTime lastDate = DateTime(now.year + 100, now.month, now.day);
+                  DateTime? selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: now,
+                    firstDate: now,
+                    lastDate: lastDate,
+                    builder: (BuildContext context, Widget? child) {
+                      return Theme(
+                        data: ThemeData.light().copyWith(
+                          primaryColor: colors.surface,
+                          colorScheme: ColorScheme.dark(
+                            primary: colors.primary,
+                            onPrimary: colors.surface,
+                            surface: colors.surface,
+                            onSurface: colors.primary,
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
+                  );
+                  if (selectedDate != null) {
+                    String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+                    dateController.text = formattedDate;
+                  }
+                },
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(BoxIcons.bx_calendar),
+                  label: Text('Fecha'),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

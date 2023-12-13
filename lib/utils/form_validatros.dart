@@ -23,6 +23,20 @@ class FormValidators {
     return null;
   }
 
+  static String? validateReminderTitle(String? value, BuildContext context) {
+    if (value == null || value.isEmpty) {
+      return 'Ingresa un titulo valido';
+    }
+    return null;
+  }
+
+  static String? validateReminderBody(String? value, BuildContext context) {
+    if (value == null || value.isEmpty) {
+      return 'Ingresa una descripcion valida';
+    }
+    return null;
+  }
+
   static String? validateDate(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
       return 'Ingrese una fecha valida';
