@@ -1,12 +1,13 @@
-// ignore_for_file: use_build_context_synchronously
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
-import 'package:petto_app/utils/local_storage.dart';
+import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   static const name = 'splash';
@@ -19,30 +20,40 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  String version = '';
+  void _getVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() => version = packageInfo.version);
+  }
 
   void _listener(AnimationStatus status) async {
-    bool? shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding');
+    bool? onboarding = LocalStorage.prefs.getBool('showOnboarding');
+    User? user = context.read<AuthenticationProvider>().getCurrentUser();
     PetProvider petsProvider = context.read<PetProvider>();
+    ReminderProvider reminderProvider = context.read<ReminderProvider>();
     if (status == AnimationStatus.completed) {
-      if (shouldShowOnboarding == true || shouldShowOnboarding == null) {
-        return context.pushReplacementNamed('onboarding');
-      }
-      if (context.read<AuthenticationProvider>().getCurrentUser() != null) {
-        await context.read<PetProvider>().getPets();
-        await context.read<ReminderProvider>().getReminders();
-        if (petsProvider.pets.isEmpty) {
-          return context.pushReplacementNamed('pet-register');
-        } else {
-          return context.pushReplacementNamed('home');
-        }
-      } else {
-        return context.pushReplacementNamed('auth');
-      }
+      if (onboarding == true || onboarding == null) return context.pushReplacementNamed('onboarding');
+      if (user == null) return context.pushReplacementNamed('auth');
+      await reminderProvider.getReminders();
+      await petsProvider.getPets().then(
+        (value) {
+          if (petsProvider.pets.isEmpty) {
+            return context.pushReplacementNamed('pet-register');
+          } else {
+            return context.pushReplacementNamed('home');
+          }
+        },
+      ).catchError(
+        (e) {
+          showToast('Error', context);
+        },
+      );
     }
   }
 
   @override
   void initState() {
+    _getVersion();
     _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 2000));
     _controller.forward();
     _controller.addStatusListener(_listener);
@@ -87,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   ),
                   SizedBox(height: 1.h),
                   Text(
-                    'Cuidado de otro mundo',
+                    AppLocalizations.of(context)!.yourWellCaredPet,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   SizedBox(height: 8.h),
@@ -101,7 +112,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               ),
             ),
           ),
-          Positioned(bottom: 5.h, right: 0.w, left: 0.w, child: const Center(child: Text('Version 1.0.0')))
+          Positioned(bottom: 5.h, right: 0.w, left: 0.w, child: Center(child: Text(version)))
         ],
       ),
     );
