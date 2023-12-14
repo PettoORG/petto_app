@@ -21,12 +21,15 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   late AnimationController _controller;
 
   void _listener(AnimationStatus status) async {
+    bool? shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding');
     PetProvider petsProvider = context.read<PetProvider>();
     if (status == AnimationStatus.completed) {
-      final bool shouldShowOnboarding = LocalStorage.prefs.getBool('showOnboarding') == true;
-      if (shouldShowOnboarding) return context.pushReplacementNamed('onboarding');
+      if (shouldShowOnboarding == true || shouldShowOnboarding == null) {
+        return context.pushReplacementNamed('onboarding');
+      }
       if (context.read<AuthenticationProvider>().getCurrentUser() != null) {
         await context.read<PetProvider>().getPets();
+        await context.read<ReminderProvider>().getReminders();
         if (petsProvider.pets.isEmpty) {
           return context.pushReplacementNamed('pet-register');
         } else {

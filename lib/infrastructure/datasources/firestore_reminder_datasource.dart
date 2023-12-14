@@ -64,9 +64,15 @@ class FirestoreReminderDatasource extends ReminderDatasource {
   }
 
   @override
-  getReminders() {
-    // TODO: implement getReminders
-    throw UnimplementedError();
+  Future<List<Reminder>> getReminders() async {
+    CollectionReference reminderRef = _db.collection('users').doc(_getUid()).collection('reminders');
+    QuerySnapshot snapshot = await reminderRef.get();
+    List<Reminder> reminders = [];
+    for (DocumentSnapshot document in snapshot.docs) {
+      Reminder reminder = Reminder.fromMap(document.data() as Map<String, dynamic>);
+      reminders.add(reminder);
+    }
+    return reminders;
   }
 
   String _getUid() {

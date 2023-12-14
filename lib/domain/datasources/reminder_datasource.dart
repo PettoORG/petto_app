@@ -5,5 +5,5 @@ abstract class ReminderDatasource {
 
   deleteReminder();
 
-  getReminders();
+  Future<List<Reminder>> getReminders();
 }

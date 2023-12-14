@@ -17,7 +17,7 @@ class ReminderRepositoryImpl extends ReminderRepository {
   }
 
   @override
-  getReminders() {
-    datasource.getReminders();
+  Future<List<Reminder>> getReminders() async {
+    return await datasource.getReminders();
   }
 }

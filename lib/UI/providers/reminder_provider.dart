@@ -6,7 +6,7 @@ import 'package:petto_app/utils/logger_prints.dart';
 import 'package:uuid/uuid.dart';
 
 class ReminderProvider extends ChangeNotifier {
-  final ReminderRepositoryImpl _reminderRepository = ReminderRepositoryImpl(FirestoreReminderDatasource());
+  final ReminderRepositoryImpl _datasource = ReminderRepositoryImpl(FirestoreReminderDatasource());
 
   List<Reminder> reminders = [];
 
@@ -39,13 +39,25 @@ class ReminderProvider extends ChangeNotifier {
     );
     try {
       isLoading = true;
-      await _reminderRepository.addReminder(reminder);
+      await _datasource.addReminder(reminder);
       reminders.add(reminder);
       isLoading = false;
       notifyListeners();
     } catch (e) {
       isLoading = false;
       logger.e('REMINDER ERROR: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> getReminders() async {
+    try {
+      isLoading = true;
+      reminders = await _datasource.getReminders();
+      isLoading = false;
+    } catch (e) {
+      isLoading = false;
+      rethrow;
     }
   }
 }

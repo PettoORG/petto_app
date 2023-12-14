@@ -9,5 +9,5 @@ abstract class ReminderRepository extends ReminderDatasource {
   deleteReminder();
 
   @override
-  getReminders();
+  Future<List<Reminder>> getReminders();
 }

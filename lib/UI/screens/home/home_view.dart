@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
-import 'package:petto_app/domain/entities/pet.dart';
+import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -27,6 +28,7 @@ class _HomeViewState extends State<HomeView> {
     ColorScheme colors = Theme.of(context).colorScheme;
     TextTheme textStyles = Theme.of(context).textTheme;
     List<Pet> pets = context.watch<PetProvider>().pets;
+    List<Reminder> reminders = context.watch<ReminderProvider>().reminders;
     // List<OptionModel> options = [
     //   OptionModel(
     //       child: Icon(BoxIcons.bx_health, color: colors.primary),
@@ -120,32 +122,42 @@ class _HomeViewState extends State<HomeView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //TODO: IMPLEMENTAR PANTALLAS DE REGISTRO Y SEGUIMIENTO
+
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: List.generate(options.length, (index) => GlobalPetOptionCard(option: options[index])),
                   // ),
                   // SizedBox(height: 2.h),
                   _RemindersTitle(pet: pets[currentPet]),
-                  // (pets[currentPet].reminders == null)
-                  //     ? Container(
-                  //         margin: EdgeInsets.all(1.w),
-                  //         width: double.infinity,
-                  //         child: Column(
-                  //           crossAxisAlignment: CrossAxisAlignment.center,
-                  //           children: [
-                  //             SvgPicture.asset(
-                  //               'assets/svgs/reminder.svg',
-                  //               height: 20.h,
-                  //             ),
-                  //             SizedBox(height: 2.h),
-                  //             Text(
-                  //               'No tienes recordatorios pendientes',
-                  //               style: textStyles.titleSmall,
-                  //             )
-                  //           ],
-                  //         ),
-                  //       )
-                  //     : Column(children: List.generate(3, (index) => const GlobalReminderCard())),
+                  (reminders.isEmpty)
+                      ? Container(
+                          margin: EdgeInsets.all(1.w),
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/svgs/reminder.svg',
+                                height: 20.h,
+                              ),
+                              SizedBox(height: 2.h),
+                              Text(
+                                'No tienes recordatorios pendientes',
+                                style: textStyles.titleSmall,
+                              )
+                            ],
+                          ),
+                        )
+                      : Column(
+                          children: List.generate(
+                            reminders.length < 3 ? reminders.length : 3,
+                            (index) {
+                              return GlobalReminderCard(
+                                reminder: reminders[index],
+                              );
+                            },
+                          ),
+                        ),
                   SizedBox(height: 2.h),
                   Text(AppLocalizations.of(context)!.pettips, style: Theme.of(context).textTheme.titleMedium),
                 ],
@@ -318,7 +330,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
                   (_) => context.pop(),
                 )
                 .catchError(
-                  (_) => showToast('Error', context),
+                  (e) => showToast('Error', context),
                 );
           },
           child: const Text('Aceptar'),
@@ -366,10 +378,11 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
                 onTap: () async {
                   DateTime now = DateTime.now();
                   DateTime lastDate = DateTime(now.year + 100, now.month, now.day);
+                  DateTime firstDate = DateTime(now.year, now.month, now.day + 1);
                   DateTime? selectedDate = await showDatePicker(
                     context: context,
-                    initialDate: now,
-                    firstDate: now,
+                    initialDate: firstDate,
+                    firstDate: firstDate,
                     lastDate: lastDate,
                     builder: (BuildContext context, Widget? child) {
                       return Theme(

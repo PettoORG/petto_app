@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:petto_app/UI/providers/pet_provider.dart';
+import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/services/services.dart';
@@ -153,6 +154,7 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                           await petProvider.updatePetImage(petId, petImage!);
                         }
                         await petProvider.getPets();
+                        await context.read<ReminderProvider>().getReminders();
                         if (context.canPop()) {
                           return context.pop();
                         } else {
