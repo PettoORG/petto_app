@@ -58,9 +58,8 @@ class FirestoreReminderDatasource extends ReminderDatasource {
   }
 
   @override
-  deleteReminder() {
-    // TODO: implement deleteReminder
-    throw UnimplementedError();
+  Future<void> deleteReminder(String reminderId) async {
+    await _db.collection('users').doc(_getUid()).collection('reminders').doc(reminderId).delete();
   }
 
   @override

@@ -10,6 +10,13 @@ class PetProvider extends ChangeNotifier {
   final PetRepository _userRepository = PetRepositoryImpl(FirestorePetDatasource());
   List<Pet> pets = [];
 
+  int _currentPet = 0;
+  int get currentPet => _currentPet;
+  set currentPet(int value) {
+    _currentPet = value;
+    notifyListeners();
+  }
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   set isLoading(bool value) {

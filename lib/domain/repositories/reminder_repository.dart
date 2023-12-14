@@ -6,7 +6,7 @@ abstract class ReminderRepository extends ReminderDatasource {
   Future<void> addReminder(Reminder reminder);
 
   @override
-  deleteReminder();
+  Future<void> deleteReminder(String reminderId);
 
   @override
   Future<List<Reminder>> getReminders();

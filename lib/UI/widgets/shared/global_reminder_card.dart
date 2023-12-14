@@ -35,17 +35,30 @@ class GlobalReminderCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(3.w),
                 child: Image.network(
                   reminder.image,
+                  fit: BoxFit.cover,
                   height: 17.w,
+                  width: 17.w,
                 ),
               ),
               SizedBox(width: 3.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(reminder.date, style: textStyles.titleSmall),
-                  Text(reminder.title, style: textStyles.titleSmall),
-                  Text(reminder.body, style: textStyles.bodyMedium),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(reminder.date, style: textStyles.titleSmall),
+                    Text(
+                      reminder.title,
+                      style: textStyles.titleSmall,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      reminder.body,
+                      style: textStyles.bodyMedium,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

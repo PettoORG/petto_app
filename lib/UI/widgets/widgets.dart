@@ -1,3 +1,5 @@
+export 'package:petto_app/UI/widgets/shared/no_pending_reminders.dart';
+
 export 'package:petto_app/UI/widgets/shared/global_petto_loading.dart';
 
 export 'package:petto_app/UI/widgets/shared/global_general_button.dart';

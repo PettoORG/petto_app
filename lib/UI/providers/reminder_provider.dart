@@ -21,6 +21,7 @@ class ReminderProvider extends ChangeNotifier {
 
   Future<void> addReminder(String petId, String image, String title, String body, String date) async {
     String uniqueId = uuid.v4();
+    int insertionIndex = 0;
     String numericId = uniqueId.replaceAll(RegExp(r'[^0-9]'), '');
 
     if (numericId.length > 10) {
@@ -40,9 +41,15 @@ class ReminderProvider extends ChangeNotifier {
     try {
       isLoading = true;
       await _datasource.addReminder(reminder);
-      reminders.add(reminder);
+      for (int i = 0; i < reminders.length; i++) {
+        if (DateTime.parse(reminder.date).isAfter(DateTime.parse(reminders[i].date))) {
+          insertionIndex = i + 1;
+        } else {
+          break;
+        }
+      }
+      reminders.insert(insertionIndex, reminder);
       isLoading = false;
-      notifyListeners();
     } catch (e) {
       isLoading = false;
       logger.e('REMINDER ERROR: $e');
@@ -51,9 +58,22 @@ class ReminderProvider extends ChangeNotifier {
   }
 
   Future<void> getReminders() async {
+    isLoading = true;
     try {
-      isLoading = true;
       reminders = await _datasource.getReminders();
+      DateTime now = DateTime.now();
+      // Filter reminders that have a date prior to DateTime.now().
+      List<Reminder> remindersToDelete = reminders.where((reminder) {
+        DateTime reminderDate = DateTime.parse(reminder.date);
+        return reminderDate.isBefore(DateTime(now.year, now.month, now.day));
+      }).toList();
+      // Delete the filtered reminders.
+      for (Reminder reminder in remindersToDelete) {
+        await _datasource.deleteReminder(reminder.id.toString());
+        reminders.remove(reminder);
+      }
+      // Sort the remaining reminders by date.
+      reminders.sort((a, b) => DateTime.parse(a.date).compareTo(DateTime.parse(b.date)));
       isLoading = false;
     } catch (e) {
       isLoading = false;

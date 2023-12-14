@@ -154,10 +154,10 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                           await petProvider.updatePetImage(petId, petImage!);
                         }
                         await petProvider.getPets();
-                        await context.read<ReminderProvider>().getReminders();
                         if (context.canPop()) {
                           return context.pop();
                         } else {
+                          await context.read<ReminderProvider>().getReminders();
                           return context.pushReplacementNamed('home');
                         }
                       } catch (e) {

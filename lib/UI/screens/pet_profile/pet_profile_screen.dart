@@ -81,11 +81,9 @@ class _DeleteButton extends StatelessWidget {
                       PetProvider petProvider = context.read<PetProvider>();
                       await petProvider.deletePet(petId);
                       await petProvider.getPets();
-                      if (petProvider.pets.isEmpty) {
-                        context.pushReplacementNamed('pet-register');
-                      } else {
-                        context.pop();
-                      }
+                      if (petProvider.pets.isEmpty) return context.pushReplacementNamed('pet-register');
+                      petProvider.currentPet = 0;
+                      context.pushReplacementNamed('home');
                     } catch (e) {
                       showToast('error', context);
                     }

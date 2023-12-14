@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/utils/local_storage.dart';
+import 'package:petto_app/utils/toast.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -111,11 +115,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     flex: 4,
                     child: (currentPage == 2)
                         ? TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               LocalStorage.prefs.setBool('showOnboarding', false);
-                              return context.pushReplacementNamed('pet-register');
+                              User? user = context.read<AuthenticationProvider>().getCurrentUser();
+                              PetProvider petProvider = context.read<PetProvider>();
+                              ReminderProvider reminderProvider = context.read<ReminderProvider>();
+                              if (user == null) return context.pushReplacementNamed('auth');
+                              await reminderProvider.getReminders();
+                              await petProvider.getPets().then(
+                                (value) {
+                                  if (petProvider.pets.isEmpty) {
+                                    return context.pushReplacementNamed('pet-register');
+                                  } else {
+                                    return context.pushReplacementNamed('home');
+                                  }
+                                },
+                              ).catchError(
+                                (e) {
+                                  showToast('Error', context);
+                                },
+                              );
                             },
-                            child: Text(AppLocalizations.of(context)!.letsGo))
+                            child: Text(AppLocalizations.of(context)!.letsGo),
+                          )
                         : IconButton(
                             onPressed: () {
                               controller.nextPage(

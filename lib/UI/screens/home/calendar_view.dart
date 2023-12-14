@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:petto_app/UI/providers/language_provider.dart';
+import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
+import 'package:petto_app/domain/entities/entities.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -11,28 +13,40 @@ class CalendarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Reminder> reminders = context.watch<ReminderProvider>().reminders;
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
         SliverToBoxAdapter(child: SizedBox(height: 10.h)),
-        SliverList.list(children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const _Calendar(),
-                SizedBox(height: 3.h),
-                Text(
-                  AppLocalizations.of(context)!.upcomingReminders,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                SizedBox(height: 1.h),
-                // ...List.generate(7, (index) => const GlobalReminderCard()),
-              ],
-            ),
-          )
-        ]),
+        SliverList.list(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const _Calendar(),
+                  SizedBox(height: 3.h),
+                  Text(
+                    AppLocalizations.of(context)!.upcomingReminders,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  SizedBox(height: 1.h),
+                  (reminders.isEmpty)
+                      ? const NoPendingReminders()
+                      : Column(
+                          children: List.generate(
+                            reminders.length,
+                            (index) => GlobalReminderCard(
+                              reminder: reminders[index],
+                            ),
+                          ),
+                        ),
+                ],
+              ),
+            )
+          ],
+        ),
       ],
     );
   }

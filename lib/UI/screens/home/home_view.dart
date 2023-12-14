@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
@@ -21,14 +20,13 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  int currentPet = 0;
-
   @override
   Widget build(BuildContext context) {
-    ColorScheme colors = Theme.of(context).colorScheme;
     TextTheme textStyles = Theme.of(context).textTheme;
+    ColorScheme colors = Theme.of(context).colorScheme;
     List<Pet> pets = context.watch<PetProvider>().pets;
     List<Reminder> reminders = context.watch<ReminderProvider>().reminders;
+    PetProvider petProvider = context.read<PetProvider>();
     // List<OptionModel> options = [
     //   OptionModel(
     //       child: Icon(BoxIcons.bx_health, color: colors.primary),
@@ -60,11 +58,9 @@ class _HomeViewState extends State<HomeView> {
               viewportFraction: .7,
               itemCount: pets.length,
               onTap: (_) {
-                context.pushNamed('pet-profile', extra: {'pet': pets[currentPet]});
+                context.pushNamed('pet-profile', extra: {'pet': pets[petProvider.currentPet]});
               },
-              listener: (page) => setState(() {
-                currentPet = page;
-              }),
+              listener: (pet) => petProvider.currentPet = pet,
               children: List.generate(pets.length, (index) {
                 Pet pet = pets[index];
                 return Padding(
@@ -128,26 +124,9 @@ class _HomeViewState extends State<HomeView> {
                   //   children: List.generate(options.length, (index) => GlobalPetOptionCard(option: options[index])),
                   // ),
                   // SizedBox(height: 2.h),
-                  _RemindersTitle(pet: pets[currentPet]),
+                  _RemindersTitle(pet: pets[petProvider.currentPet]),
                   (reminders.isEmpty)
-                      ? Container(
-                          margin: EdgeInsets.all(1.w),
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/svgs/reminder.svg',
-                                height: 20.h,
-                              ),
-                              SizedBox(height: 2.h),
-                              Text(
-                                'No tienes recordatorios pendientes',
-                                style: textStyles.titleSmall,
-                              )
-                            ],
-                          ),
-                        )
+                      ? NoPendingReminders()
                       : Column(
                           children: List.generate(
                             reminders.length < 3 ? reminders.length : 3,
