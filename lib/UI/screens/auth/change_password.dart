@@ -40,7 +40,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cambiar contraseñá'),
+        title: Text(AppLocalizations.of(context)!.changePassword),
         centerTitle: true,
         leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
       ),
@@ -102,7 +102,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     auth.isLoading = true;
                     auth.updatePassWord(newPassWord.text);
                     auth.isLoading = true;
-                    showToast('Cambio de contraseña exitoso', context);
+                    showToast(AppLocalizations.of(context)!.successfulPasswordChange, context);
                   } catch (e) {
                     logger.e('AUTH ERROR: $e');
                     //TODO: MANEJAR ERRORES

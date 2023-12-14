@@ -161,10 +161,10 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                           return context.pushReplacementNamed('home');
                         }
                       } catch (e) {
-                        showToast('error', context);
+                        showToast(AppLocalizations.of(context)!.error, context);
                       }
                     } else {
-                      showToast('Datos faltantes o incorrectos', context);
+                      showToast(AppLocalizations.of(context)!.missingOrIncorrectData, context);
                     }
                   },
                 )
@@ -312,12 +312,11 @@ class _PetWeightSection extends StatelessWidget {
             style: Theme.of(context).inputDecorationTheme.labelStyle,
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               suffixIcon: Center(
                 widthFactor: 1,
                 child: Text(
-                  'Kg',
-                  style: TextStyle(fontSize: 20),
+                  AppLocalizations.of(context)!.kg,
                 ),
               ),
             ),

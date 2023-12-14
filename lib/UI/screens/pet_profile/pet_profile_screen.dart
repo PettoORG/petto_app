@@ -60,7 +60,7 @@ class _DeleteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: TextButton(
-        child: const Text('Eliminar mascota'),
+        child: Text(AppLocalizations.of(context)!.deletePet),
         onPressed: () => showDialog(
           context: context,
           builder: (context) {
@@ -85,10 +85,10 @@ class _DeleteButton extends StatelessWidget {
                       petProvider.currentPet = 0;
                       context.pushReplacementNamed('home');
                     } catch (e) {
-                      showToast('error', context);
+                      showToast(AppLocalizations.of(context)!.error, context);
                     }
                   },
-                  child: const Text('aceptar'),
+                  child: Text(AppLocalizations.of(context)!.accept),
                 ),
               ],
             );
@@ -165,7 +165,7 @@ class _BasicInformation extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(pet.age, style: textStyle.bodySmall!.copyWith(color: color.primary)),
-              Text('años', style: textStyle.bodySmall!.copyWith(color: color.primary)),
+              Text(AppLocalizations.of(context)!.years, style: textStyle.bodySmall!.copyWith(color: color.primary)),
             ],
           ),
           title: AppLocalizations.of(context)!.age,
@@ -189,7 +189,7 @@ class _BasicInformation extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(pet.weight, style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
-              Text('Kg', style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
+              Text(AppLocalizations.of(context)!.kg, style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
             ],
           ),
           title: AppLocalizations.of(context)!.petWeight,

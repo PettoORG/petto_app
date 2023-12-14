@@ -132,7 +132,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 },
                               ).catchError(
                                 (e) {
-                                  showToast('Error', context);
+                                  showToast(AppLocalizations.of(context)!.error, context);
                                 },
                               );
                             },

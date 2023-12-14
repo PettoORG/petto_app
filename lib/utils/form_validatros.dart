@@ -25,31 +25,31 @@ class FormValidators {
 
   static String? validateReminderTitle(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return 'Ingresa un titulo valido';
+      return AppLocalizations.of(context)!.enterValidTitle;
     }
     return null;
   }
 
   static String? validateReminderBody(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return 'Ingresa una descripcion valida';
+      return AppLocalizations.of(context)!.enterValidDescription;
     }
     return null;
   }
 
   static String? validateDate(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return 'Ingrese una fecha valida';
+      return AppLocalizations.of(context)!.enterValidDate;
     }
     return null;
   }
 
   static String? validateWeight(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return 'Ingrese un peso';
+      return AppLocalizations.of(context)!.enterWeight;
     }
     if (!RegExp(r'^\d+\.?\d{0,2}').hasMatch(value)) {
-      return 'Ingrese un peso valido';
+      return AppLocalizations.of(context)!.enterValidWeight;
     }
     return null;
   }
@@ -66,10 +66,10 @@ class FormValidators {
 
   static String? confirmPassword(String? confirmNewPassWord, String newPassWord, BuildContext context) {
     if (confirmNewPassWord == null || confirmNewPassWord.isEmpty) {
-      return 'Confirme su nueva contraseña';
+      return AppLocalizations.of(context)!.confirmNewPassword;
     }
     if (confirmNewPassWord != newPassWord) {
-      return 'Las contraseñas no coinciden';
+      return AppLocalizations.of(context)!.passwordsNotMatch;
     }
     return null;
   }

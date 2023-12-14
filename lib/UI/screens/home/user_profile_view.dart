@@ -52,7 +52,7 @@ class UserProfileView extends StatelessWidget {
             if (!context.mounted) return;
             context.pushReplacementNamed('auth');
           } catch (e) {
-            showToast('Error', context);
+            showToast(AppLocalizations.of(context)!.error, context);
           }
         },
       ),

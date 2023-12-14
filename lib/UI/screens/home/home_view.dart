@@ -103,7 +103,7 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                           Text(pet.name, style: textStyles.bodySmall),
                           Text(pet.specie, style: textStyles.bodySmall),
-                          Text('${pet.age} años', style: textStyles.bodySmall),
+                          Text(AppLocalizations.of(context)!.petYears(pet.age), style: textStyles.bodySmall),
                           Text(pet.gender, style: textStyles.bodySmall),
                         ],
                       )
@@ -291,7 +291,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
       actions: [
         TextButton(
           onPressed: () => context.pop(),
-          child: const Text('Cancelar'),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         TextButton(
           onPressed: () async {
@@ -309,10 +309,10 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
                   (_) => context.pop(),
                 )
                 .catchError(
-                  (e) => showToast('Error', context),
+                  (e) => showToast(AppLocalizations.of(context)!.error, context),
                 );
           },
-          child: const Text('Aceptar'),
+          child: Text(AppLocalizations.of(context)!.accept),
         ),
       ],
       content: SizedBox(
@@ -324,7 +324,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Agregar recordatorio para ${widget.pet.name}',
+                AppLocalizations.of(context)!.addReminderForPet(widget.pet.name),
                 style: textStyle.titleMedium,
                 textAlign: TextAlign.center,
               ),
@@ -334,8 +334,8 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
                 validator: (value) => FormValidators.validateReminderTitle(value, context),
                 style: Theme.of(context).inputDecorationTheme.labelStyle,
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                decoration: const InputDecoration(
-                  label: Text('Titulo del recordatorio'),
+                decoration: InputDecoration(
+                  label: Text(AppLocalizations.of(context)!.reminderTitle),
                 ),
               ),
               SizedBox(height: 2.h),
@@ -344,8 +344,8 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
                 validator: (value) => FormValidators.validateReminderBody(value, context),
                 style: Theme.of(context).inputDecorationTheme.labelStyle,
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                decoration: const InputDecoration(
-                  label: Text('Descripcion'),
+                decoration: InputDecoration(
+                  label: Text(AppLocalizations.of(context)!.description),
                 ),
               ),
               SizedBox(height: 2.h),
@@ -383,9 +383,9 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
                     dateController.text = formattedDate;
                   }
                 },
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(BoxIcons.bx_calendar),
-                  label: Text('Fecha'),
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(BoxIcons.bx_calendar),
+                  label: Text(AppLocalizations.of(context)!.date),
                 ),
               )
             ],

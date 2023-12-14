@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         },
       ).catchError(
         (e) {
-          showToast('Error', context);
+          showToast(AppLocalizations.of(context)!.error, context);
         },
       );
     }

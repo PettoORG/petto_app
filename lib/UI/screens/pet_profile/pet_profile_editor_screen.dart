@@ -129,7 +129,7 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
                     foodType == null ||
                     lastDeworming == null ||
                     lastVeterinarySession == null) {
-                  showToast('Campos vacios o incorrectos', context);
+                  showToast(AppLocalizations.of(context)!.missingOrIncorrectData, context);
                 } else {
                   if (petImageFile != null) {
                     await petProvider.updatePetImage(widget.pet.id!, petImageFile!);
