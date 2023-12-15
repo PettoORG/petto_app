@@ -6,8 +6,8 @@ import 'package:petto_app/infrastructure/mappers/pettip_mapper.dart';
 
 class LocalPettipsDatasource extends PettipsDatasource {
   @override
-  Future<List<Pettip>> getGeneralPettips() async {
-    final response = await rootBundle.loadString('data/pettips_es.json');
+  Future<List<Pettip>> getGeneralPettips(String language) async {
+    final response = await rootBundle.loadString('data/pettips_$language.json');
     Map<String, dynamic> localResponse = json.decode(response);
     final List<Pettip> generalPettips =
         localResponse.entries.map((pettip) => PettipMapper.localPettipToEntity(pettip.value)).toList();

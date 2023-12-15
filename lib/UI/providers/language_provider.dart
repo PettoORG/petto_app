@@ -4,6 +4,7 @@ import 'package:petto_app/utils/utils.dart';
 
 class LanguageProvider extends ChangeNotifier {
   String _language = Platform.localeName.substring(0, 2);
+  String get language => _language;
 
   LanguageProvider() {
     logger.d('Device Language: $_language');
@@ -28,6 +29,4 @@ class LanguageProvider extends ChangeNotifier {
     _saveLanguage(_language);
     notifyListeners();
   }
-
-  String get language => _language;
 }

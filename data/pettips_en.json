@@ -1,38 +1,48 @@
 {
     "Balanced Nutrition": {
         "title": "Balanced Nutrition",
-        "tip": "Balanced nutrition is essential for your pet's health. Ensure you provide high-quality food with the right amount of proteins, carbohydrates, fats, vitamins, and minerals. Nutritional needs vary based on species, breed, size, and age. Consult your vet to design a nutrition plan tailored to your pet's specific needs. Avoid feeding them foods that can be harmful, such as chocolate, grapes, onions, among others, as they can be toxic."
+        "tip": "Balanced nutrition is essential for your pet's health. Ensure you provide high-quality food with the right amount of proteins, carbohydrates, fats, vitamins, and minerals. Nutritional needs vary based on species, breed, size, and age. Consult your vet to design a nutrition plan tailored to your pet's specific needs. Avoid feeding them foods that can be harmful, such as chocolate, grapes, onions, among others, as they can be toxic.",
+        "asset": "assets/images/balanced_diet.jpg"
     },
+    
     "Hydration Awareness": {
         "title": "Hydration Awareness",
-        "tip": "Water is essential for your pet's health. Ensure they always have access to clean, fresh water. During summer or after physical activities, increase fluid intake to prevent dehydration. Watch for signs of dehydration like dry gums, lethargy, or loss of skin elasticity, and seek immediate veterinary care if detected. Besides water, some moist foods like fruits and veggies can help keep your pet hydrated."
+        "tip": "Water is essential for your pet's health. Ensure they always have access to clean, fresh water. During summer or after physical activities, increase fluid intake to prevent dehydration. Watch for signs of dehydration like dry gums, lethargy, or loss of skin elasticity, and seek immediate veterinary care if detected. Besides water, some moist foods like fruits and veggies can help keep your pet hydrated.",
+        "asset": "assets/images/hydration.jpg"
     },
     "Regular Exercise Routine": {
         "title": "Regular Exercise Routine",
-        "tip": "Regular exercise is crucial to keep your pet healthy and happy. Provide suitable physical activities based on their species, age, and fitness level. Daily walks, interactive games, training sessions, and outdoor time are great for improving their physical and mental well-being. Exercise not only helps with weight control but also stimulates their mind and promotes balanced behavior. Consult your vet to establish an appropriate exercise plan for your pet."
+        "tip": "Regular exercise is crucial to keep your pet healthy and happy. Provide suitable physical activities based on their species, age, and fitness level. Daily walks, interactive games, training sessions, and outdoor time are great for improving their physical and mental well-being. Exercise not only helps with weight control but also stimulates their mind and promotes balanced behavior. Consult your vet to establish an appropriate exercise plan for your pet.",
+        "asset": "assets/images/regular_exercise.jpg"
     },
     "Routine Vet Check-ups": {
         "title": "Routine Vet Check-ups",
-        "tip": "Regular vet check-ups are essential to maintain your pet's health. Even if your pet seems fine, regular visits can detect health issues early, leading to more effective and less costly treatment. During these visits, vets perform comprehensive physical exams, update vaccinations, conduct screening tests, and provide guidance on general pet care. Don't underestimate the importance of these preventive check-ups for ensuring a long and healthy life for your furry friend."
+        "tip": "Regular vet check-ups are essential to maintain your pet's health. Even if your pet seems fine, regular visits can detect health issues early, leading to more effective and less costly treatment. During these visits, vets perform comprehensive physical exams, update vaccinations, conduct screening tests, and provide guidance on general pet care. Don't underestimate the importance of these preventive check-ups for ensuring a long and healthy life for your furry friend.",
+        "asset": "assets/images/regular_vet.jpg"
     },
     "Proper Hygiene Practices": {
         "title": "Proper Hygiene Practices",
-        "tip": "Maintaining good hygiene is key to your pet's well-being. Regular baths with pet-safe products help remove dirt and prevent skin and coat problems. Apart from bathing, brushing their fur regularly prevents mats and removes loose hair. Don't forget to care for their ears, teeth, and nails; clean their ears to prevent infections, brush their teeth regularly, and trim their nails to prevent discomfort or breakage."
+        "tip": "Maintaining good hygiene is key to your pet's well-being. Regular baths with pet-safe products help remove dirt and prevent skin and coat problems. Apart from bathing, brushing their fur regularly prevents mats and removes loose hair. Don't forget to care for their ears, teeth, and nails; clean their ears to prevent infections, brush their teeth regularly, and trim their nails to prevent discomfort or breakage.",
+        "asset": "assets/images/hygiene.jpg"
     },
     "Identification and Microchipping": {
         "title": "Identification and Microchipping",
-        "tip": "It's crucial for your pet to have clear identification in case they get lost. Fit them with a collar containing an ID tag with your contact information. Additionally, consider microchipping as an extra form of identification. A microchip, a small device implanted under the skin, contains vital information about your pet and your contact details. Ensure the microchip information is up-to-date to quickly locate you if your pet goes missing."
+        "tip": "It's crucial for your pet to have clear identification in case they get lost. Fit them with a collar containing an ID tag with your contact information. Additionally, consider microchipping as an extra form of identification. A microchip, a small device implanted under the skin, contains vital information about your pet and your contact details. Ensure the microchip information is up-to-date to quickly locate you if your pet goes missing.",
+        "asset": "assets/images/identification.jpg"
     },
     "Quality Time": {
         "title": "Quality Time",
-        "tip": "Devoting quality time to your pet strengthens your bond and enhances their emotional well-being. Engage with them through games, cuddles, and training. Establish daily moments for play and individual attention. Quality time not only provides them with fun but can also reduce stress and anxiety, especially in pets that spend time alone at home. Connecting with your pet strengthens the relationship and makes your furry companion feel loved and secure."
+        "tip": "Devoting quality time to your pet strengthens your bond and enhances their emotional well-being. Engage with them through games, cuddles, and training. Establish daily moments for play and individual attention. Quality time not only provides them with fun but can also reduce stress and anxiety, especially in pets that spend time alone at home. Connecting with your pet strengthens the relationship and makes your furry companion feel loved and secure.",
+        "asset": "assets/images/quality_time.jpg"
     },
     "Parasite Control": {
         "title": "Parasite Control",
-        "tip": "Preventing and controlling parasites are crucial for your pet's health. Follow a plan recommended by your vet, including regular deworming and using preventive products against fleas, ticks, intestinal worms, and other parasites. Regularly inspect your pet for signs of infestation, such as excessive itching, hair loss, or skin irritation. Also, keep their resting area and environment clean to reduce the risk of infestations."
+        "tip": "Preventing and controlling parasites are crucial for your pet's health. Follow a plan recommended by your vet, including regular deworming and using preventive products against fleas, ticks, intestinal worms, and other parasites. Regularly inspect your pet for signs of infestation, such as excessive itching, hair loss, or skin irritation. Also, keep their resting area and environment clean to reduce the risk of infestations.",
+        "asset": "assets/images/parasite_control.jpg"
     },
     "Caution with Human Foods": {
         "title": "Caution with Human Foods",
-        "tip": "Some foods that are safe for humans can be harmful or even toxic to pets. Avoid feeding your pet foods like chocolate, grapes, onions, avocado, and dairy products, as they can cause digestive issues, toxicity, or even endanger their lives. Consult your vet for guidance on a suitable and safe diet for your pet. Additionally, keep dangerous foods out of their reach to prevent accidents."
+        "tip": "Some foods that are safe for humans can be harmful or even toxic to pets. Avoid feeding your pet foods like chocolate, grapes, onions, avocado, and dairy products, as they can cause digestive issues, toxicity, or even endanger their lives. Consult your vet for guidance on a suitable and safe diet for your pet. Additionally, keep dangerous foods out of their reach to prevent accidents.",
+        "asset": "assets/images/caution_human_foods.jpg"
     }
 }

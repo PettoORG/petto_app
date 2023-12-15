@@ -6,7 +6,7 @@ class PettipRepositoryImpl extends PettipsRepository {
   PettipRepositoryImpl(this.datasource);
 
   @override
-  getGeneralPettips() {
-    return datasource.getGeneralPettips();
+  getGeneralPettips(String language) {
+    return datasource.getGeneralPettips(language);
   }
 }

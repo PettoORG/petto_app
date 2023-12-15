@@ -7,11 +7,11 @@ class PettipsProvider extends ChangeNotifier {
   final PettipRepositoryImpl _pettipsRepository = PettipRepositoryImpl(LocalPettipsDatasource());
   List<Pettip> _generalPettips = [];
 
-  Future<List<Pettip>> getGeneralPettips() async {
+  Future<List<Pettip>> getGeneralPettips(String language) async {
     if (_generalPettips.isNotEmpty) {
       return _generalPettips;
     } else {
-      _generalPettips = await _pettipsRepository.getGeneralPettips();
+      _generalPettips = await _pettipsRepository.getGeneralPettips(language);
       return _generalPettips;
     }
   }

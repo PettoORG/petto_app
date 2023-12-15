@@ -1,3 +1,3 @@
 abstract class PettipsRepository {
-  getGeneralPettips();
+  getGeneralPettips(String language);
 }

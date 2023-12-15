@@ -157,8 +157,9 @@ class _Pettips extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
     TextTheme textStyle = Theme.of(context).textTheme;
+    String language = context.read<LanguageProvider>().language;
     return FutureBuilder(
-      future: context.read<PettipsProvider>().getGeneralPettips(),
+      future: context.read<PettipsProvider>().getGeneralPettips(language),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SharedCardSwiper(
