@@ -248,9 +248,9 @@ class _AddPet extends StatelessWidget {
             ),
             SizedBox(
               width: 20.w,
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Agregar',
+                  AppLocalizations.of(context)!.add,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
