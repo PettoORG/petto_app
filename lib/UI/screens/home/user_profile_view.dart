@@ -134,7 +134,6 @@ class _CardOption extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 7.w,
-                  color: colors.shadow,
                 )
               ],
             ),
@@ -151,11 +150,13 @@ class _UserResume extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = context.read<UserProvider>();
+    ThemeProvider themeProvider = context.read<ThemeProvider>();
+    bool isDarkMode = context.watch<ThemeProvider>().isDarMode;
     PetProvider petProvider = context.watch<PetProvider>();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.w),
       margin: EdgeInsets.symmetric(horizontal: 7.w),
-      height: 25.h,
+      height: 30.h,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceVariant,
@@ -170,32 +171,26 @@ class _UserResume extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_world)),
-          //     Container(
-          //       height: 12.h,
-          //       width: 12.h,
-          //       decoration: BoxDecoration(
-          //         color: Theme.of(context).colorScheme.primaryContainer,
-          //         borderRadius: BorderRadius.all(
-          //           Radius.circular(5.w),
-          //         ),
-          //         boxShadow: [
-          //           BoxShadow(
-          //             blurRadius: 5,
-          //             color: Theme.of(context).colorScheme.shadow,
-          //             offset: const Offset(0, 0),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //     IconButton(onPressed: () {}, icon: const Icon(BoxIcons.bx_brightness)),
-          //   ],
-          // ),
-          // SizedBox(height: .5.h),
-          Text(userProvider.getAuthUser()!.displayName!),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                onPressed: () {
+                  LanguageProvider languageProvider = context.read<LanguageProvider>();
+                  String language = languageProvider.language;
+                  languageProvider.changeLanguage(language == 'es' ? 'en' : 'es');
+                },
+                icon: const Icon(BoxIcons.bx_world),
+              ),
+              Text(userProvider.getAuthUser()!.displayName!),
+              IconButton(
+                onPressed: () {
+                  themeProvider.changeTheme();
+                },
+                icon: Icon(isDarkMode ? BoxIcons.bxs_sun : BoxIcons.bxs_moon),
+              ),
+            ],
+          ),
           SizedBox(height: .5.h),
           Text(userProvider.getAuthUser()!.email!),
           SizedBox(height: 2.h),
@@ -321,7 +316,7 @@ class _DecorationBox extends StatelessWidget {
       right: 0,
       left: 0,
       child: Container(
-        height: 35.h,
+        height: 40.h,
         width: double.infinity,
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,

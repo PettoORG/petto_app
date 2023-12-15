@@ -29,6 +29,7 @@ class GlobalGeneralButton extends StatelessWidget {
             ? PettoLoading(color: Theme.of(context).colorScheme.primary, size: 10.w)
             : Text(
                 text,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
       ),
     );

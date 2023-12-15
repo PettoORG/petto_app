@@ -15,14 +15,16 @@ class PettipsScreen extends StatefulWidget {
 class _PettipsScreenState extends State<PettipsScreen> {
   @override
   Widget build(BuildContext context) {
-    TextTheme textStyle = Theme.of(context).textTheme;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            toolbarHeight: 10.h,
+            centerTitle: true,
             title: Text(
               widget.pettip.title,
-              style: textStyle.titleSmall,
+              textAlign: TextAlign.center,
+              maxLines: 2,
             ),
             leading: IconButton(
               onPressed: () => context.pop(),
@@ -33,14 +35,17 @@ class _PettipsScreenState extends State<PettipsScreen> {
             child: Center(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 50.h,
-                    width: double.infinity,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.w),
-                      child: Image.asset(
-                        widget.pettip.asset,
-                        fit: BoxFit.cover,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3.w),
+                    child: SizedBox(
+                      height: 50.h,
+                      width: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.w),
+                        child: Image.asset(
+                          widget.pettip.asset,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),

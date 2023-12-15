@@ -14,6 +14,7 @@ class OnboardingDefaultOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colors = Theme.of(context).colorScheme;
     return Material(
       child: InkWell(
         onTap: onTap,
@@ -33,9 +34,7 @@ class OnboardingDefaultOption extends StatelessWidget {
               text,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: (color == Theme.of(context).colorScheme.primary)
-                        ? Theme.of(context).colorScheme.background
-                        : Colors.black,
+                    color: (color == colors.primary) ? colors.background : Theme.of(context).textTheme.bodyLarge!.color,
                   ),
             ),
           ),
