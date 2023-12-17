@@ -42,7 +42,7 @@ class PetProfileScreen extends StatelessWidget {
               SizedBox(height: 3.h),
               _GeneralInformation(pet),
               SizedBox(height: 3.h),
-              _DeleteButton(pet.id!),
+              _DeleteButton(pet.id!, pet.name!),
               SizedBox(height: 3.h),
             ],
           ),
@@ -54,10 +54,12 @@ class PetProfileScreen extends StatelessWidget {
 
 class _DeleteButton extends StatelessWidget {
   final String petId;
-  const _DeleteButton(this.petId);
+  final String petName;
+  const _DeleteButton(this.petId, this.petName);
 
   @override
   Widget build(BuildContext context) {
+    TextTheme textStyle = Theme.of(context).textTheme;
     return Center(
       child: TextButton(
         child: Text(AppLocalizations.of(context)!.deletePet),
@@ -73,6 +75,15 @@ class _DeleteButton extends StatelessWidget {
               actionsPadding: EdgeInsets.all(1.h),
               actionsAlignment: MainAxisAlignment.spaceAround,
               contentPadding: EdgeInsets.all(5.w),
+              title: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('${AppLocalizations.of(context)!.remove + " "} $petName', style: textStyle.titleMedium,),
+                  SizedBox(height: 2.h,),
+                  Text(AppLocalizations.of(context)!.eliminatePet, style: textStyle.bodySmall, textAlign: TextAlign.center,)
+                ],
+              ),
               actions: [
                 TextButton(onPressed: () => context.pop(), child: Text(AppLocalizations.of(context)!.cancel)),
                 TextButton(
