@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:petto_app/UI/providers/providers.dart';
-import 'package:petto_app/UI/screens/home/dont_have_pet.dart';
+import 'package:petto_app/UI/widgets/shared/dont_have_pet.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:petto_app/domain/entities/entities.dart';

@@ -100,7 +100,7 @@
     "register": "Registrate",
     "registerYourPet": "Por favor registra a tu amigo peludo y permitenos ayudarte a hacerlo muy feliz",
     "reminderTitle": "Título del recordatorio",
-    "remove": "Eliminar a",
+    "remove": "Eliminar a {pet}",
     "resendInXSeconds": "Reenviar en {seconds} segundos",
     "salud": "Salud",
     "save": "Guardar",

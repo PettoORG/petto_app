@@ -96,7 +96,7 @@
     "register": "Sign Up",
     "registerYourPet": "Please register your furry friend and let us help you make them very happy.",
     "reminderTitle": "Reminder Title",
-    "remove": "Eliminate",
+    "remove": "Eliminate {pet}",
     "resendInXSeconds": "Resend in {seconds} seconds",
     "save": "Save",
     "securityPolicies": "Security policies",
