@@ -42,7 +42,7 @@ class PetProfileScreen extends StatelessWidget {
               SizedBox(height: 3.h),
               _GeneralInformation(pet),
               SizedBox(height: 3.h),
-              _DeleteButton(pet.id!, pet.name!),
+              _DeleteButton(pet.id!, pet.name),
               SizedBox(height: 3.h),
             ],
           ),
@@ -79,9 +79,18 @@ class _DeleteButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(AppLocalizations.of(context)!.remove(petName), style: textStyle.titleMedium,),
-                  SizedBox(height: 2.h,),
-                  Text(AppLocalizations.of(context)!.eliminatePet, style: textStyle.bodySmall, textAlign: TextAlign.center,)
+                  Text(
+                    AppLocalizations.of(context)!.remove(petName),
+                    style: textStyle.titleMedium,
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.eliminatePet,
+                    style: textStyle.bodySmall,
+                    textAlign: TextAlign.center,
+                  )
                 ],
               ),
               actions: [

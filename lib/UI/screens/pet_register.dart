@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:petto_app/UI/providers/pet_provider.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/domain/entities/entities.dart';

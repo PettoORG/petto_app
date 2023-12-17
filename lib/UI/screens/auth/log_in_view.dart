@@ -71,9 +71,7 @@ class _LoginViewState extends State<LoginView> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
+              SizedBox(height: 2.h),
               TextFormField(
                 controller: emailController,
                 style: Theme.of(context).textTheme.bodyMedium,
@@ -82,9 +80,7 @@ class _LoginViewState extends State<LoginView> {
                 decoration: InputDecoration(
                     prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: AppLocalizations.of(context)!.email),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
+              SizedBox(height: 2.h),
               TextFormField(
                 controller: passwordController,
                 obscureText: !_passwordVisible,
@@ -103,9 +99,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 1.5.h,
-              ),
+              SizedBox(height: 1.5.h),
               Row(
                 children: [
                   Flexible(child: Container()),
@@ -121,18 +115,22 @@ class _LoginViewState extends State<LoginView> {
                   )
                 ],
               ),
-              SizedBox(
-                height: 4.h,
-              ),
+              SizedBox(height: 4.h),
               GlobalGeneralButton(
-                isLoading: context.watch<AuthenticationProvider>().isLoading,
+                isLoading: (context.watch<AuthenticationProvider>().isLoading ||
+                    context.watch<PetProvider>().isLoading ||
+                    context.watch<ReminderProvider>().isLoading),
                 text: AppLocalizations.of(context)!.signIn,
                 onPressed: context.watch<AuthenticationProvider>().isLoading
                     ? null
                     : () async {
+                        PetProvider petsProvider = context.read<PetProvider>();
+                        ReminderProvider reminderProvider = context.read<ReminderProvider>();
                         try {
                           if (!auth.isValidForm(logInKey)) return;
                           await auth.logIn(emailController.text, passwordController.text);
+                          await petsProvider.getPets();
+                          await reminderProvider.getReminders();
                           context.pushReplacementNamed("home");
                         } catch (e) {
                           if (e.toString().contains('INVALID_LOGIN_CREDENTIALS')) {
@@ -141,9 +139,7 @@ class _LoginViewState extends State<LoginView> {
                         }
                       },
               ),
-              SizedBox(
-                height: 1.h,
-              ),
+              SizedBox(height: 1.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -158,16 +154,14 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 1.h,
-              ),
+              SizedBox(height: 1.h),
               RichText(
-                  text: TextSpan(
-                      text: AppLocalizations.of(context)!.byregisteringyouaccept,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: 3.2.w,
-                          ),
-                      children: <TextSpan>[
+                text: TextSpan(
+                  text: AppLocalizations.of(context)!.byregisteringyouaccept,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 3.2.w,
+                      ),
+                  children: <TextSpan>[
                     TextSpan(
                       text: AppLocalizations.of(context)!.termsAndConditions.toLowerCase(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -194,7 +188,9 @@ class _LoginViewState extends State<LoginView> {
                           );
                         },
                     )
-                  ]))
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -209,18 +205,19 @@ class _Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
     return Container(
-        padding: EdgeInsets.all(8.sp),
-        margin: EdgeInsets.only(bottom: 7.h, top: 12.h),
-        height: 11.h,
-        width: 11.h,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.sp),
-          color: color.primary,
-        ),
-        child: SvgPicture.asset(
-          "assets/petto.svg",
-          height: 10.h,
-          width: 10.w,
-        ));
+      padding: EdgeInsets.all(8.sp),
+      margin: EdgeInsets.only(bottom: 7.h, top: 12.h),
+      height: 11.h,
+      width: 11.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.sp),
+        color: color.primary,
+      ),
+      child: SvgPicture.asset(
+        "assets/petto.svg",
+        height: 10.h,
+        width: 10.w,
+      ),
+    );
   }
 }

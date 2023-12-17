@@ -13,7 +13,6 @@ class OfflineScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme color = Theme.of(context).colorScheme;
     return Scaffold(
       body: Center(
         child: Column(
@@ -46,17 +45,16 @@ class OfflineScreen extends StatelessWidget {
               height: 4.h,
             ),
             GlobalGeneralButton(
-              text: AppLocalizations.of(context)!.tryAgain,
-              onPressed: () async {
-                final bool isOnline = await context.read<ConnectionProvider>().checkInternetConnection();
-                if (!context.mounted) {
-                  return;
-                }
-                if (isOnline) {
-                  context.pop();
-                }
-              }
-            ),
+                text: AppLocalizations.of(context)!.tryAgain,
+                onPressed: () async {
+                  final bool isOnline = await context.read<ConnectionProvider>().checkInternetConnection();
+                  if (!context.mounted) {
+                    return;
+                  }
+                  if (isOnline) {
+                    context.pop();
+                  }
+                }),
           ],
         ),
       ),

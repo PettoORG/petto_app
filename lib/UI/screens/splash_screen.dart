@@ -32,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     PetProvider petsProvider = context.read<PetProvider>();
     ReminderProvider reminderProvider = context.read<ReminderProvider>();
     if (status == AnimationStatus.completed) {
+      reminderProvider.requestNotificationPermission();
       if (onboarding == true || onboarding == null) return context.pushReplacementNamed('onboarding');
       if (user == null) return context.pushReplacementNamed('auth');
       await reminderProvider.getReminders();
@@ -45,6 +46,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         },
       ).catchError(
         (e) {
+          logger.e('GETPETS ERROR IN SPLASH: $e');
           showToast(AppLocalizations.of(context)!.error, context);
         },
       );
@@ -69,6 +71,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    TextTheme textStyles = Theme.of(context).textTheme;
     return Scaffold(
       body: Stack(
         children: [
@@ -91,15 +94,16 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 children: [
                   Text(
                     'Petto',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(fontSize: 35.sp, fontFamily: 'Pacifico-Regular'),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontSize: 35.sp,
+                          fontFamily: 'Pacifico-Regular',
+                          color: Colors.black,
+                        ),
                   ),
                   SizedBox(height: 1.h),
                   Text(
                     AppLocalizations.of(context)!.yourWellCaredPet,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.black),
                   ),
                   SizedBox(height: 8.h),
                   LottieBuilder.asset(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/infrastructure/datasources/firestore_reminder_datasource.dart';
 import 'package:petto_app/infrastructure/repositories/reminder_repository_impl.dart';
@@ -39,6 +40,7 @@ class ReminderProvider extends ChangeNotifier {
       date: date,
     );
     try {
+      await requestNotificationPermission();
       isLoading = true;
       await _datasource.addReminder(reminder);
       for (int i = 0; i < reminders.length; i++) {
@@ -78,6 +80,14 @@ class ReminderProvider extends ChangeNotifier {
     } catch (e) {
       isLoading = false;
       rethrow;
+    }
+  }
+
+  Future<void> requestNotificationPermission() async {
+    PermissionStatus status = await Permission.notification.status;
+
+    if (!status.isGranted) {
+      status = await Permission.notification.request();
     }
   }
 }

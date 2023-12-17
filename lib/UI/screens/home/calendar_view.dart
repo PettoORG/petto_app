@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:petto_app/UI/providers/language_provider.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/domain/entities/entities.dart';
