@@ -71,7 +71,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textStyles = Theme.of(context).textTheme;
     return Scaffold(
       body: Stack(
         children: [
