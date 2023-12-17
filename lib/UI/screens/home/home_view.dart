@@ -283,7 +283,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
     TextTheme textStyle = Theme.of(context).textTheme;
     ColorScheme colors = Theme.of(context).colorScheme;
     return AlertDialog(
-      backgroundColor: colors.surface,
+      backgroundColor: colors.background,
       surfaceTintColor: colors.surface,
       shadowColor: colors.shadow,
       elevation: 10,
