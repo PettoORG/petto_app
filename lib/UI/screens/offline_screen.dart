@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:petto_app/UI/providers/connection_status_provider.dart';
+import 'package:petto_app/UI/widgets/shared/global_general_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,8 @@ class OfflineScreen extends StatelessWidget {
             SizedBox(
               height: 4.h,
             ),
-            ElevatedButton(
+            GlobalGeneralButton(
+              text: AppLocalizations.of(context)!.tryAgain,
               onPressed: () async {
                 final bool isOnline = await context.read<ConnectionProvider>().checkInternetConnection();
                 if (!context.mounted) {
@@ -53,14 +55,7 @@ class OfflineScreen extends StatelessWidget {
                 if (isOnline) {
                   context.pop();
                 }
-              },
-              style: ButtonStyle(
-                fixedSize: MaterialStateProperty.all(Size(75.w, 6.5.h)),
-              ),
-              child: Text(
-                AppLocalizations.of(context)!.tryAgain,
-                style: TextStyle(color: color.surfaceVariant),
-              ),
+              }
             ),
           ],
         ),

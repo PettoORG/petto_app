@@ -34,6 +34,7 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
   String? foodType;
   String? lastDeworming;
   String? lastVeterinarySession;
+  String? microchip;
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +109,17 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
                         onTap: (date) => lastVeterinarySession = date,
                         label: AppLocalizations.of(context)!.lastVeterinarySession,
                         title: AppLocalizations.of(context)!.veterinarySession,
+                      ),
+                      SizedBox(height: 3.h),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(AppLocalizations.of(context)!.microchip, style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.start,),
+                      ),
+                      SizedBox(height: 1.h),
+                      TextFormField(
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.pets), labelText: AppLocalizations.of(context)!.microchip),
                       ),
                       SizedBox(height: 12.h),
                     ],
