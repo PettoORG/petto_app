@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
@@ -50,6 +49,7 @@ class _RegisterViewState extends State<RegisterView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 10.h),
               const _Logo(),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 0.8.h),
@@ -164,20 +164,13 @@ class _Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme color = Theme.of(context).colorScheme;
-    return Container(
-      padding: EdgeInsets.all(8.sp),
-      margin: EdgeInsets.only(bottom: 7.h, top: 12.h),
-      height: 11.h,
-      width: 11.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.sp),
-        color: color.primary,
-      ),
-      child: SvgPicture.asset(
-        "assets/petto.svg",
-        height: 10.h,
-        width: 10.w,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(5.w),
+      child: Image.asset(
+        "assets/icon/icon.png",
+        fit: BoxFit.cover,
+        height: 35.w,
+        width: 35.w,
       ),
     );
   }
