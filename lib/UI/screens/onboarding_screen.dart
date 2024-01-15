@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +8,6 @@ import 'package:petto_app/utils/local_storage.dart';
 import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const name = 'onboarding';
@@ -48,21 +48,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               _OnboardingView(
                 asset: 'assets/animations/petto-space.json',
-                title: AppLocalizations.of(context)!.yourWellCaredPet,
-                text: AppLocalizations.of(context)!.pettoHelpsYourPet,
+                title: 'yourWellCaredPet'.tr(),
+                text: 'pettoHelpsYourPet'.tr(),
                 leftBorderRadius: true,
                 backgrounColor: Theme.of(context).colorScheme.primaryContainer,
               ),
               _OnboardingView(
                 asset: 'assets/animations/petto-planet.json',
-                title: AppLocalizations.of(context)!.essentialReminders,
-                text: AppLocalizations.of(context)!.pettoRemindsYou,
+                title: 'essentialReminders'.tr(),
+                text: 'pettoRemindsYou'.tr(),
                 backgrounColor: Theme.of(context).colorScheme.secondaryContainer,
               ),
               _OnboardingView(
                 asset: 'assets/animations/petto-moon.json',
-                title: AppLocalizations.of(context)!.pettips,
-                text: AppLocalizations.of(context)!.pettoProvidesTips,
+                title: 'pettips'.tr(),
+                text: 'pettoProvidesTips'.tr(),
                 rightBorderRadius: true,
                 backgrounColor: Theme.of(context).colorScheme.tertiaryContainer,
               ),
@@ -86,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               LocalStorage.prefs.setBool('showOnboarding', false);
                               return context.pushReplacementNamed('pet-register');
                             },
-                            child: Text(AppLocalizations.of(context)!.skip))
+                            child: Text('skip'.tr()))
                         : IconButton(
                             onPressed: () {
                               controller.previousPage(
@@ -132,11 +132,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 },
                               ).catchError(
                                 (e) {
-                                  showToast(AppLocalizations.of(context)!.error, context);
+                                  showToast('error'.tr(), context);
                                 },
                               );
                             },
-                            child: Text(AppLocalizations.of(context)!.letsGo),
+                            child: Text('letsGo'.tr()),
                           )
                         : IconButton(
                             onPressed: () {

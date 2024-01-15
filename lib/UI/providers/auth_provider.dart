@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:petto_app/domain/entities/entities.dart' as entitie;
@@ -5,7 +6,6 @@ import 'package:petto_app/infrastructure/datasources/firestore_user_datasource.d
 import 'package:petto_app/infrastructure/repositories/user_repository_impl.dart';
 import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/utils.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final UserRepositoryImpl _userRepository = UserRepositoryImpl(FirestoreUserDatasource());
@@ -39,6 +39,7 @@ class AuthenticationProvider with ChangeNotifier {
     try {
       isLoading = true;
       await _firebaseAuth.signInUp(email, password, displayName);
+      logger.d(getCurrentUser());
       Map<String, dynamic> user = entitie.User(
         displayName: displayName,
         email: email,
@@ -143,6 +144,7 @@ class AuthenticationProvider with ChangeNotifier {
       isLoading = false;
       logger.e('AUTH ERROR: $e');
       rethrow;
+      //TODO EXEPCION DE REAUTH NO MANEJADA
     }
   }
 
@@ -161,27 +163,27 @@ class AuthenticationProvider with ChangeNotifier {
 
   String? validateEmail(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.enterEmail;
+      return 'enterEmail'.tr();
     }
     if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
-      return AppLocalizations.of(context)!.enterValidEmail;
+      return 'enterValidEmail'.tr();
     }
     return null;
   }
 
   String? validateDisplayName(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.enterValidName;
+      return 'enterValidName'.tr();
     }
     return null;
   }
 
   String? validatePassword(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.enterPassword;
+      return 'enterPassword'.tr();
     }
     if (value.length < 8) {
-      return AppLocalizations.of(context)!.passwordLength;
+      return 'passwordLength'.tr();
     }
     return null;
   }

@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +11,6 @@ import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginView extends StatefulWidget {
   final Function()? onTap;
@@ -59,7 +59,7 @@ class _LoginViewState extends State<LoginView> {
               ListTile(
                 title: Padding(
                   padding: EdgeInsets.symmetric(vertical: 0.8.h),
-                  child: Text(AppLocalizations.of(context)!.welcomeBack,
+                  child: Text('welcomeBack'.tr(),
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: 18.5.sp,
@@ -67,7 +67,7 @@ class _LoginViewState extends State<LoginView> {
                           )),
                 ),
                 subtitle: Text(
-                  AppLocalizations.of(context)!.enterYourEmail,
+                  'enterYourEmail'.tr(),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -77,8 +77,7 @@ class _LoginViewState extends State<LoginView> {
                 style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) => auth.validateEmail(value, context),
-                decoration: InputDecoration(
-                    prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: AppLocalizations.of(context)!.email),
+                decoration: InputDecoration(prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: 'email'.tr()),
               ),
               SizedBox(height: 2.h),
               TextFormField(
@@ -88,7 +87,7 @@ class _LoginViewState extends State<LoginView> {
                 validator: (value) => auth.validatePassword(value, context),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
-                  labelText: AppLocalizations.of(context)!.password,
+                  labelText: 'password'.tr(),
                   suffixIcon: GestureDetector(
                     onTap: () {
                       setState(() {
@@ -106,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                   GestureDetector(
                     onTap: widget.onTapTwo,
                     child: Text(
-                      AppLocalizations.of(context)!.forgetPassword,
+                      'forgetPassword'.tr(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 3.2.w,
                             color: color.primary,
@@ -120,7 +119,7 @@ class _LoginViewState extends State<LoginView> {
                 isLoading: (context.watch<AuthenticationProvider>().isLoading ||
                     context.watch<PetProvider>().isLoading ||
                     context.watch<ReminderProvider>().isLoading),
-                text: AppLocalizations.of(context)!.signIn,
+                text: 'signIn'.tr(),
                 onPressed: context.watch<AuthenticationProvider>().isLoading
                     ? null
                     : () async {
@@ -134,7 +133,7 @@ class _LoginViewState extends State<LoginView> {
                           context.pushReplacementNamed("home");
                         } catch (e) {
                           if (e.toString().contains('INVALID_LOGIN_CREDENTIALS')) {
-                            showToast(AppLocalizations.of(context)!.incorrectCredentials, context);
+                            showToast('incorrectCredentials'.tr(), context);
                           }
                         }
                       },
@@ -143,12 +142,12 @@ class _LoginViewState extends State<LoginView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppLocalizations.of(context)!.dontHaveAccount),
+                  Text('dontHaveAccount'.tr()),
                   SizedBox(width: 1.w),
                   GestureDetector(
                     onTap: widget.onTap,
                     child: Text(
-                      AppLocalizations.of(context)!.register,
+                      'register'.tr(),
                       style: TextStyle(color: color.primary),
                     ),
                   ),
@@ -157,13 +156,13 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(height: 1.h),
               RichText(
                 text: TextSpan(
-                  text: AppLocalizations.of(context)!.byregisteringyouaccept,
+                  text: 'byregisteringyouaccept'.tr(),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 3.2.w,
                       ),
                   children: <TextSpan>[
                     TextSpan(
-                      text: AppLocalizations.of(context)!.termsAndConditions.toLowerCase(),
+                      text: 'termsAndConditions'.tr().toLowerCase(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 3.2.w,
                             color: color.primary,

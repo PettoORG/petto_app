@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -6,7 +7,6 @@ import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   static const name = 'change-password';
@@ -40,7 +40,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.changePassword),
+        title: Text('changePassword'.tr()),
         centerTitle: true,
         leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
       ),
@@ -95,14 +95,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               SizedBox(height: 3.h),
               GlobalGeneralButton(
                 isLoading: context.watch<AuthenticationProvider>().isLoading,
-                text: AppLocalizations.of(context)!.save,
+                text: 'save'.tr(),
                 onPressed: () {
                   try {
                     if (!auth.isValidForm(formKey)) return;
                     auth.isLoading = true;
                     auth.updatePassWord(newPassWord.text);
                     auth.isLoading = true;
-                    showToast(AppLocalizations.of(context)!.successfulPasswordChange, context);
+                    showToast('successfulPasswordChange'.tr(), context);
                   } catch (e) {
                     logger.e('AUTH ERROR: $e');
                     //TODO: MANEJAR ERRORES

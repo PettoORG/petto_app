@@ -1,10 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:petto_app/UI/providers/connection_status_provider.dart';
 import 'package:petto_app/UI/widgets/shared/global_general_button.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class OfflineScreen extends StatelessWidget {
@@ -27,7 +27,7 @@ class OfflineScreen extends StatelessWidget {
               height: 7.w,
             ),
             Text(
-              AppLocalizations.of(context)!.noConection,
+              'noConection'.tr(),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontSize: 18.5.sp,
                     fontWeight: FontWeight.w900,
@@ -36,7 +36,7 @@ class OfflineScreen extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 5.h),
               child: Text(
-                AppLocalizations.of(context)!.checkConection,
+                'checkConection'.tr(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(),
               ),
@@ -45,7 +45,7 @@ class OfflineScreen extends StatelessWidget {
               height: 4.h,
             ),
             GlobalGeneralButton(
-                text: AppLocalizations.of(context)!.tryAgain,
+                text: 'tryAgain'.tr(),
                 onPressed: () async {
                   final bool isOnline = await context.read<ConnectionProvider>().checkInternetConnection();
                   if (!context.mounted) {

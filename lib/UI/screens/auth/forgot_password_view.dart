@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
@@ -57,14 +57,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Widget build(BuildContext context) {
     AuthenticationProvider auth = context.read<AuthenticationProvider>();
     ColorScheme colors = Theme.of(context).colorScheme;
-    String buttonText = _resendTimer != null
-        ? AppLocalizations.of(context)!.resendInXSeconds(_secondsRemaining)
-        : AppLocalizations.of(context)!.send;
+    String buttonText =
+        _resendTimer != null ? 'resendInXSeconds'.tr(args: [_secondsRemaining.toString()]) : 'send'.tr();
     return CustomScrollView(
       slivers: [
         SliverAppBar(
           centerTitle: true,
-          title: Text(AppLocalizations.of(context)!.forgetPassword),
+          title: Text('forgetPassword'.tr()),
           leading: IconButton(onPressed: widget.onPressed, icon: const Icon(Icons.arrow_back_ios_new_rounded)),
         ),
         SliverToBoxAdapter(
@@ -85,7 +84,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     height: 4.h,
                   ),
                   Text(
-                    AppLocalizations.of(context)!.textHelpForgotPassword,
+                    'textHelpForgotPassword'.tr(),
                     textAlign: TextAlign.justify,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
@@ -99,8 +98,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       validator: (value) => auth.validateEmail(value, context),
                       autocorrect: true,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: AppLocalizations.of(context)!.email),
+                      decoration:
+                          InputDecoration(prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: 'email'.tr()),
                     ),
                   ),
                   SizedBox(height: 5.h),

@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/domain/entities/entities.dart';
@@ -13,7 +13,6 @@ import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetRegisterScreen extends StatefulWidget {
   static const name = 'pet-register';
@@ -63,7 +62,7 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
             child: Column(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.aboutYourPet,
+                  'aboutYourPet'.tr(),
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -87,35 +86,35 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                   onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.pets),
-                    label: Text(AppLocalizations.of(context)!.name),
+                    label: Text('name'.tr()),
                   ),
                 ),
                 SizedBox(height: 3.h),
                 _DefaultSection(
-                  title: AppLocalizations.of(context)!.petType,
-                  options: [AppLocalizations.of(context)!.dog, AppLocalizations.of(context)!.cat],
+                  title: 'petType'.tr(),
+                  options: ['dog'.tr(), 'cat'.tr()],
                   onOptionSelected: (option) => petSpecie = option,
                 ),
                 SizedBox(height: 3.h),
                 _DefaultSection(
-                  title: AppLocalizations.of(context)!.petBreed,
-                  options: [AppLocalizations.of(context)!.purebred, AppLocalizations.of(context)!.mutt],
+                  title: 'petBreed'.tr(),
+                  options: ['purebred'.tr(), 'mutt'.tr()],
                   onOptionSelected: (option) => petBreed = option,
                 ),
                 SizedBox(height: 3.h),
                 _DefaultSection(
-                  title: AppLocalizations.of(context)!.petSize,
+                  title: 'petSize'.tr(),
                   options: [
-                    AppLocalizations.of(context)!.small,
-                    AppLocalizations.of(context)!.medium,
-                    AppLocalizations.of(context)!.large,
+                    'small'.tr(),
+                    'medium'.tr(),
+                    'large'.tr(),
                   ],
                   onOptionSelected: (option) => petSize = option,
                 ),
                 SizedBox(height: 3.h),
                 _DefaultSection(
-                  title: AppLocalizations.of(context)!.gender,
-                  options: [AppLocalizations.of(context)!.female, AppLocalizations.of(context)!.male],
+                  title: 'gender'.tr(),
+                  options: ['female'.tr(), 'male'.tr()],
                   onOptionSelected: (option) => petGender = option,
                 ),
                 SizedBox(height: 3.h),
@@ -129,7 +128,7 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                 SizedBox(height: 3.h),
                 GlobalGeneralButton(
                   isLoading: context.watch<PetProvider>().isLoading,
-                  text: AppLocalizations.of(context)!.save,
+                  text: 'save'.tr(),
                   onPressed: () async {
                     if (validateData()) {
                       DateTime birthdate = DateTime.parse(petBirthDate!);
@@ -160,10 +159,10 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                           return context.pushReplacementNamed('home');
                         }
                       } catch (e) {
-                        showToast(AppLocalizations.of(context)!.error, context);
+                        showToast('error'.tr(), context);
                       }
                     } else {
-                      showToast(AppLocalizations.of(context)!.missingOrIncorrectData, context);
+                      showToast('missingOrIncorrectData'.tr(), context);
                     }
                   },
                 )
@@ -225,7 +224,7 @@ class _PickPetImage extends StatelessWidget {
         SizedBox(width: 5.w),
         Flexible(
           child: Text(
-            AppLocalizations.of(context)!.imageOfYourPet,
+            'imageOfYourPet'.tr(),
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
@@ -315,7 +314,7 @@ class _PetWeightSection extends StatelessWidget {
               suffixIcon: Center(
                 widthFactor: 1,
                 child: Text(
-                  AppLocalizations.of(context)!.kg,
+                  'kg'.tr(),
                 ),
               ),
             ),
@@ -324,7 +323,7 @@ class _PetWeightSection extends StatelessWidget {
         SizedBox(width: 6.w),
         Flexible(
             child: Text(
-          AppLocalizations.of(context)!.enterYourPetsWeight,
+          'enterYourPetsWeight'.tr(),
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
           overflow: TextOverflow.ellipsis,
           maxLines: 3,
@@ -388,7 +387,7 @@ class _BirthPetPickerState extends State<_BirthPetPicker> {
       },
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.pets),
-        label: Text(AppLocalizations.of(context)!.petDateOfBirth),
+        label: Text('petDateOfBirth'.tr()),
       ),
     );
   }

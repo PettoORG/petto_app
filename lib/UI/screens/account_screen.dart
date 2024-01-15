@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -8,7 +9,6 @@ import 'package:petto_app/utils/logger_prints.dart';
 import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountScreen extends StatefulWidget {
   static const name = 'account';
@@ -53,7 +53,7 @@ class _AccountScreenState extends State<AccountScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(AppLocalizations.of(context)!.myAccount),
+        title: Text('myAccount'.tr()),
         leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
       ),
       body: Padding(
@@ -70,7 +70,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 children: [
                   SizedBox(height: 3.h),
                   Text(
-                    AppLocalizations.of(context)!.name,
+                    'name'.tr(),
                     style: textStyle.titleMedium,
                   ),
                   SizedBox(height: 1.h),
@@ -86,7 +86,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   SizedBox(height: 3.h),
                   Text(
-                    AppLocalizations.of(context)!.email,
+                    'email'.tr(),
                     style: textStyle.titleMedium,
                   ),
                   SizedBox(height: 1.h),
@@ -114,13 +114,13 @@ class _AccountScreenState extends State<AccountScreen> {
                           },
                         );
                       },
-                      child: Text(AppLocalizations.of(context)!.deleteAccount),
+                      child: Text('deleteAccount'.tr()),
                     ),
                   ),
                   SizedBox(height: 3.h),
                   GlobalGeneralButton(
                     isLoading: context.watch<AuthenticationProvider>().isLoading,
-                    text: AppLocalizations.of(context)!.save,
+                    text: 'save'.tr(),
                     onPressed: isEdited()
                         ? () async {
                             try {
@@ -141,7 +141,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               }
                             } catch (e) {
                               if (e.toString().contains('email-already-in-use')) {
-                                showToast(AppLocalizations.of(context)!.emailAlreadyRegistered, context);
+                                showToast('emailAlreadyRegistered'.tr(), context);
                               }
                               if (e.toString().contains('requires-recent-login')) {
                                 showDialog(
@@ -183,7 +183,7 @@ class _ReAuthDialog extends StatelessWidget {
       actionsAlignment: MainAxisAlignment.spaceAround,
       contentPadding: EdgeInsets.all(5.w),
       actions: [
-        TextButton(onPressed: () => context.pop(), child: Text(AppLocalizations.of(context)!.cancel)),
+        TextButton(onPressed: () => context.pop(), child: Text('cancel'.tr())),
         TextButton(
             onPressed: () async {
               try {
@@ -194,14 +194,14 @@ class _ReAuthDialog extends StatelessWidget {
                 logger.e('AUTH ERROR: $e');
               }
             },
-            child: Text(AppLocalizations.of(context)!.next)),
+            child: Text('next'.tr())),
       ],
       content: SizedBox(
         height: 19.h,
         child: Column(
           children: [
             Text(
-              AppLocalizations.of(context)!.checkYourIdentity,
+              'checkYourIdentity'.tr(),
               style: textStyle.titleMedium,
             ),
             SizedBox(height: 1.h),
@@ -216,7 +216,7 @@ class _ReAuthDialog extends StatelessWidget {
               validator: (value) => auth.validatePassword(value, context),
               decoration: InputDecoration(
                 prefixIcon: const Icon(BoxIcons.bx_lock),
-                labelText: AppLocalizations.of(context)!.password,
+                labelText: 'password'.tr(),
               ),
             ),
           ],
@@ -243,7 +243,7 @@ class _DeletAccountDialog extends StatelessWidget {
       actionsPadding: EdgeInsets.only(bottom: 1.h),
       contentPadding: EdgeInsets.fromLTRB(6.w, 6.w, 6.w, 0.0),
       actions: [
-        TextButton(onPressed: () => context.pop(), child: Text(AppLocalizations.of(context)!.cancel)),
+        TextButton(onPressed: () => context.pop(), child: Text('cancel'.tr())),
         TextButton(
             onPressed: () {
               try {
@@ -263,7 +263,7 @@ class _DeletAccountDialog extends StatelessWidget {
                 }
               }
             },
-            child: Text(AppLocalizations.of(context)!.confirm)),
+            child: Text('confirm'.tr())),
       ],
       content: SizedBox(
         height: 19.h,
@@ -271,13 +271,13 @@ class _DeletAccountDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              AppLocalizations.of(context)!.confirmDeleteAccount,
+              'confirmDeleteAccount'.tr(),
               style: textStyle.titleMedium,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 2.h),
             Text(
-              AppLocalizations.of(context)!.warningDataLoss,
+              'warningDataLoss'.tr(),
               style: textStyle.titleSmall,
               textAlign: TextAlign.center,
             ),
@@ -306,7 +306,7 @@ class _ChangePassword extends StatelessWidget {
             boxShadow: [BoxShadow(blurRadius: 3, color: colors.shadow, offset: const Offset(0, 0))]),
         child: Row(
           children: [
-            Text(AppLocalizations.of(context)!.changePassword),
+            Text('changePassword'.tr()),
             const Spacer(),
             const Icon(Icons.arrow_forward_ios_rounded),
           ],

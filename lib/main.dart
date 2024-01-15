@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/config/router/app_router.dart';
 import 'package:petto_app/firebase_options.dart';
@@ -9,27 +9,31 @@ import 'package:petto_app/infrastructure/datasources/firestore_reminder_datasour
 import 'package:petto_app/utils/local_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await LocalStorage.configPrefs();
   await FirestoreReminderDatasource.init();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => LanguageProvider()),
-      ChangeNotifierProvider(create: (context) => ThemeProvider()),
-      ChangeNotifierProvider(create: (context) => ConnectionProvider()),
-      ChangeNotifierProvider(create: (context) => PettipsProvider()),
-      ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
-      ChangeNotifierProvider(create: (context) => UserProvider()),
-      ChangeNotifierProvider(create: (context) => PetProvider()),
-      ChangeNotifierProvider(create: (context) => ReminderProvider()),
-    ],
-    child: const MyApp(),
+  runApp(EasyLocalization(
+    path: 'assets/lang',
+    supportedLocales: const [Locale('en'), Locale('es')],
+    child: MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => LanguageProvider()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => ConnectionProvider()),
+        ChangeNotifierProvider(create: (context) => PettipsProvider()),
+        ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => PetProvider()),
+        ChangeNotifierProvider(create: (context) => ReminderProvider()),
+      ],
+      child: const MyApp(),
+    ),
   ));
 }
 
@@ -44,17 +48,9 @@ class MyApp extends StatelessWidget {
         title: 'Petto',
         routerConfig: appRouter,
         theme: context.watch<ThemeProvider>().theme,
-        locale: Locale(context.watch<LanguageProvider>().language),
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate
-        ],
-        supportedLocales: const [
-          Locale('en'),
-          Locale('es'),
-        ],
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
       );
     });
   }

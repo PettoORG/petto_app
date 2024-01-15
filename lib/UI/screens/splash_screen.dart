@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +8,6 @@ import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   static const name = 'splash';
@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       ).catchError(
         (e) {
           logger.e('GETPETS ERROR IN SPLASH: $e');
-          showToast(AppLocalizations.of(context)!.error, context);
+          showToast('error'.tr(), context);
         },
       );
     }
@@ -101,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   ),
                   SizedBox(height: 1.h),
                   Text(
-                    AppLocalizations.of(context)!.yourWellCaredPet,
+                    'yourWellCaredPet'.tr(),
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.black),
                   ),
                   SizedBox(height: 8.h),

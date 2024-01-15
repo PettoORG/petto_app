@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/logger_prints.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:petto_app/UI/providers/language_provider.dart';
 
 class TermsAndCondicionsView extends StatelessWidget {
@@ -45,7 +45,7 @@ class TermsAndCondicionsView extends StatelessWidget {
                   if (snapshot.hasData) {
                     return Column(children: [
                       Text(
-                        AppLocalizations.of(context)!.termsAndConditions,
+                        'termsAndConditions'.tr(),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),

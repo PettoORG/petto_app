@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -6,7 +7,6 @@ import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationSettingScreen extends StatefulWidget {
   static const name = 'notifications-settings';
@@ -23,12 +23,12 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
     ColorScheme color = Theme.of(context).colorScheme;
     List<_SwitchModel> options = [
       _SwitchModel(
-        title: AppLocalizations.of(context)!.email,
+        title: 'email'.tr(),
         icon: BoxIcons.bx_envelope,
         onTap: (value) => db.updateAllowEmailNotifications(value),
       ),
       _SwitchModel(
-        title: AppLocalizations.of(context)!.notifications,
+        title: 'notifications'.tr(),
         icon: BoxIcons.bx_bell,
         onTap: (value) => db.updateAllowPhoneNotifications(value),
       ),
@@ -47,7 +47,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
           padding: EdgeInsets.symmetric(horizontal: 5.w),
           child: Column(
             children: [
-              Text(AppLocalizations.of(context)!.alertNotification, style: Theme.of(context).textTheme.titleSmall),
+              Text('alertNotification'.tr(), style: Theme.of(context).textTheme.titleSmall),
               SizedBox(height: 3.h),
               Container(
                 height: 30.h,
@@ -60,8 +60,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               SizedBox(
                 height: 4.h,
               ),
-              Text(AppLocalizations.of(context)!.descriptionNotification,
-                  style: Theme.of(context).textTheme.bodyMedium),
+              Text('descriptionNotification'.tr(), style: Theme.of(context).textTheme.bodyMedium),
               SizedBox(height: 5.h),
               ...List.generate(
                 options.length,

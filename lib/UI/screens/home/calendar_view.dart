@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
@@ -5,7 +6,6 @@ import 'package:petto_app/domain/entities/entities.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarView extends StatelessWidget {
   const CalendarView({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class CalendarView extends StatelessWidget {
                   const _Calendar(),
                   SizedBox(height: 3.h),
                   Text(
-                    AppLocalizations.of(context)!.upcomingReminders,
+                    'upcomingReminders'.tr(),
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   SizedBox(height: 1.h),

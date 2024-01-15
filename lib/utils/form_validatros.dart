@@ -1,4 +1,4 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class FormValidators {
@@ -8,68 +8,68 @@ class FormValidators {
 
   static String? validateEmail(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.enterEmail;
+      return 'enterEmail'.tr();
     }
     if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
-      return AppLocalizations.of(context)!.enterValidEmail;
+      return 'enterValidEmail'.tr();
     }
     return null;
   }
 
   static String? validateName(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.enterValidName;
+      return 'enterValidName'.tr();
     }
     return null;
   }
 
   static String? validateReminderTitle(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.enterValidTitle;
+      return 'enterValidTitle'.tr();
     }
     return null;
   }
 
   static String? validateReminderBody(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.enterValidDescription;
+      return 'enterValidDescription'.tr();
     }
     return null;
   }
 
   static String? validateDate(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.enterValidDate;
+      return 'enterValidDate'.tr();
     }
     return null;
   }
 
   static String? validateWeight(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.enterWeight;
+      return 'enterWeight'.tr();
     }
     if (!RegExp(r'^\d+\.?\d{0,2}').hasMatch(value)) {
-      return AppLocalizations.of(context)!.enterValidWeight;
+      return 'enterValidWeight'.tr();
     }
     return null;
   }
 
   static String? validatePassword(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.enterPassword;
+      return 'enterPassword'.tr();
     }
     if (value.length < 8) {
-      return AppLocalizations.of(context)!.passwordLength;
+      return 'passwordLength'.tr();
     }
     return null;
   }
 
   static String? confirmPassword(String? confirmNewPassWord, String newPassWord, BuildContext context) {
     if (confirmNewPassWord == null || confirmNewPassWord.isEmpty) {
-      return AppLocalizations.of(context)!.confirmNewPassword;
+      return 'confirmNewPassword'.tr();
     }
     if (confirmNewPassWord != newPassWord) {
-      return AppLocalizations.of(context)!.passwordsNotMatch;
+      return 'passwordsNotMatch'.tr();
     }
     return null;
   }

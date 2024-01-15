@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/onboarding_default_option.dart';
 import 'package:petto_app/UI/widgets/shared/global_general_button.dart';
@@ -15,7 +15,6 @@ import 'package:petto_app/utils/form_validatros.dart';
 import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetProfileEditorScreen extends StatefulWidget {
   static const name = 'pet-info-editor';
@@ -75,11 +74,11 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
                       ),
                       SizedBox(height: 3.h),
                       _DefaultSection(
-                        title: AppLocalizations.of(context)!.petSize,
+                        title: 'petSize'.tr(),
                         options: [
-                          AppLocalizations.of(context)!.small,
-                          AppLocalizations.of(context)!.medium,
-                          AppLocalizations.of(context)!.large,
+                          'small'.tr(),
+                          'medium'.tr(),
+                          'large'.tr(),
                         ],
                         onOptionSelected: (option) => petSize = option,
                       ),
@@ -91,35 +90,38 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
                       }),
                       SizedBox(height: 3.h),
                       _DefaultSection(
-                        title: AppLocalizations.of(context)!.food,
+                        title: 'food'.tr(),
                         options: [
-                          AppLocalizations.of(context)!.comercial,
-                          AppLocalizations.of(context)!.natural,
+                          'comercial'.tr(),
+                          'natural'.tr(),
                         ],
                         onOptionSelected: (option) => foodType = option,
                       ),
                       SizedBox(height: 3.h),
                       _DatePetPicker(
                         onTap: (date) => lastDeworming = date,
-                        label: AppLocalizations.of(context)!.lastDeworming,
-                        title: AppLocalizations.of(context)!.deworming,
+                        label: 'lastDeworming'.tr(),
+                        title: 'deworming'.tr(),
                       ),
                       SizedBox(height: 3.h),
                       _DatePetPicker(
                         onTap: (date) => lastVeterinarySession = date,
-                        label: AppLocalizations.of(context)!.lastVeterinarySession,
-                        title: AppLocalizations.of(context)!.veterinarySession,
+                        label: 'lastVeterinarySession'.tr(),
+                        title: 'veterinarySession'.tr(),
                       ),
                       SizedBox(height: 3.h),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(AppLocalizations.of(context)!.microchip, style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.start,),
+                        child: Text(
+                          'microchip'.tr(),
+                          style: Theme.of(context).textTheme.titleMedium,
+                          textAlign: TextAlign.start,
+                        ),
                       ),
                       SizedBox(height: 1.h),
                       TextFormField(
                         style: Theme.of(context).textTheme.bodyMedium,
-                        decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.pets), labelText: AppLocalizations.of(context)!.microchip),
+                        decoration: InputDecoration(prefixIcon: const Icon(Icons.pets), labelText: 'microchip'.tr()),
                       ),
                       SizedBox(height: 12.h),
                     ],
@@ -134,14 +136,14 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
             right: 0,
             child: GlobalGeneralButton(
               isLoading: context.watch<PetProvider>().isLoading,
-              text: AppLocalizations.of(context)!.save,
+              text: 'save'.tr(),
               onPressed: () async {
                 if (petSize == null ||
                     petWeight == null ||
                     foodType == null ||
                     lastDeworming == null ||
                     lastVeterinarySession == null) {
-                  showToast(AppLocalizations.of(context)!.missingOrIncorrectData, context);
+                  showToast('missingOrIncorrectData'.tr(), context);
                 } else {
                   if (petImageFile != null) {
                     await petProvider.updatePetImage(widget.pet.id!, petImageFile!);
@@ -216,7 +218,7 @@ class _PickPetImage extends StatelessWidget {
         SizedBox(width: 5.w),
         Flexible(
           child: Text(
-            AppLocalizations.of(context)!.imageOfYourPet,
+            'imageOfYourPet'.tr(),
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
@@ -294,7 +296,7 @@ class _PetWeightSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppLocalizations.of(context)!.petWeight,
+            'petWeight'.tr(),
             style: Theme.of(context).textTheme.titleMedium,
             textAlign: TextAlign.start,
           ),
@@ -327,7 +329,7 @@ class _PetWeightSection extends StatelessWidget {
               SizedBox(width: 6.w),
               Flexible(
                   child: Text(
-                AppLocalizations.of(context)!.enterYourPetsWeight,
+                'enterYourPetsWeight'.tr(),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 3,

@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:petto_app/UI/screens/screens.dart';
 import 'package:petto_app/UI/widgets/shared/global_card_section.dart';
 import 'package:sizer/sizer.dart';
@@ -15,7 +15,7 @@ class TCScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<CardModel> options = [
       CardModel(
-          title: AppLocalizations.of(context)!.termsAndConditions,
+          title: 'termsAndConditions'.tr(),
           icon: BoxIcons.bx_book,
           onTap: () {
             showModalBottomSheet<void>(
@@ -35,7 +35,7 @@ class TCScreen extends StatelessWidget {
             );
           }),
       CardModel(
-          title: AppLocalizations.of(context)!.privacyPolicy,
+          title: 'privacyPolicy'.tr(),
           icon: BoxIcons.bx_shield,
           onTap: () {
             showModalBottomSheet<void>(
@@ -59,7 +59,7 @@ class TCScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        title: Text(AppLocalizations.of(context)!.securityPolicies),
+        title: Text('securityPolicies'.tr()),
         leading: IconButton(
             onPressed: () {
               context.pop();

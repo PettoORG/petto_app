@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -7,7 +8,6 @@ import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserProfileView extends StatelessWidget {
   static const name = 'user-profile';
@@ -19,13 +19,13 @@ class UserProfileView extends StatelessWidget {
     UserProvider userProvider = context.read<UserProvider>();
     List<_CardModel> options = [
       _CardModel(
-          title: AppLocalizations.of(context)!.myAccount,
+          title: 'myAccount'.tr(),
           icon: BoxIcons.bx_face,
           onTap: () {
             context.pushNamed('account');
           }),
       _CardModel(
-          title: AppLocalizations.of(context)!.notifications,
+          title: 'notifications'.tr(),
           icon: BoxIcons.bx_bell,
           onTap: () {
             context.pushNamed('notifications-settings');
@@ -33,18 +33,18 @@ class UserProfileView extends StatelessWidget {
       //TODO: IMPLEMENTAR SOPORTE
 
       // _CardModel(
-      //   title: AppLocalizations.of(context)!.support,
+      //   title: 'support'.tr(),
       //   icon: BoxIcons.bx_support,
       //   onTap: () => context.pushNamed('suport'),
       // ),
       _CardModel(
-          title: AppLocalizations.of(context)!.securityPolicies,
+          title: 'securityPolicies'.tr(),
           icon: BoxIcons.bx_shield_quarter,
           onTap: () {
             context.pushNamed('terms-privacy');
           }),
       _CardModel(
-        title: AppLocalizations.of(context)!.logOut,
+        title: 'logOut'.tr(),
         icon: BoxIcons.bx_log_out_circle,
         onTap: () async {
           try {
@@ -52,7 +52,7 @@ class UserProfileView extends StatelessWidget {
             if (!context.mounted) return;
             context.pushReplacementNamed('auth');
           } catch (e) {
-            showToast(AppLocalizations.of(context)!.error, context);
+            showToast('error'.tr(), context);
           }
         },
       ),
@@ -250,7 +250,7 @@ class _AddPet extends StatelessWidget {
               width: 20.w,
               child: Center(
                 child: Text(
-                  AppLocalizations.of(context)!.add,
+                  'add'.tr(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

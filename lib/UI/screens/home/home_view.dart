@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:intl/intl.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
@@ -9,7 +9,6 @@ import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeView extends StatefulWidget {
@@ -30,19 +29,19 @@ class _HomeViewState extends State<HomeView> {
     // List<OptionModel> options = [
     //   OptionModel(
     //       child: Icon(BoxIcons.bx_health, color: colors.primary),
-    //       title: AppLocalizations.of(context)!.health,
+    //       title: 'health'.tr(),
     //       color: colors.primaryContainer),
     //   OptionModel(
     //       child: Icon(BoxIcons.bx_cut, color: colors.secondary),
-    //       title: AppLocalizations.of(context)!.grooming,
+    //       title: 'grooming'.tr(),
     //       color: colors.secondaryContainer),
     //   OptionModel(
     //       child: Icon(BoxIcons.bxs_cat, color: colors.primary),
-    //       title: AppLocalizations.of(context)!.activity,
+    //       title: 'activity'.tr(),
     //       color: colors.primaryContainer),
     //   OptionModel(
     //       child: Icon(BoxIcons.bx_bowl_rice, color: colors.tertiary),
-    //       title: AppLocalizations.of(context)!.food,
+    //       title: 'food'.tr(),
     //       color: colors.tertiaryContainer),
     // ];
     if (pets.isEmpty) {
@@ -103,7 +102,7 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                           Text(pet.name, style: textStyles.bodySmall),
                           Text(pet.specie, style: textStyles.bodySmall),
-                          Text(AppLocalizations.of(context)!.petYears(pet.age), style: textStyles.bodySmall),
+                          Text('petYears'.tr(args: [pet.age]), style: textStyles.bodySmall),
                           Text(pet.gender, style: textStyles.bodySmall),
                         ],
                       )
@@ -138,7 +137,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
                   SizedBox(height: 2.h),
-                  Text(AppLocalizations.of(context)!.pettips, style: Theme.of(context).textTheme.titleMedium),
+                  Text('pettips'.tr(), style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
             ),
@@ -233,7 +232,7 @@ class _RemindersTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          AppLocalizations.of(context)!.upcomingReminders,
+          'upcomingReminders'.tr(),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         IconButton(
@@ -292,7 +291,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
       actions: [
         TextButton(
           onPressed: () => context.pop(),
-          child: Text(AppLocalizations.of(context)!.cancel),
+          child: Text('cancel'.tr()),
         ),
         TextButton(
           onPressed: () async {
@@ -310,10 +309,10 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
                   (_) => context.pop(),
                 )
                 .catchError(
-                  (e) => showToast(AppLocalizations.of(context)!.error, context),
+                  (e) => showToast('error'.tr(), context),
                 );
           },
-          child: Text(AppLocalizations.of(context)!.accept),
+          child: Text('accept'.tr()),
         ),
       ],
       content: SizedBox(
@@ -325,7 +324,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppLocalizations.of(context)!.addReminderForPet(widget.pet.name),
+                'addReminderForPet'.tr(args: [widget.pet.name]),
                 style: textStyle.titleMedium,
                 textAlign: TextAlign.center,
               ),
@@ -336,7 +335,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
                 style: Theme.of(context).inputDecorationTheme.labelStyle,
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 decoration: InputDecoration(
-                  label: Text(AppLocalizations.of(context)!.reminderTitle),
+                  label: Text('reminderTitle'.tr()),
                 ),
               ),
               SizedBox(height: 2.h),
@@ -346,7 +345,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
                 style: Theme.of(context).inputDecorationTheme.labelStyle,
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 decoration: InputDecoration(
-                  label: Text(AppLocalizations.of(context)!.description),
+                  label: Text('description'.tr()),
                 ),
               ),
               SizedBox(height: 2.h),
@@ -386,7 +385,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
                 },
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_calendar),
-                  label: Text(AppLocalizations.of(context)!.date),
+                  label: Text('date'.tr()),
                 ),
               )
             ],
@@ -407,7 +406,7 @@ class _SliverAppbar extends StatelessWidget {
       floating: true,
       centerTitle: true,
       title: Text(
-        AppLocalizations.of(context)!.petto,
+        'petto'.tr(),
         style: textStyle.bodyLarge!.copyWith(fontFamily: 'Pacifico-Regular', fontSize: 17.sp),
       ),
       // actions: [

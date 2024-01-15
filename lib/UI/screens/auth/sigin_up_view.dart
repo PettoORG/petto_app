@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
@@ -54,14 +54,14 @@ class _RegisterViewState extends State<RegisterView> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 0.8.h),
                 child: ListTile(
-                  title: Text(AppLocalizations.of(context)!.register,
+                  title: Text('register'.tr(),
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: 18.5.sp,
                             fontWeight: FontWeight.w900,
                           )),
                   subtitle: Text(
-                    AppLocalizations.of(context)!.enterYourCredentials,
+                    'enterYourCredentials'.tr(),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -72,7 +72,7 @@ class _RegisterViewState extends State<RegisterView> {
                 style: Theme.of(context).textTheme.bodyMedium,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_user),
-                  labelText: AppLocalizations.of(context)!.name,
+                  labelText: 'name'.tr(),
                 ),
                 validator: (value) => auth.validateDisplayName(value, context),
               ),
@@ -83,7 +83,7 @@ class _RegisterViewState extends State<RegisterView> {
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_envelope),
-                  labelText: AppLocalizations.of(context)!.email,
+                  labelText: 'email'.tr(),
                 ),
                 validator: (value) => auth.validateEmail(value, context),
               ),
@@ -97,7 +97,7 @@ class _RegisterViewState extends State<RegisterView> {
                 validator: (value) => auth.validatePassword(value, context),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
-                  labelText: AppLocalizations.of(context)!.password,
+                  labelText: 'password'.tr(),
                   suffixIcon: GestureDetector(
                     onTap: () {
                       setState(() => _passwordVisible = !_passwordVisible);
@@ -111,7 +111,7 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               GlobalGeneralButton(
                 isLoading: context.watch<AuthenticationProvider>().isLoading,
-                text: AppLocalizations.of(context)!.register,
+                text: 'register'.tr(),
                 onPressed: context.watch<AuthenticationProvider>().isLoading
                     ? null
                     : () async {
@@ -130,7 +130,7 @@ class _RegisterViewState extends State<RegisterView> {
                           context.pushReplacementNamed("pet-register");
                         } catch (e) {
                           if (e.toString().contains('email-already-in-use')) {
-                            showToast(AppLocalizations.of(context)!.emailAlreadyRegistered, context);
+                            showToast('emailAlreadyRegistered'.tr(), context);
                           }
                         }
                       },
@@ -141,12 +141,12 @@ class _RegisterViewState extends State<RegisterView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppLocalizations.of(context)!.haveAnAccount),
+                  Text('haveAnAccount'.tr()),
                   SizedBox(width: 1.w),
                   GestureDetector(
                       onTap: widget.onTap,
                       child: Text(
-                        AppLocalizations.of(context)!.signIn,
+                        'signIn'.tr(),
                         style: TextStyle(color: color.primary),
                       ))
                 ],

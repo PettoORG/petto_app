@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -10,7 +11,6 @@ import 'package:petto_app/domain/entities/pet.dart';
 import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetProfileScreen extends StatelessWidget {
   static const name = 'pet-profile';
@@ -62,7 +62,7 @@ class _DeleteButton extends StatelessWidget {
     TextTheme textStyle = Theme.of(context).textTheme;
     return Center(
       child: TextButton(
-        child: Text(AppLocalizations.of(context)!.deletePet),
+        child: Text('deletePet'.tr()),
         onPressed: () => showDialog(
           context: context,
           builder: (context) {
@@ -80,21 +80,21 @@ class _DeleteButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.remove(petName),
+                    'removePet'.tr(args: [petName]),
                     style: textStyle.titleMedium,
                   ),
                   SizedBox(
                     height: 2.h,
                   ),
                   Text(
-                    AppLocalizations.of(context)!.eliminatePet,
+                    'eliminatePet'.tr(),
                     style: textStyle.bodySmall,
                     textAlign: TextAlign.center,
                   )
                 ],
               ),
               actions: [
-                TextButton(onPressed: () => context.pop(), child: Text(AppLocalizations.of(context)!.cancel)),
+                TextButton(onPressed: () => context.pop(), child: Text('cancel'.tr())),
                 TextButton(
                   onPressed: () async {
                     try {
@@ -105,10 +105,10 @@ class _DeleteButton extends StatelessWidget {
                       petProvider.currentPet = 0;
                       context.pushReplacementNamed('home');
                     } catch (e) {
-                      showToast(AppLocalizations.of(context)!.error, context);
+                      showToast('error'.tr(), context);
                     }
                   },
-                  child: Text(AppLocalizations.of(context)!.accept),
+                  child: Text('accept'.tr()),
                 ),
               ],
             );
@@ -132,7 +132,7 @@ class _GeneralInformation extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(AppLocalizations.of(context)!.general, style: textStyle.titleMedium),
+          Text('general'.tr(), style: textStyle.titleMedium),
           SizedBox(height: 1.h),
           Container(
             width: double.infinity,
@@ -151,16 +151,16 @@ class _GeneralInformation extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _Title(title: AppLocalizations.of(context)!.food.toUpperCase()),
+                _Title(title: 'food'.tr().toUpperCase()),
                 _Text(title: pet.foodType == null ? 'No registrado' : pet.foodType!),
                 SizedBox(height: .5.h),
-                _Title(title: AppLocalizations.of(context)!.lastVeterinarySession.toUpperCase()),
+                _Title(title: 'lastVeterinarySession'.tr().toUpperCase()),
                 _Text(title: pet.lastVeterinarySession == null ? 'No registrado' : pet.lastVeterinarySession!),
                 SizedBox(height: .5.h),
-                _Title(title: AppLocalizations.of(context)!.lastDeworming.toUpperCase()),
+                _Title(title: 'lastDeworming'.tr().toUpperCase()),
                 _Text(title: pet.lastDeworming == null ? 'No registrado' : pet.lastDeworming!),
                 SizedBox(height: .5.h),
-                _Title(title: AppLocalizations.of(context)!.microchip.toUpperCase()),
+                _Title(title: 'microchip'.tr().toUpperCase()),
                 _Text(title: pet.microchipId == null ? 'No registrado' : pet.microchipId!),
               ],
             ),
@@ -185,34 +185,34 @@ class _BasicInformation extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(pet.age, style: textStyle.bodySmall!.copyWith(color: color.primary)),
-              Text(AppLocalizations.of(context)!.years, style: textStyle.bodySmall!.copyWith(color: color.primary)),
+              Text('years'.tr(), style: textStyle.bodySmall!.copyWith(color: color.primary)),
             ],
           ),
-          title: AppLocalizations.of(context)!.age,
+          title: 'age'.tr(),
           color: color.primaryContainer),
       OptionModel(
           child: Icon(
             (pet.gender == 'Macho' || pet.gender == 'Male') ? BoxIcons.bx_male_sign : BoxIcons.bx_female_sign,
             color: color.secondary,
           ),
-          title: AppLocalizations.of(context)!.gender,
+          title: 'gender'.tr(),
           color: color.secondaryContainer),
       // OptionModel(
       //     child: Icon(
       //       BoxIcons.bx_check_circle,
       //       color: color.primary,
       //     ),
-      //     title: AppLocalizations.of(context)!.vaccinated,
+      //     title: 'vaccinated'.tr(),
       //     color: color.primaryContainer),
       OptionModel(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(pet.weight, style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
-              Text(AppLocalizations.of(context)!.kg, style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
+              Text('kg'.tr(), style: textStyle.bodySmall!.copyWith(color: color.tertiary)),
             ],
           ),
-          title: AppLocalizations.of(context)!.petWeight,
+          title: 'petWeight'.tr(),
           color: color.tertiaryContainer),
     ];
     return Padding(

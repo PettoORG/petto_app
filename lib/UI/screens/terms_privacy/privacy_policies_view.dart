@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,7 +8,6 @@ import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PrivacyPoliciesView extends StatelessWidget {
   static const name = 'privacy';
@@ -43,7 +43,7 @@ class PrivacyPoliciesView extends StatelessWidget {
                   if (snapshot.hasData) {
                     return Column(children: [
                       Text(
-                        AppLocalizations.of(context)!.securityPolicies,
+                        'securityPolicies'.tr(),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
