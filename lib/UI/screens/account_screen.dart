@@ -76,7 +76,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(height: 1.h),
                   TextFormField(
                     controller: displayNameController,
-                    validator: (value) => FormValidators.validateName(value, context),
+                    validator: (value) => FormValidators.validateName(value),
                     autocorrect: true,
                     style: Theme.of(context).textTheme.bodyMedium,
                     onTapOutside: (event) => FocusScope.of(context).unfocus(),
@@ -92,7 +92,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(height: 1.h),
                   TextFormField(
                     controller: emailController,
-                    validator: (value) => FormValidators.validateEmail(value, context),
+                    validator: (value) => FormValidators.validateEmail(value),
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: true,
                     style: textStyle.bodyMedium,

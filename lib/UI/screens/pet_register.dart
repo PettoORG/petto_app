@@ -81,7 +81,7 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                 SizedBox(height: 3.h),
                 TextFormField(
                   controller: petName,
-                  validator: (value) => FormValidators.validateName(value, context),
+                  validator: (value) => FormValidators.validateName(value),
                   style: Theme.of(context).inputDecorationTheme.labelStyle,
                   onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   decoration: InputDecoration(
@@ -306,7 +306,7 @@ class _PetWeightSection extends StatelessWidget {
               FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
               LengthLimitingTextInputFormatter(4)
             ],
-            validator: (value) => FormValidators.validateWeight(value, context),
+            validator: (value) => FormValidators.validateWeight(value),
             style: Theme.of(context).inputDecorationTheme.labelStyle,
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
@@ -356,7 +356,7 @@ class _BirthPetPickerState extends State<_BirthPetPicker> {
     return TextFormField(
       style: Theme.of(context).inputDecorationTheme.labelStyle,
       controller: dateController,
-      validator: (value) => FormValidators.validateDate(value, context),
+      validator: (value) => FormValidators.validateDate(value),
       readOnly: true,
       onTap: () async {
         DateTime? selectedDate = await showDatePicker(

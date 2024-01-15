@@ -6,7 +6,7 @@ class FormValidators {
     return key.currentState?.validate() ?? false;
   }
 
-  static String? validateEmail(String? value, BuildContext context) {
+  static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterEmail'.tr();
     }
@@ -16,35 +16,35 @@ class FormValidators {
     return null;
   }
 
-  static String? validateName(String? value, BuildContext context) {
+  static String? validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterValidName'.tr();
     }
     return null;
   }
 
-  static String? validateReminderTitle(String? value, BuildContext context) {
+  static String? validateReminderTitle(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterValidTitle'.tr();
     }
     return null;
   }
 
-  static String? validateReminderBody(String? value, BuildContext context) {
+  static String? validateReminderBody(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterValidDescription'.tr();
     }
     return null;
   }
 
-  static String? validateDate(String? value, BuildContext context) {
+  static String? validateDate(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterValidDate'.tr();
     }
     return null;
   }
 
-  static String? validateWeight(String? value, BuildContext context) {
+  static String? validateWeight(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterWeight'.tr();
     }
@@ -54,7 +54,7 @@ class FormValidators {
     return null;
   }
 
-  static String? validatePassword(String? value, BuildContext context) {
+  static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterPassword'.tr();
     }
@@ -64,7 +64,7 @@ class FormValidators {
     return null;
   }
 
-  static String? confirmPassword(String? confirmNewPassWord, String newPassWord, BuildContext context) {
+  static String? confirmPassword(String? confirmNewPassWord, String newPassWord) {
     if (confirmNewPassWord == null || confirmNewPassWord.isEmpty) {
       return 'confirmNewPassword'.tr();
     }

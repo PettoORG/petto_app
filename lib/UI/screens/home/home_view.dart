@@ -331,7 +331,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
               SizedBox(height: 2.h),
               TextFormField(
                 controller: titleController,
-                validator: (value) => FormValidators.validateReminderTitle(value, context),
+                validator: (value) => FormValidators.validateReminderTitle(value),
                 style: Theme.of(context).inputDecorationTheme.labelStyle,
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 decoration: InputDecoration(
@@ -341,7 +341,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
               SizedBox(height: 2.h),
               TextFormField(
                 controller: bodyController,
-                validator: (value) => FormValidators.validateReminderBody(value, context),
+                validator: (value) => FormValidators.validateReminderBody(value),
                 style: Theme.of(context).inputDecorationTheme.labelStyle,
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 decoration: InputDecoration(
@@ -352,7 +352,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
               TextFormField(
                 controller: dateController,
                 style: Theme.of(context).inputDecorationTheme.labelStyle,
-                validator: (value) => FormValidators.validateDate(value, context),
+                validator: (value) => FormValidators.validateDate(value),
                 readOnly: true,
                 onTap: () async {
                   DateTime now = DateTime.now();
