@@ -7,52 +7,37 @@ class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl(this.datasource);
 
   @override
-  Future<void> deleteUser() async {
-    await datasource.deleteUser();
+  Future<void> deleteUser(String uid) async {
+    await datasource.deleteUser(uid);
   }
 
   @override
-  Future<User> getUser() async {
-    return await datasource.getUser();
+  Future<User> getUser(String uid) async {
+    return await datasource.getUser(uid);
   }
 
   @override
-  Future<void> updateAllowEmailNotifications(bool isAllow) async {
-    await datasource.updateAllowEmailNotifications(isAllow);
+  Future<void> updateAllowEmailNotifications(String uid, bool isAllow) async {
+    await datasource.updateAllowEmailNotifications(uid, isAllow);
   }
 
   @override
-  Future<void> updateAllowPhoneNotifications(bool isAllow) async {
-    await datasource.updateAllowPhoneNotifications(isAllow);
+  Future<void> updateAllowPhoneNotifications(String uid, bool isAllow) async {
+    await datasource.updateAllowPhoneNotifications(uid, isAllow);
   }
 
   @override
-  Future<void> updateDisplayName(String newDisplayName) async {
-    await datasource.updateDisplayName(newDisplayName);
+  Future<void> updateName(String uid, String newName) async {
+    await datasource.updateName(uid, newName);
   }
 
   @override
-  Future<void> updateEmail(String newEmail) async {
-    await datasource.updateEmail(newEmail);
+  Future<void> updateEmail(String uid, String newEmail) async {
+    await datasource.updateEmail(uid, newEmail);
   }
 
   @override
-  Future<void> addUser(Map<String, dynamic> user) async {
-    await datasource.addUser(user);
-  }
-
-  @override
-  Future<void> updatePassWord(String newPassWord) async {
-    await datasource.updatePassWord(newPassWord);
-  }
-
-  @override
-  Future<void> signOut() async {
-    await datasource.signOut();
-  }
-
-  @override
-  getAuthUser() {
-    return datasource.getAuthUser();
+  Future<void> registerUser(String uid, Map<String, dynamic> user) async {
+    await datasource.registerUser(uid, user);
   }
 }

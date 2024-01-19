@@ -6,7 +6,7 @@ class FormValidators {
     return key.currentState?.validate() ?? false;
   }
 
-  static String? validateEmail(String? value) {
+  static String? email(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterEmail'.tr();
     }
@@ -16,35 +16,35 @@ class FormValidators {
     return null;
   }
 
-  static String? validateName(String? value) {
+  static String? name(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterValidName'.tr();
     }
     return null;
   }
 
-  static String? validateReminderTitle(String? value) {
+  static String? reminderTitle(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterValidTitle'.tr();
     }
     return null;
   }
 
-  static String? validateReminderBody(String? value) {
+  static String? reminderBody(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterValidDescription'.tr();
     }
     return null;
   }
 
-  static String? validateDate(String? value) {
+  static String? date(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterValidDate'.tr();
     }
     return null;
   }
 
-  static String? validateWeight(String? value) {
+  static String? weight(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterWeight'.tr();
     }
@@ -54,7 +54,7 @@ class FormValidators {
     return null;
   }
 
-  static String? validatePassword(String? value) {
+  static String? password(String? value) {
     if (value == null || value.isEmpty) {
       return 'enterPassword'.tr();
     }

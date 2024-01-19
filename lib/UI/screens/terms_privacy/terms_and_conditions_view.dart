@@ -3,12 +3,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/logger_prints.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:petto_app/UI/providers/providers.dart';
 import 'package:sizer/sizer.dart';
-import 'package:petto_app/UI/providers/language_provider.dart';
 
 class TermsAndCondicionsView extends StatelessWidget {
   static const name = 'terms';
@@ -18,8 +15,7 @@ class TermsAndCondicionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<List<_TermsAndConditions>> getPrivacyInfo() async {
-      String language = context.read<LanguageProvider>().language;
-      String path = 'data/terms_$language.json';
+      String path = 'data/terms_${context.locale.languageCode}.json';
       String jsonString = await rootBundle.loadString(path);
       Map<String, dynamic> jsonMap = json.decode(jsonString);
       List<_TermsAndConditions> termsList =

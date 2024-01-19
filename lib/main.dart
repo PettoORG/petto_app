@@ -21,9 +21,9 @@ void main() async {
   runApp(EasyLocalization(
     path: 'assets/lang',
     supportedLocales: const [Locale('en'), Locale('es')],
+    useOnlyLangCode: true,
     child: MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => LanguageProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => ConnectionProvider()),
         ChangeNotifierProvider(create: (context) => PettipsProvider()),

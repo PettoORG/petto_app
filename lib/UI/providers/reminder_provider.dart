@@ -60,7 +60,6 @@ class ReminderProvider extends ChangeNotifier {
   }
 
   Future<void> getReminders() async {
-    isLoading = true;
     try {
       reminders = await _datasource.getReminders();
       DateTime now = DateTime.now();
@@ -76,9 +75,7 @@ class ReminderProvider extends ChangeNotifier {
       }
       // Sort the remaining reminders by date.
       reminders.sort((a, b) => DateTime.parse(a.date).compareTo(DateTime.parse(b.date)));
-      isLoading = false;
     } catch (e) {
-      isLoading = false;
       rethrow;
     }
   }

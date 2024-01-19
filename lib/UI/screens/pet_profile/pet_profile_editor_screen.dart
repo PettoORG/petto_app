@@ -310,7 +310,7 @@ class _PetWeightSection extends StatelessWidget {
                     FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
                     LengthLimitingTextInputFormatter(4)
                   ],
-                  validator: (value) => FormValidators.validateWeight(value),
+                  validator: (value) => FormValidators.weight(value),
                   style: Theme.of(context).inputDecorationTheme.labelStyle,
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
@@ -374,7 +374,7 @@ class _DatePetPickerState extends State<_DatePetPicker> {
           TextFormField(
             style: Theme.of(context).inputDecorationTheme.labelStyle,
             controller: dateController,
-            validator: (value) => FormValidators.validateDate(value),
+            validator: (value) => FormValidators.date(value),
             readOnly: true,
             onTap: () async {
               DateTime? selectedDate = await showDatePicker(

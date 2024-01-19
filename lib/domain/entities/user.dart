@@ -1,21 +1,24 @@
 class User {
-  final String displayName;
+  final String uid;
+  final String name;
   final String email;
   final String? image;
   final bool allowEmailNotifications;
   final bool allowPhoneNotifications;
 
   User({
-    required this.displayName,
+    required this.name,
+    required this.uid,
     required this.email,
-    required this.image,
+    this.image,
     required this.allowEmailNotifications,
     required this.allowPhoneNotifications,
   });
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      displayName: map['displayName'],
+      uid: map['uid'],
+      name: map['name'],
       email: map['email'],
       image: map['image'],
       allowEmailNotifications: map['allowEmailNotifications'],
@@ -25,7 +28,7 @@ class User {
 
   Map<String, dynamic> toMap() {
     return {
-      'displayName': displayName,
+      'name': name,
       'email': email,
       'image': image,
       'allowEmailNotifications': allowEmailNotifications,

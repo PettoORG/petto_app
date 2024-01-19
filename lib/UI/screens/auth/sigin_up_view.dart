@@ -19,17 +19,17 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   bool _passwordVisible = false;
-  GlobalKey<FormState> sigInUpKey = GlobalKey<FormState>();
-  TextEditingController displayNameController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   void dispose() {
-    displayNameController.clear();
+    nameController.clear();
     emailController.clear();
     passwordController.clear();
-    displayNameController.dispose();
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -44,7 +44,7 @@ class _RegisterViewState extends State<RegisterView> {
       child: SingleChildScrollView(
         child: Form(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: sigInUpKey,
+          key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -68,13 +68,13 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               SizedBox(height: 2.h),
               TextFormField(
-                controller: displayNameController,
+                controller: nameController,
                 style: Theme.of(context).textTheme.bodyMedium,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_user),
                   labelText: 'name'.tr(),
                 ),
-                validator: (value) => auth.validateDisplayName(value, context),
+                validator: (value) => FormValidators.name(value),
               ),
               SizedBox(height: 1.5.h),
               TextFormField(
@@ -85,7 +85,7 @@ class _RegisterViewState extends State<RegisterView> {
                   prefixIcon: const Icon(BoxIcons.bx_envelope),
                   labelText: 'email'.tr(),
                 ),
-                validator: (value) => auth.validateEmail(value, context),
+                validator: (value) => FormValidators.email(value),
               ),
               SizedBox(
                 height: 1.5.h,
@@ -94,7 +94,7 @@ class _RegisterViewState extends State<RegisterView> {
                 controller: passwordController,
                 style: Theme.of(context).textTheme.bodyMedium,
                 obscureText: !_passwordVisible,
-                validator: (value) => auth.validatePassword(value, context),
+                validator: (value) => FormValidators.password(value),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
                   labelText: 'password'.tr(),
@@ -121,11 +121,11 @@ class _RegisterViewState extends State<RegisterView> {
                             context.pushNamed('offline');
                             return;
                           }
-                          if (!auth.isValidForm(sigInUpKey)) return;
+                          if (!FormValidators.isValidForm(formKey)) return;
                           await auth.signInUp(
                             emailController.text,
                             passwordController.text,
-                            displayNameController.text,
+                            nameController.text,
                           );
                           context.pushReplacementNamed("pet-register");
                         } catch (e) {

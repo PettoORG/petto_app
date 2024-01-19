@@ -1,80 +1,45 @@
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:petto_app/domain/datasources/user_datasource.dart';
 import 'package:petto_app/domain/entities/user.dart';
-import 'package:petto_app/utils/utils.dart';
+import 'package:petto_app/utils/logger_prints.dart';
 
 class FirestoreUserDatasource extends UserDatasource {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
   @override
-  Future<User> getUser() async {
-    return await _db.collection('users').doc(_getUid()).get().then((DocumentSnapshot snapshot) {
-      logger.d(snapshot);
-      return User(
-        displayName: snapshot['displayName'],
-        email: snapshot['email'],
-        image: snapshot['image'],
-        allowEmailNotifications: snapshot['allowEmailNotifications'],
-        allowPhoneNotifications: snapshot['allowPhoneNotifications'],
-      );
-    });
+  Future<User> getUser(String uid) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await _db.collection('users').doc(uid).get();
+    logger.d(snapshot.data());
+    return User.fromMap(snapshot.data()!);
   }
 
   @override
-  Future<void> addUser(Map<String, dynamic> user) async {
-    await _db.collection('users').doc(_getUid()).set(user);
+  Future<void> registerUser(String uid, Map<String, dynamic> user) async {
+    await _db.collection('users').doc(uid).set(user);
   }
 
   @override
-  Future<void> deleteUser() async {
-    await _db.collection('users').doc(_getUid()).delete();
+  Future<void> deleteUser(String uid) async {
+    await _db.collection('users').doc(uid).delete();
   }
 
   @override
-  Future<void> updateAllowEmailNotifications(bool isAllow) async {
-    await _db.collection('users').doc(_getUid()).update({'allowEmailNotifications': isAllow});
+  Future<void> updateAllowEmailNotifications(String uid, bool isAllow) async {
+    await _db.collection('users').doc(uid).update({'allowEmailNotifications': isAllow});
   }
 
   @override
-  Future<void> updateAllowPhoneNotifications(bool isAllow) async {
-    await _db.collection('users').doc(_getUid()).update({'allowPhoneNotifications': isAllow});
+  Future<void> updateAllowPhoneNotifications(String uid, bool isAllow) async {
+    await _db.collection('users').doc(uid).update({'allowPhoneNotifications': isAllow});
   }
 
   @override
-  Future<void> updateDisplayName(String newDisplayName) async {
-    await _firebaseAuth.currentUser!.updateDisplayName(newDisplayName);
-    await _db.collection('users').doc(_getUid()).update({'displayName': newDisplayName});
+  Future<void> updateName(String uid, String newName) async {
+    await _db.collection('users').doc(uid).update({'name': newName});
   }
 
   @override
-  Future<void> updateEmail(String newEmail) async {
-    await _firebaseAuth.currentUser!.updateEmail(newEmail);
-    await _db.collection('users').doc(_getUid()).update({'displayName': newEmail});
-  }
-
-  String? _getUid() {
-    try {
-      return _firebaseAuth.currentUser!.uid;
-    } catch (e) {
-      logger.e('AUTH ERROR: $e');
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> updatePassWord(String newPassWord) async {
-    await _firebaseAuth.currentUser!.updatePassword(newPassWord);
-  }
-
-  @override
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-  }
-
-  @override
-  getAuthUser() {
-    return _firebaseAuth.currentUser;
+  Future<void> updateEmail(String uid, String newEmail) async {
+    await _db.collection('users').doc(uid).update({'name': newEmail});
   }
 }

@@ -3,10 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:petto_app/UI/providers/language_provider.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/utils/utils.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class PrivacyPoliciesView extends StatelessWidget {
@@ -17,8 +15,7 @@ class PrivacyPoliciesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<List<_PrivacyPolity>> getPrivacyInfo() async {
-      String language = context.read<LanguageProvider>().language;
-      String path = 'data/politics_$language.json';
+      String path = 'data/politics_${context.locale.languageCode}.json';
       String jsonString = await rootBundle.loadString(path);
       Map<String, dynamic> jsonMap = json.decode(jsonString);
       List<_PrivacyPolity> privacyList = jsonMap.entries.map((entry) => _PrivacyPolity.fromJson(entry.value)).toList();

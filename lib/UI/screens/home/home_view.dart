@@ -156,9 +156,8 @@ class _Pettips extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
     TextTheme textStyle = Theme.of(context).textTheme;
-    String language = context.read<LanguageProvider>().language;
     return FutureBuilder(
-      future: context.read<PettipsProvider>().getGeneralPettips(language),
+      future: context.read<PettipsProvider>().getGeneralPettips(context.locale.languageCode),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SharedCardSwiper(
@@ -331,7 +330,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
               SizedBox(height: 2.h),
               TextFormField(
                 controller: titleController,
-                validator: (value) => FormValidators.validateReminderTitle(value),
+                validator: (value) => FormValidators.reminderTitle(value),
                 style: Theme.of(context).inputDecorationTheme.labelStyle,
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 decoration: InputDecoration(
@@ -341,7 +340,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
               SizedBox(height: 2.h),
               TextFormField(
                 controller: bodyController,
-                validator: (value) => FormValidators.validateReminderBody(value),
+                validator: (value) => FormValidators.reminderBody(value),
                 style: Theme.of(context).inputDecorationTheme.labelStyle,
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 decoration: InputDecoration(
@@ -352,7 +351,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
               TextFormField(
                 controller: dateController,
                 style: Theme.of(context).inputDecorationTheme.labelStyle,
-                validator: (value) => FormValidators.validateDate(value),
+                validator: (value) => FormValidators.date(value),
                 readOnly: true,
                 onTap: () async {
                   DateTime now = DateTime.now();

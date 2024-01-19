@@ -40,6 +40,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    PetProvider petProvider = context.read<PetProvider>();
+    ReminderProvider reminderProvider = context.read<ReminderProvider>();
+    UserProvider userProvider = context.read<UserProvider>();
     return Scaffold(
       body: Stack(
         children: [
@@ -118,23 +121,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             onPressed: () async {
                               LocalStorage.prefs.setBool('showOnboarding', false);
                               User? user = context.read<AuthenticationProvider>().getCurrentUser();
-                              PetProvider petProvider = context.read<PetProvider>();
-                              ReminderProvider reminderProvider = context.read<ReminderProvider>();
                               if (user == null) return context.pushReplacementNamed('auth');
-                              await reminderProvider.getReminders();
-                              await petProvider.getPets().then(
-                                (value) {
-                                  if (petProvider.pets.isEmpty) {
-                                    return context.pushReplacementNamed('pet-register');
-                                  } else {
-                                    return context.pushReplacementNamed('home');
-                                  }
-                                },
-                              ).catchError(
-                                (e) {
-                                  showToast('error'.tr(), context);
-                                },
-                              );
+                              try {
+                                await userProvider.getUser();
+                                await reminderProvider.getReminders();
+                                await petProvider.getPets().then(
+                                  (_) {
+                                    if (petProvider.pets.isEmpty) {
+                                      return context.pushReplacementNamed('pet-register');
+                                    } else {
+                                      return context.pushReplacementNamed('home');
+                                    }
+                                  },
+                                );
+                              } catch (e) {
+                                if (!context.mounted) return;
+                                showToast('error'.tr(), context);
+                              }
                             },
                             child: Text('letsGo'.tr()),
                           )

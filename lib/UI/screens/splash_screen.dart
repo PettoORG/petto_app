@@ -31,25 +31,25 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     User? user = context.read<AuthenticationProvider>().getCurrentUser();
     PetProvider petsProvider = context.read<PetProvider>();
     ReminderProvider reminderProvider = context.read<ReminderProvider>();
+    UserProvider userProvider = context.read<UserProvider>();
     if (status == AnimationStatus.completed) {
       reminderProvider.requestNotificationPermission();
       if (onboarding == true || onboarding == null) return context.pushReplacementNamed('onboarding');
       if (user == null) return context.pushReplacementNamed('auth');
-      await reminderProvider.getReminders();
-      await petsProvider.getPets().then(
-        (value) {
-          if (petsProvider.pets.isEmpty) {
-            return context.pushReplacementNamed('pet-register');
-          } else {
-            return context.pushReplacementNamed('home');
-          }
-        },
-      ).catchError(
-        (e) {
-          logger.e('GETPETS ERROR IN SPLASH: $e');
-          showToast('error'.tr(), context);
-        },
-      );
+      try {
+        await userProvider.getUser();
+        await reminderProvider.getReminders();
+        await petsProvider.getPets();
+        if (!context.mounted) return;
+        if (petsProvider.pets.isEmpty) {
+          return context.pushReplacementNamed('pet-register');
+        } else {
+          return context.pushReplacementNamed('home');
+        }
+      } catch (e) {
+        logger.e('GETPETS ERROR IN SPLASH: $e');
+        showToast('error'.tr(), context);
+      }
     }
   }
 

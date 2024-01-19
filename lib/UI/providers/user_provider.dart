@@ -1,40 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:petto_app/domain/entities/entities.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:petto_app/infrastructure/datasources/firebase_auth_datasource.dart';
 import 'package:petto_app/infrastructure/datasources/firestore_user_datasource.dart';
+import 'package:petto_app/infrastructure/repositories/auth_repository_impl.dart';
 import 'package:petto_app/infrastructure/repositories/user_repository_impl.dart';
 import 'package:petto_app/utils/utils.dart';
 
 class UserProvider extends ChangeNotifier {
   final UserRepositoryImpl _userRepository = UserRepositoryImpl(FirestoreUserDatasource());
+  final AuthRepositoryImpl _authRepository = AuthRepositoryImpl(FirebaseAuthDatasource());
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   set isLoading(bool value) {
     _isLoading = value;
+    Future.microtask(() => notifyListeners());
+  }
+
+  User? _user;
+  User? get user => _user;
+  set user(User? user) {
+    _user = user;
     notifyListeners();
   }
 
-  Future<void> deleteUser() async {
-    try {
-      isLoading = true;
-      await _userRepository.deleteUser();
-      isLoading = false;
-    } catch (e) {
-      logger.e('FIRESTORE ERROR: $e');
-      rethrow;
-    }
+  String? _name;
+  String? get name => _name;
+  set name(String? name) {
+    _name = name;
+    notifyListeners();
   }
 
-  Future<User?> getUser() async {
-    User user;
+  String? _email;
+  String? get email => _email;
+  set email(String? email) {
+    _email = email;
+    notifyListeners();
+  }
+
+  Future<void> getUser() async {
     try {
-      isLoading = true;
-      user = await _userRepository.getUser();
-      isLoading = false;
-      return user;
+      user = await _userRepository.getUser(_getCurrentUser()!.uid);
+      name = user!.name;
+      email = user!.email;
     } catch (e) {
-      isLoading = false;
       logger.e('FIRESTORE ERROR: $e');
       rethrow;
     }
@@ -43,7 +53,7 @@ class UserProvider extends ChangeNotifier {
   Future<void> updateAllowEmailNotifications(bool isAllow) async {
     try {
       isLoading = true;
-      await _userRepository.updateAllowEmailNotifications(isAllow);
+      await _userRepository.updateAllowEmailNotifications(_getCurrentUser()!.uid, isAllow);
       isLoading = false;
     } catch (e) {
       isLoading = false;
@@ -55,7 +65,7 @@ class UserProvider extends ChangeNotifier {
   Future<void> updateAllowPhoneNotifications(bool isAllow) async {
     try {
       isLoading = true;
-      await _userRepository.updateAllowPhoneNotifications(isAllow);
+      await _userRepository.updateAllowPhoneNotifications(_getCurrentUser()!.uid, isAllow);
       isLoading = false;
     } catch (e) {
       isLoading = false;
@@ -64,57 +74,9 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> updateDisplayName(String newDisplayName) async {
+  auth.User? _getCurrentUser() {
     try {
-      isLoading = true;
-      await _userRepository.updateDisplayName(newDisplayName);
-      isLoading = false;
-    } catch (e) {
-      isLoading = false;
-      logger.e('FIRESTORE ERROR: $e');
-      rethrow;
-    }
-  }
-
-  Future<void> updateEmail(String newEmail) async {
-    try {
-      isLoading = true;
-      await _userRepository.updateEmail(newEmail);
-      isLoading = false;
-    } catch (e) {
-      isLoading = false;
-      logger.e('FIRESTORE ERROR: $e');
-      rethrow;
-    }
-  }
-
-  Future<void> updatePassWord(String newPassword) async {
-    try {
-      isLoading = true;
-      await _userRepository.updatePassWord(newPassword);
-      isLoading = false;
-    } catch (e) {
-      isLoading = false;
-      logger.e('FIRESTORE/AUTH ERROR: $e');
-      rethrow;
-    }
-  }
-
-  Future<void> signOut() async {
-    try {
-      isLoading = true;
-      await _userRepository.signOut();
-      isLoading = false;
-    } catch (e) {
-      isLoading = false;
-      logger.e('AUTH ERROR: $e');
-      rethrow;
-    }
-  }
-
-  auth.User? getAuthUser() {
-    try {
-      return _userRepository.getAuthUser();
+      return _authRepository.getCurrentUser();
     } catch (e) {
       logger.e('AUTH ERROR: $e');
       rethrow;

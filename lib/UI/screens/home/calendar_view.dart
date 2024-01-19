@@ -59,15 +59,15 @@ class _Calendar extends StatelessWidget {
     final DateTime now = DateTime.now();
 
     DateTime subtractMonths(DateTime date, int months) {
-      final year = date.year + (date.month - months) ~/ 12;
-      final month = (date.month - months) % 12;
-      return DateTime(year, month + 1, date.day);
+      final newMonth = date.month - months % 12;
+      final newYear = date.year - months ~/ 12;
+      return DateTime(newYear, newMonth, date.day);
     }
 
     DateTime addMonths(DateTime date, int months) {
-      final year = date.year + (date.month + months - 1) ~/ 12;
-      final month = (date.month + months - 1) % 12;
-      return DateTime(year, month + 1, date.day);
+      final newMonth = (date.month + months - 1) % 12 + 1;
+      final newYear = date.year + (date.month + months - 1) ~/ 12;
+      return DateTime(newYear, newMonth, date.day);
     }
 
     DateTime startDate = subtractMonths(now, 3);
@@ -90,7 +90,7 @@ class _Calendar extends StatelessWidget {
         calendarStyle: CalendarStyle(
           todayDecoration: BoxDecoration(color: color.primary, shape: BoxShape.circle),
         ),
-        locale: context.watch<LanguageProvider>().language,
+        locale: context.locale.languageCode,
         focusedDay: DateTime.now(),
         firstDay: startDate,
         lastDay: endDate,

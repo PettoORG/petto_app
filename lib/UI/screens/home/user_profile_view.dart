@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -8,6 +7,7 @@ import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserProfileView extends StatelessWidget {
   static const name = 'user-profile';
@@ -16,16 +16,16 @@ class UserProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = context.read<UserProvider>();
+    AuthenticationProvider authProvider = context.read<AuthenticationProvider>();
     List<_CardModel> options = [
       _CardModel(
-          title: 'myAccount'.tr(),
+          title: 'myAccount'.tr(context: context),
           icon: BoxIcons.bx_face,
           onTap: () {
             context.pushNamed('account');
           }),
       _CardModel(
-          title: 'notifications'.tr(),
+          title: 'notifications'.tr(context: context),
           icon: BoxIcons.bx_bell,
           onTap: () {
             context.pushNamed('notifications-settings');
@@ -33,22 +33,22 @@ class UserProfileView extends StatelessWidget {
       //TODO: IMPLEMENTAR SOPORTE
 
       // _CardModel(
-      //   title: 'support'.tr(),
+      //   title: 'support'.tr(context: context),
       //   icon: BoxIcons.bx_support,
       //   onTap: () => context.pushNamed('suport'),
       // ),
       _CardModel(
-          title: 'securityPolicies'.tr(),
+          title: 'securityPolicies'.tr(context: context),
           icon: BoxIcons.bx_shield_quarter,
           onTap: () {
             context.pushNamed('terms-privacy');
           }),
       _CardModel(
-        title: 'logOut'.tr(),
+        title: 'logOut'.tr(context: context),
         icon: BoxIcons.bx_log_out_circle,
         onTap: () async {
           try {
-            await userProvider.signOut();
+            await authProvider.signOut();
             if (!context.mounted) return;
             context.pushReplacementNamed('auth');
           } catch (e) {
@@ -149,8 +149,8 @@ class _UserResume extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = context.read<UserProvider>();
     ThemeProvider themeProvider = context.read<ThemeProvider>();
+    UserProvider userProvider = context.read<UserProvider>();
     bool isDarkMode = context.watch<ThemeProvider>().isDarMode;
     PetProvider petProvider = context.watch<PetProvider>();
     return Container(
@@ -176,13 +176,16 @@ class _UserResume extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  LanguageProvider languageProvider = context.read<LanguageProvider>();
-                  String language = languageProvider.language;
-                  languageProvider.changeLanguage(language == 'es' ? 'en' : 'es');
+                  Locale? currentLocale = context.locale;
+                  if (currentLocale == const Locale('es')) {
+                    context.setLocale(const Locale('en'));
+                  } else {
+                    context.setLocale(const Locale('es'));
+                  }
                 },
                 icon: const Icon(BoxIcons.bx_world),
               ),
-              Text(userProvider.getAuthUser()!.displayName!),
+              Text(userProvider.name!),
               IconButton(
                 onPressed: () {
                   themeProvider.changeTheme();
@@ -192,7 +195,7 @@ class _UserResume extends StatelessWidget {
             ],
           ),
           SizedBox(height: .5.h),
-          Text(userProvider.getAuthUser()!.email!),
+          Text(userProvider.email!),
           SizedBox(height: 2.h),
           Expanded(
             child: Row(
@@ -250,7 +253,7 @@ class _AddPet extends StatelessWidget {
               width: 20.w,
               child: Center(
                 child: Text(
-                  'add'.tr(),
+                  'add'.tr(context: context),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

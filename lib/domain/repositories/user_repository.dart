@@ -3,23 +3,23 @@ import 'package:petto_app/domain/entities/entities.dart';
 
 abstract class UserRepository extends UserDatasource {
   @override
-  Future<User> getUser();
+  Future<User> getUser(String uid);
 
   @override
-  Future<void> addUser(Map<String, dynamic> user);
+  Future<void> registerUser(String uid, Map<String, dynamic> user);
 
   @override
-  Future<void> deleteUser();
+  Future<void> deleteUser(String uid);
 
   @override
-  Future<void> updateDisplayName(String newDisplayName);
+  Future<void> updateName(String uid, String newName);
 
   @override
-  Future<void> updateEmail(String newEmail);
+  Future<void> updateEmail(String uid, String newEmail);
 
   @override
-  Future<void> updateAllowEmailNotifications(bool isAllow);
+  Future<void> updateAllowEmailNotifications(String uid, bool isAllow);
 
   @override
-  Future<void> updateAllowPhoneNotifications(bool isAllow);
+  Future<void> updateAllowPhoneNotifications(String uid, bool isAllow);
 }

@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +21,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   bool _passwordVisible = false;
-  GlobalKey<FormState> logInKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   @override
@@ -42,13 +40,13 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    AuthenticationProvider auth = context.read<AuthenticationProvider>();
+    AuthenticationProvider authProvider = context.read<AuthenticationProvider>();
     ColorScheme color = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: SingleChildScrollView(
         child: Form(
-          key: logInKey,
+          key: formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,7 +74,7 @@ class _LoginViewState extends State<LoginView> {
                 controller: emailController,
                 style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
-                validator: (value) => auth.validateEmail(value, context),
+                validator: (value) => FormValidators.email(value),
                 decoration: InputDecoration(prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: 'email'.tr()),
               ),
               SizedBox(height: 2.h),
@@ -84,7 +82,7 @@ class _LoginViewState extends State<LoginView> {
                 controller: passwordController,
                 obscureText: !_passwordVisible,
                 style: Theme.of(context).textTheme.bodyMedium,
-                validator: (value) => auth.validatePassword(value, context),
+                validator: (value) => FormValidators.password(value),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
                   labelText: 'password'.tr(),
@@ -125,11 +123,14 @@ class _LoginViewState extends State<LoginView> {
                     : () async {
                         PetProvider petsProvider = context.read<PetProvider>();
                         ReminderProvider reminderProvider = context.read<ReminderProvider>();
+                        UserProvider userProvider = context.read<UserProvider>();
                         try {
-                          if (!auth.isValidForm(logInKey)) return;
-                          await auth.logIn(emailController.text, passwordController.text);
+                          if (!FormValidators.isValidForm(formKey)) return;
+                          await authProvider.logIn(emailController.text, passwordController.text);
+                          await userProvider.getUser();
                           await petsProvider.getPets();
                           await reminderProvider.getReminders();
+                          if (!context.mounted) return;
                           context.pushReplacementNamed("home");
                         } catch (e) {
                           if (e.toString().contains('INVALID_LOGIN_CREDENTIALS')) {

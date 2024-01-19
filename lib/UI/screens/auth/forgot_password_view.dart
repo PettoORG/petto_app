@@ -22,7 +22,7 @@ class ForgotPasswordView extends StatefulWidget {
 }
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
-  GlobalKey<FormState> forgotPassKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   Timer? _resendTimer;
   int _secondsRemaining = 30;
@@ -92,10 +92,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     height: 4.h,
                   ),
                   Form(
-                    key: forgotPassKey,
+                    key: formKey,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: TextFormField(
-                      validator: (value) => auth.validateEmail(value, context),
+                      validator: (value) => FormValidators.email(value),
                       autocorrect: true,
                       keyboardType: TextInputType.emailAddress,
                       decoration:
@@ -110,7 +110,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         ? null
                         : () async {
                             try {
-                              if (!auth.isValidForm(forgotPassKey)) return;
+                              if (!FormValidators.isValidForm(formKey)) return;
                               await auth.sendPasswordResetEmail(emailController.text);
                               _startResendTimer();
                             } catch (e) {

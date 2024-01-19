@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -71,10 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
               rippleColor: color.primaryContainer,
               hoverColor: color.primaryContainer.withOpacity(.3),
               gap: 1.w,
-              tabs: const [
-                GButton(icon: BoxIcons.bx_calendar, text: 'Calendar'),
-                GButton(icon: BoxIcons.bx_home, text: 'home'),
-                GButton(icon: BoxIcons.bx_user, text: 'profile'),
+              tabs: [
+                GButton(icon: BoxIcons.bx_calendar, text: 'calendar'.tr()),
+                GButton(icon: BoxIcons.bx_home, text: 'home'.tr()),
+                GButton(icon: BoxIcons.bx_user, text: 'profile'.tr()),
               ],
             ),
           ),

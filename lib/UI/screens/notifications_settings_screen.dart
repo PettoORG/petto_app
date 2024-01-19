@@ -19,18 +19,18 @@ class NotificationSettingScreen extends StatefulWidget {
 class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   @override
   Widget build(BuildContext context) {
-    UserProvider db = context.read<UserProvider>();
+    UserProvider userProvider = context.read<UserProvider>();
     ColorScheme color = Theme.of(context).colorScheme;
     List<_SwitchModel> options = [
       _SwitchModel(
         title: 'email'.tr(),
         icon: BoxIcons.bx_envelope,
-        onTap: (value) => db.updateAllowEmailNotifications(value),
+        onTap: (value) => userProvider.updateAllowEmailNotifications(value),
       ),
       _SwitchModel(
         title: 'notifications'.tr(),
         icon: BoxIcons.bx_bell,
-        onTap: (value) => db.updateAllowPhoneNotifications(value),
+        onTap: (value) => userProvider.updateAllowPhoneNotifications(value),
       ),
     ];
 

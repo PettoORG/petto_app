@@ -1,23 +1,17 @@
-import 'package:petto_app/domain/entities/user.dart';
+import 'package:petto_app/domain/entities/entities.dart';
 
 abstract class UserDatasource {
-  Future<User> getUser();
+  Future<User> getUser(String uid);
 
-  dynamic getAuthUser();
+  Future<void> registerUser(String uid, Map<String, dynamic> user);
 
-  Future<void> addUser(Map<String, dynamic> user);
+  Future<void> updateName(String uid, String newName);
 
-  Future<void> updateDisplayName(String newDisplayName);
+  Future<void> updateEmail(String uid, String newEmail);
 
-  Future<void> updateEmail(String newEmail);
+  Future<void> updateAllowEmailNotifications(String uid, bool isAllow);
 
-  Future<void> updatePassWord(String newPassWord);
+  Future<void> updateAllowPhoneNotifications(String uid, bool isAllow);
 
-  Future<void> updateAllowEmailNotifications(bool isAllow);
-
-  Future<void> updateAllowPhoneNotifications(bool isAllow);
-
-  Future<void> deleteUser();
-
-  Future<void> signOut();
+  Future<void> deleteUser(String uid);
 }

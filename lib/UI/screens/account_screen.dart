@@ -21,34 +21,35 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final GlobalKey<FormState> myAccountKey = GlobalKey<FormState>();
-  TextEditingController displayNameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
   @override
   void initState() {
-    AuthenticationProvider auth = context.read<AuthenticationProvider>();
-    displayNameController.text = auth.getCurrentUser()!.displayName!;
-    emailController.text = auth.getCurrentUser()!.email!;
+    UserProvider userProvider = context.read<UserProvider>();
+    nameController.text = userProvider.name!;
+    emailController.text = userProvider.email!;
     super.initState();
   }
 
   @override
   void dispose() {
-    displayNameController.dispose();
+    nameController.dispose();
     emailController.dispose();
     super.dispose();
   }
 
   bool isEdited() {
-    AuthenticationProvider auth = context.read<AuthenticationProvider>();
-    String displayName = auth.getCurrentUser()?.displayName ?? '';
-    String email = auth.getCurrentUser()?.email ?? '';
-    return displayNameController.text != displayName || emailController.text != email;
+    UserProvider userProvider = context.read<UserProvider>();
+    String name = userProvider.name ?? '';
+    String email = userProvider.email ?? '';
+    return nameController.text != name || emailController.text != email;
   }
 
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = context.read<UserProvider>();
+    AuthenticationProvider authProvider = context.read<AuthenticationProvider>();
     TextTheme textStyle = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
@@ -75,8 +76,8 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   SizedBox(height: 1.h),
                   TextFormField(
-                    controller: displayNameController,
-                    validator: (value) => FormValidators.validateName(value),
+                    controller: nameController,
+                    validator: (value) => FormValidators.name(value),
                     autocorrect: true,
                     style: Theme.of(context).textTheme.bodyMedium,
                     onTapOutside: (event) => FocusScope.of(context).unfocus(),
@@ -92,7 +93,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(height: 1.h),
                   TextFormField(
                     controller: emailController,
-                    validator: (value) => FormValidators.validateEmail(value),
+                    validator: (value) => FormValidators.email(value),
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: true,
                     style: textStyle.bodyMedium,
@@ -125,18 +126,18 @@ class _AccountScreenState extends State<AccountScreen> {
                         ? () async {
                             try {
                               if (!FormValidators.isValidForm(myAccountKey)) return;
-                              if (displayNameController.text != userProvider.getAuthUser()!.displayName &&
-                                  emailController.text != userProvider.getAuthUser()!.email) {
-                                await userProvider.updateDisplayName(displayNameController.text);
-                                await userProvider.updateEmail(emailController.text);
+                              if (nameController.text != userProvider.name &&
+                                  emailController.text != userProvider.email) {
+                                await authProvider.updateName(nameController.text);
+                                await authProvider.updateEmail(emailController.text);
                                 return;
                               }
-                              if (displayNameController.text != userProvider.getAuthUser()!.displayName) {
-                                await userProvider.updateDisplayName(displayNameController.text);
+                              if (nameController.text != userProvider.name) {
+                                await authProvider.updateName(nameController.text);
                                 return;
                               }
-                              if (emailController.text != userProvider.getAuthUser()!.email) {
-                                await userProvider.updateEmail(emailController.text);
+                              if (emailController.text != userProvider.email) {
+                                await authProvider.updateEmail(emailController.text);
                                 return;
                               }
                             } catch (e) {
@@ -170,7 +171,8 @@ class _ReAuthDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthenticationProvider auth = context.read<AuthenticationProvider>();
+    AuthenticationProvider authProvider = context.read<AuthenticationProvider>();
+    UserProvider userProvider = context.read<UserProvider>();
     TextTheme textStyle = Theme.of(context).textTheme;
     ColorScheme colors = Theme.of(context).colorScheme;
     TextEditingController passwordController = TextEditingController();
@@ -187,7 +189,7 @@ class _ReAuthDialog extends StatelessWidget {
         TextButton(
             onPressed: () async {
               try {
-                await auth.reAuth(passwordController.text);
+                await authProvider.reAuth(passwordController.text);
                 // ignore: use_build_context_synchronously
                 context.pop();
               } catch (e) {
@@ -206,14 +208,14 @@ class _ReAuthDialog extends StatelessWidget {
             ),
             SizedBox(height: 1.h),
             Text(
-              auth.getCurrentUser()!.email!,
+              userProvider.email!,
               style: textStyle.titleSmall,
             ),
             SizedBox(height: 3.h),
             TextFormField(
               controller: passwordController,
               style: Theme.of(context).textTheme.bodyMedium,
-              validator: (value) => auth.validatePassword(value, context),
+              validator: (value) => FormValidators.password(value),
               decoration: InputDecoration(
                 prefixIcon: const Icon(BoxIcons.bx_lock),
                 labelText: 'password'.tr(),

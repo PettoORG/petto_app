@@ -54,7 +54,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               TextFormField(
                 controller: oldPassWord,
                 style: Theme.of(context).textTheme.bodyMedium,
-                validator: (value) => auth.validatePassword(value, context),
+                validator: (value) => FormValidators.password(value),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
                   labelText: 'Actual contraseña',
@@ -68,7 +68,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               TextFormField(
                 controller: newPassWord,
                 style: Theme.of(context).textTheme.bodyMedium,
-                validator: (value) => auth.validatePassword(value, context),
+                validator: (value) => FormValidators.password(value),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
                   labelText: 'Nueva contraseña',
@@ -82,7 +82,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               TextFormField(
                 controller: confirmNewPassWord,
                 style: Theme.of(context).textTheme.bodyMedium,
-                validator: (value) => auth.confirmPassword(value, newPassWord.text, context),
+                validator: (value) => FormValidators.confirmPassword(value, newPassWord.text),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
                   labelText: 'Confirma nueva contraseña',
@@ -98,7 +98,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 text: 'save'.tr(),
                 onPressed: () {
                   try {
-                    if (!auth.isValidForm(formKey)) return;
+                    if (!FormValidators.isValidForm(formKey)) return;
                     auth.isLoading = true;
                     auth.updatePassWord(newPassWord.text);
                     auth.isLoading = true;

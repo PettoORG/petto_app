@@ -1,15 +1,15 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:petto_app/domain/entities/entities.dart' as entitie;
+import 'package:petto_app/infrastructure/datasources/firebase_auth_datasource.dart';
 import 'package:petto_app/infrastructure/datasources/firestore_user_datasource.dart';
+import 'package:petto_app/infrastructure/repositories/auth_repository_impl.dart';
 import 'package:petto_app/infrastructure/repositories/user_repository_impl.dart';
-import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/utils.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final UserRepositoryImpl _userRepository = UserRepositoryImpl(FirestoreUserDatasource());
-  final FirebaseAuthService _firebaseAuth = FirebaseAuthService();
+  final AuthRepositoryImpl _authRepository = AuthRepositoryImpl(FirebaseAuthDatasource());
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -18,14 +18,21 @@ class AuthenticationProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isLogIn = true;
+  bool get isLogIn => _isLogIn;
+  set isLogIn(bool value) {
+    _isLogIn = value;
+    notifyListeners();
+  }
+
   AuthenticationProvider() {
     logger.d(getCurrentUser());
   }
 
   Future<void> logIn(String email, String password) async {
+    isLoading = true;
     try {
-      isLoading = true;
-      await _firebaseAuth.logIn(email, password);
+      await _authRepository.logIn(email, password);
       isLoading = false;
       logger.d(getCurrentUser());
     } catch (e) {
@@ -35,21 +42,20 @@ class AuthenticationProvider with ChangeNotifier {
     }
   }
 
-  Future<void> signInUp(String email, String password, String displayName) async {
+  Future<void> signInUp(String email, String password, String name) async {
+    isLoading = true;
     try {
-      isLoading = true;
-      await _firebaseAuth.signInUp(email, password, displayName);
-      logger.d(getCurrentUser());
+      await _authRepository.signInUp(email, password, name);
       Map<String, dynamic> user = entitie.User(
-        displayName: displayName,
+        uid: getCurrentUser()!.uid,
+        name: name,
         email: email,
-        image: null,
         allowEmailNotifications: true,
         allowPhoneNotifications: true,
       ).toMap();
-      await _userRepository.addUser(user);
-      isLoading = false;
+      await _userRepository.registerUser(getCurrentUser()!.uid, user);
       logger.d(getCurrentUser());
+      isLoading = false;
     } catch (e) {
       isLoading = false;
       logger.e('AUTH ERROR: $e');
@@ -58,9 +64,9 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> signOut() async {
+    isLoading = true;
     try {
-      isLoading = true;
-      await _firebaseAuth.signOut();
+      await _authRepository.signOut();
       isLoading = false;
       logger.d(getCurrentUser());
     } catch (e) {
@@ -70,11 +76,11 @@ class AuthenticationProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateDisplayName(String newDisplayName) async {
+  Future<void> updateName(String newName) async {
+    isLoading = true;
     try {
-      isLoading = true;
-      await _firebaseAuth.updateDisplayName(newDisplayName);
-      await _userRepository.updateDisplayName(newDisplayName);
+      await _authRepository.updateName(newName);
+      await _userRepository.updateName(getCurrentUser()!.uid, newName);
       isLoading = false;
     } catch (e) {
       isLoading = false;
@@ -84,9 +90,9 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> updatePassWord(String newPassWord) async {
+    isLoading = true;
     try {
-      isLoading = true;
-      await _firebaseAuth.updatePassWord(newPassWord);
+      await _authRepository.updatePassword(newPassWord);
       isLoading = false;
     } catch (e) {
       isLoading = false;
@@ -96,9 +102,10 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> updateEmail(String newEmail) async {
+    isLoading = true;
     try {
-      isLoading = true;
-      await _userRepository.updateEmail(newEmail);
+      await _authRepository.updateEmail(newEmail);
+      await _userRepository.updateEmail(getCurrentUser()!.uid, newEmail);
       isLoading = false;
     } catch (e) {
       isLoading = false;
@@ -108,10 +115,10 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> reAuth(String password) async {
+    isLoading = true;
     try {
-      isLoading = true;
-      await _firebaseAuth.reAuth(EmailAuthProvider.credential(
-        email: _firebaseAuth.getCurrentUser()!.email!,
+      await _authRepository.reAuth(EmailAuthProvider.credential(
+        email: _authRepository.getCurrentUser()!.email!,
         password: password,
       ));
       isLoading = false;
@@ -123,9 +130,9 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
+    isLoading = true;
     try {
-      isLoading = true;
-      await _firebaseAuth.sendPasswordResetEmail(email);
+      await _authRepository.sendPasswordResetEmail(email);
       isLoading = false;
     } catch (e) {
       isLoading = false;
@@ -135,66 +142,25 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> deleteAccount() async {
+    isLoading = true;
     try {
-      isLoading = true;
-      await _userRepository.deleteUser();
-      await _firebaseAuth.deleteAccount();
+      String uid = getCurrentUser()!.uid;
+      await _authRepository.deleteAccount();
+      await _userRepository.deleteUser(uid);
       isLoading = false;
     } catch (e) {
       isLoading = false;
       logger.e('AUTH ERROR: $e');
       rethrow;
-      //TODO EXEPCION DE REAUTH NO MANEJADA
     }
   }
 
   User? getCurrentUser() {
     try {
-      return _firebaseAuth.getCurrentUser();
+      return _authRepository.getCurrentUser();
     } catch (e) {
       logger.e('AUTH ERROR: $e');
       rethrow;
     }
-  }
-
-  bool isValidForm(GlobalKey<FormState> key) {
-    return key.currentState?.validate() ?? false;
-  }
-
-  String? validateEmail(String? value, BuildContext context) {
-    if (value == null || value.isEmpty) {
-      return 'enterEmail'.tr();
-    }
-    if (!RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b').hasMatch(value)) {
-      return 'enterValidEmail'.tr();
-    }
-    return null;
-  }
-
-  String? validateDisplayName(String? value, BuildContext context) {
-    if (value == null || value.isEmpty) {
-      return 'enterValidName'.tr();
-    }
-    return null;
-  }
-
-  String? validatePassword(String? value, BuildContext context) {
-    if (value == null || value.isEmpty) {
-      return 'enterPassword'.tr();
-    }
-    if (value.length < 8) {
-      return 'passwordLength'.tr();
-    }
-    return null;
-  }
-
-  String? confirmPassword(String? confirmNewPassWord, String newPassWord, BuildContext context) {
-    if (confirmNewPassWord == null || confirmNewPassWord.isEmpty) {
-      'Confirme su nueva contraseña';
-    }
-    if (confirmNewPassWord != newPassWord) {
-      return 'Las contraseñas no coinciden';
-    }
-    return null;
   }
 }
