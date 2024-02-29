@@ -1,4 +1,4 @@
-package com.petto.app
+package com.petto.pettoapp
 
 import io.flutter.embedding.android.FlutterActivity
 

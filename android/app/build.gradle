@@ -29,7 +29,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.petto.app"
+    namespace "com.petto.pettoapp"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -48,7 +48,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.petto.app"
+        applicationId "com.petto.pettoapp"
         minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

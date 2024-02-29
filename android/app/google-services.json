@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:617052409783:android:2418034efde019b146e232",
+        "mobilesdk_app_id": "1:617052409783:android:5d5888fff64f4dd246e232",
         "android_client_info": {
-          "package_name": "com.petto.app"
+          "package_name": "com.petto.pettoapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "617052409783-ds8mstnm4kqsvmugbntbgcd6jisjs76o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBr0P5RVvM9_uK9cXLahx6GygfsyC7nEKA"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "617052409783-ds8mstnm4kqsvmugbntbgcd6jisjs76o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "617052409783-tslhbo0f6ol2f4da1kk5089b7pnuro7i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pettoApp"
+              }
+            }
+          ]
         }
       }
     }

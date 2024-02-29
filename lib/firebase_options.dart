@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBr0P5RVvM9_uK9cXLahx6GygfsyC7nEKA',
-    appId: '1:617052409783:android:2418034efde019b146e232',
+    appId: '1:617052409783:android:5d5888fff64f4dd246e232',
     messagingSenderId: '617052409783',
     projectId: 'petto-18ace',
     storageBucket: 'petto-18ace.appspot.com',
@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAz-I4N2UYJ42vYJUsYdHKXVzmfW4sqEs0',
-    appId: '1:617052409783:ios:151e3041b11c717146e232',
+    appId: '1:617052409783:ios:00366b561cbc549546e232',
     messagingSenderId: '617052409783',
     projectId: 'petto-18ace',
     storageBucket: 'petto-18ace.appspot.com',
+    iosClientId: '617052409783-tslhbo0f6ol2f4da1kk5089b7pnuro7i.apps.googleusercontent.com',
     iosBundleId: 'com.example.pettoApp',
   );
 }
