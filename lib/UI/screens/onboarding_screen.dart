@@ -85,9 +85,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     flex: 4,
                     child: (currentPage == 0)
                         ? TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               LocalStorage.prefs.setBool('showOnboarding', false);
-                              return context.pushReplacementNamed('pet-register');
+                              User? user = context.read<AuthenticationProvider>().getCurrentUser();
+                              if (user == null) return context.pushReplacementNamed('auth');
+                              try {
+                                await userProvider.getUser();
+                                await reminderProvider.getReminders();
+                                await petProvider.getPets().then(
+                                  (_) {
+                                    if (petProvider.pets.isEmpty) {
+                                      return context.pushReplacementNamed('pet-register');
+                                    } else {
+                                      return context.pushReplacementNamed('home');
+                                    }
+                                  },
+                                );
+                              } catch (e) {
+                                if (!context.mounted) return;
+                                showToast('error'.tr(), context);
+                              }
                             },
                             child: Text('skip'.tr()))
                         : IconButton(
