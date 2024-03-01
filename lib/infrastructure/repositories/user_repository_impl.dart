@@ -37,7 +37,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<void> registerUser(String uid, Map<String, dynamic> user) async {
+  Future<void> registerUser(String uid, User user) async {
     await datasource.registerUser(uid, user);
   }
 }

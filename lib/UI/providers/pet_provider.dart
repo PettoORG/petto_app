@@ -7,7 +7,7 @@ import 'package:petto_app/infrastructure/repositories/pet_repository_impl.dart';
 import 'package:petto_app/utils/utils.dart';
 
 class PetProvider extends ChangeNotifier {
-  final PetRepository _userRepository = PetRepositoryImpl(FirestorePetDatasource());
+  final PetRepository _petRepository = PetRepositoryImpl(FirestorePetDatasource());
   List<Pet> pets = [];
 
   int _currentPet = 0;
@@ -26,7 +26,7 @@ class PetProvider extends ChangeNotifier {
 
   Future<void> getPets() async {
     try {
-      pets = await _userRepository.getPets();
+      pets = await _petRepository.getPets();
     } catch (e) {
       logger.e('FIRESTORE ERROR: $e');
       rethrow;
@@ -36,7 +36,7 @@ class PetProvider extends ChangeNotifier {
   Future<void> deletePet(String petId) async {
     try {
       isLoading = true;
-      await _userRepository.deletePet(petId);
+      await _petRepository.deletePet(petId);
       isLoading = false;
     } catch (e) {
       logger.e('FIRESTORE ERROR: $e');
@@ -44,13 +44,33 @@ class PetProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> addPet(Pet pet) async {
+  Future<void> addPet(
+    String petName,
+    String petSpecie,
+    String petGender,
+    String petBreed,
+    String petSize,
+    String petBirthDate,
+    String petWeight,
+    String petAge,
+    File? petImage,
+  ) async {
+    isLoading = true;
     try {
-      String petId;
-      isLoading = true;
-      petId = await _userRepository.addPet(pet);
+      Pet pet = Pet(
+        id: 'not-asigned',
+        name: petName,
+        specie: petSpecie,
+        gender: petGender,
+        breed: petBreed,
+        size: petSize,
+        birthdate: petBirthDate,
+        weight: petWeight,
+        age: petAge,
+      );
+      await _petRepository.addPet(pet, petImage);
+
       isLoading = false;
-      return petId;
     } catch (e) {
       logger.e('FIRESTORE ERROR: $e');
       rethrow;
@@ -60,7 +80,7 @@ class PetProvider extends ChangeNotifier {
   Future<void> updatePetImage(String petId, File image) async {
     try {
       isLoading = true;
-      _userRepository.updatePetImage(petId, image);
+      _petRepository.updatePetImage(petId, image);
       isLoading = false;
     } catch (e) {
       logger.e('STORAGE ERROR: $e');
@@ -71,7 +91,7 @@ class PetProvider extends ChangeNotifier {
   Future<void> updatePet(String petId, Map<Object, Object?> petData) async {
     try {
       isLoading = true;
-      await _userRepository.updatePet(petId, petData);
+      await _petRepository.updatePet(petId, petData);
       await getPets();
       isLoading = false;
     } catch (e) {

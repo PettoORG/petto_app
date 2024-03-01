@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:petto_app/domain/datasources/pet_datasource.dart';
 import 'package:petto_app/domain/entities/pet.dart';
 
@@ -9,5 +11,5 @@ abstract class PetRepository extends PetDatasource {
   Future<List<Pet>> getPets();
 
   @override
-  Future<String> addPet(Pet pet);
+  Future<void> addPet(Pet pet, File? petImage);
 }

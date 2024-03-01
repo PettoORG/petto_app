@@ -13,9 +13,10 @@ class FirestorePetDatasource extends PetDatasource {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
   @override
-  Future<String> addPet(Pet pet) async {
-    final docRef = await _db.collection('users').doc(_getUid()).collection('pets').add(pet.toMap());
-    return docRef.id;
+  Future<void> addPet(Pet pet, File? petImage) async {
+    DocumentReference ref = await _db.collection('users').doc(_getUid()).collection('pets').add(pet.toMap());
+    await _db.collection('users').doc(_getUid()).collection('pets').doc(ref.id).update({'id': ref.id});
+    if (petImage != null) await updatePetImage(ref.id, petImage);
   }
 
   @override

@@ -14,8 +14,8 @@ class FirestoreUserDatasource extends UserDatasource {
   }
 
   @override
-  Future<void> registerUser(String uid, Map<String, dynamic> user) async {
-    await _db.collection('users').doc(uid).set(user);
+  Future<void> registerUser(String uid, User user) async {
+    await _db.collection('users').doc(uid).set(user.toMap());
     await _db.collection('users').doc(uid).update({'uid': uid});
   }
 

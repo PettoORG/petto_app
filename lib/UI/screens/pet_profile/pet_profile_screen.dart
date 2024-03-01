@@ -42,7 +42,7 @@ class PetProfileScreen extends StatelessWidget {
               SizedBox(height: 3.h),
               _GeneralInformation(pet),
               SizedBox(height: 3.h),
-              _DeleteButton(pet.id!, pet.name),
+              _DeleteButton(pet.id, pet.name),
               SizedBox(height: 3.h),
             ],
           ),

@@ -9,8 +9,8 @@ class PetRepositoryImpl extends PetRepository {
   PetRepositoryImpl(this.datasource);
 
   @override
-  Future<String> addPet(Pet pet) async {
-    return await datasource.addPet(pet);
+  Future<void> addPet(Pet pet, File? petImage) async {
+    await datasource.addPet(pet, petImage);
   }
 
   @override

@@ -46,13 +46,13 @@ class AuthenticationProvider with ChangeNotifier {
     isLoading = true;
     try {
       await _authRepository.signInUp(email, password, name);
-      Map<String, dynamic> user = entitie.User(
+      entitie.User user = entitie.User(
         uid: getCurrentUser()!.uid,
         name: name,
         email: email,
         allowEmailNotifications: true,
         allowPhoneNotifications: true,
-      ).toMap();
+      );
       await _userRepository.registerUser(getCurrentUser()!.uid, user);
       logger.d(getCurrentUser());
       isLoading = false;

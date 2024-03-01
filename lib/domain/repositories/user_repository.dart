@@ -6,7 +6,7 @@ abstract class UserRepository extends UserDatasource {
   Future<User> getUser(String uid);
 
   @override
-  Future<void> registerUser(String uid, Map<String, dynamic> user);
+  Future<void> registerUser(String uid, User user);
 
   @override
   Future<void> deleteUser(String uid);

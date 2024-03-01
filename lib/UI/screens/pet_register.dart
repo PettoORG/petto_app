@@ -8,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
-import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -131,26 +130,10 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                   text: 'save'.tr(),
                   onPressed: () async {
                     if (validateData()) {
-                      DateTime birthdate = DateTime.parse(petBirthDate!);
-                      DateTime currentDate = DateTime.now();
-                      Duration difference = currentDate.difference(birthdate);
-                      String petAge = (difference.inDays / 365).toStringAsFixed(1);
+                      String petAge = calculateAge(DateTime.parse(petBirthDate!));
                       try {
-                        final String petId = await petProvider.addPet(
-                          Pet(
-                            name: petName.text,
-                            specie: petSpecie!,
-                            gender: petGender!,
-                            breed: petBreed!,
-                            size: petSize!,
-                            birthdate: petBirthDate!,
-                            weight: petWeight!,
-                            age: petAge,
-                          ),
-                        );
-                        if (petImage != null) {
-                          await petProvider.updatePetImage(petId, petImage!);
-                        }
+                        await petProvider.addPet(petName.text, petSpecie!, petGender!, petBreed!, petSize!,
+                            petBirthDate!, petWeight!, petAge, petImage);
                         await petProvider.getPets();
                         if (context.canPop()) {
                           return context.pop();

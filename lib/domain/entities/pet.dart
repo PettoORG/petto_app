@@ -7,7 +7,7 @@ class Pet {
   final String birthdate;
   final String age;
   final String weight;
-  final String? id;
+  final String id;
   final String? foodType;
   final String? lastVeterinarySession;
   final String? lastDeworming;
@@ -23,10 +23,10 @@ class Pet {
     required this.birthdate,
     required this.age,
     required this.weight,
+    required this.id,
     this.foodType,
     this.lastVeterinarySession,
     this.lastDeworming,
-    this.id,
     this.image,
     this.microchipId,
   });

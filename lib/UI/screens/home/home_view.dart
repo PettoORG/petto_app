@@ -102,7 +102,7 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                           Text(pet.name, style: textStyles.bodySmall),
                           Text(pet.specie, style: textStyles.bodySmall),
-                          Text('petYears'.tr(args: [pet.age]), style: textStyles.bodySmall),
+                          Text(pet.age, style: textStyles.bodySmall),
                           Text(pet.gender, style: textStyles.bodySmall),
                         ],
                       )
@@ -298,7 +298,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
             await context
                 .read<ReminderProvider>()
                 .addReminder(
-                  widget.pet.id!,
+                  widget.pet.id,
                   widget.pet.image!,
                   titleController.text,
                   bodyController.text,

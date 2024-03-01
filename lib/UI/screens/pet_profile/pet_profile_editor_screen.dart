@@ -145,10 +145,10 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
                   showToast('missingOrIncorrectData'.tr(), context);
                 } else {
                   if (petImageFile != null) {
-                    await petProvider.updatePetImage(widget.pet.id!, petImageFile!);
+                    await petProvider.updatePetImage(widget.pet.id, petImageFile!);
                   }
                   await petProvider.updatePet(
-                    widget.pet.id!,
+                    widget.pet.id,
                     {
                       'size': petSize,
                       'weight': petWeight,
