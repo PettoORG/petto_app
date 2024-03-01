@@ -1,12 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
+
 String calculateAge(DateTime birthDate) {
   DateTime now = DateTime.now();
   Duration difference = now.difference(birthDate);
 
   if (difference.inDays < 7) {
-    return '${difference.inDays} days';
+    return 'days'.plural(difference.inDays);
   } else if (difference.inDays < 30) {
     int weeks = difference.inDays ~/ 7;
-    return '$weeks weeks';
+    return 'weeks'.plural(weeks);
   } else {
     int ageYears = now.year - birthDate.year;
     int ageMonths = now.month - birthDate.month;
@@ -19,15 +21,15 @@ String calculateAge(DateTime birthDate) {
 
     if (ageYears > 0) {
       if (ageMonths == 0) {
-        return '$ageYears ${ageYears == 1 ? 'year' : 'years'}';
+        return 'years'.plural(ageYears);
       } else {
-        return '$ageYears ${ageYears == 1 ? 'year' : 'years'} and $ageMonths ${ageMonths == 1 ? 'month' : 'months'}';
+        return '${'years'.plural(ageYears)} ${'months'.plural(ageMonths)}';
       }
     } else {
       if (ageMonths == 0) {
-        return '$ageDays days';
+        return 'days'.plural(ageDays);
       } else {
-        return '$ageMonths ${ageMonths == 1 ? 'month' : 'months'}';
+        return 'months'.plural(ageMonths);
       }
     }
   }

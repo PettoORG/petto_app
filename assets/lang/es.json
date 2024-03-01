@@ -86,6 +86,22 @@
     "passwordLength": "Debe tener al menos 8 caracteres",
     "passwordsNotMatch": "Las contraseñas no coinciden",
     "pendingApplications": "Aplicaciones pendientes",
+    "days": {
+        "many": "{days} días",
+        "one": "{days} día"
+    },
+    "years": {
+        "many": "{years} years",
+        "one": "{years} year"
+    },
+    "weeks": {
+        "many": "{weeks} semanas",
+        "one": "{weeks} semana"
+    },
+    "months": {
+        "many": "{months} meses",
+        "one": "{months} mes"
+    },
     "petBreed": "Raza",
     "petDateOfBirth": "Fecha de nacimiento",
     "petSize": "Tamaño",
@@ -129,6 +145,5 @@
     "veterinarySession": "Sesión veterinaria",
     "warningDataLoss": "Si lo haces, perderás todos tus datos y no podrás recuperarlos",
     "welcomeBack": "¡Bienvenido de vuelta!",
-    "years": "Años",
     "yourWellCaredPet": "Tu mascota, bien cuidada"
 }
