@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petto_app/config/theme/app_theme.dart';
+import 'package:petto_app/config/app_theme.dart';
 import 'package:petto_app/utils/local_storage.dart';
 
 class ThemeProvider extends ChangeNotifier {

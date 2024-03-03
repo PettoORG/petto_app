@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
@@ -26,24 +27,6 @@ class _HomeViewState extends State<HomeView> {
     List<Pet> pets = context.watch<PetProvider>().pets;
     List<Reminder> reminders = context.watch<ReminderProvider>().reminders;
     PetProvider petProvider = context.read<PetProvider>();
-    // List<OptionModel> options = [
-    //   OptionModel(
-    //       child: Icon(BoxIcons.bx_health, color: colors.primary),
-    //       title: 'health'.tr(),
-    //       color: colors.primaryContainer),
-    //   OptionModel(
-    //       child: Icon(BoxIcons.bx_cut, color: colors.secondary),
-    //       title: 'grooming'.tr(),
-    //       color: colors.secondaryContainer),
-    //   OptionModel(
-    //       child: Icon(BoxIcons.bxs_cat, color: colors.primary),
-    //       title: 'activity'.tr(),
-    //       color: colors.primaryContainer),
-    //   OptionModel(
-    //       child: Icon(BoxIcons.bx_bowl_rice, color: colors.tertiary),
-    //       title: 'food'.tr(),
-    //       color: colors.tertiaryContainer),
-    // ];
     if (pets.isEmpty) {
       return const DontHavePet();
     }
@@ -97,14 +80,39 @@ class _HomeViewState extends State<HomeView> {
                         ),
                       ),
                       SizedBox(width: 2.w),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(pet.name, style: textStyles.bodySmall),
-                          Text(pet.specie, style: textStyles.bodySmall),
-                          Text(pet.age, style: textStyles.bodySmall),
-                          Text(pet.gender, style: textStyles.bodySmall),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              pet.name,
+                              style: textStyles.titleLarge!
+                                  .copyWith(fontFamily: 'Pacifico-Regular', fontWeight: FontWeight.normal),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              pet.specie,
+                              style: textStyles.bodyMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              pet.age,
+                              style: textStyles.bodyMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              pet.gender,
+                              style: textStyles.bodyMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -406,7 +414,7 @@ class _SliverAppbar extends StatelessWidget {
       centerTitle: true,
       title: Text(
         'petto'.tr(),
-        style: textStyle.bodyLarge!.copyWith(fontFamily: 'Pacifico-Regular', fontSize: 17.sp),
+        style: textStyle.titleLarge!.copyWith(fontFamily: 'Pacifico-Regular'),
       ),
       // actions: [
       //   IconButton(onPressed: () => context.pushNamed('notifications'), icon: const Icon(BoxIcons.bx_bell)),

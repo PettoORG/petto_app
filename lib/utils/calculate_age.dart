@@ -29,7 +29,6 @@ String calculateAge(DateTime birthDate) {
       if (ageMonths == 0) {
         return 'days'.plural(ageDays);
       } else {
-        print('${'months'.plural(ageMonths)}');
         return 'months'.plural(ageMonths);
       }
     }
