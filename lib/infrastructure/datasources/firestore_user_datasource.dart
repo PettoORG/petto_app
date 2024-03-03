@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:petto_app/domain/datasources/user_datasource.dart';
 import 'package:petto_app/domain/entities/user.dart';
-import 'package:petto_app/utils/logger_prints.dart';
 
 class FirestoreUserDatasource extends UserDatasource {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -9,7 +8,6 @@ class FirestoreUserDatasource extends UserDatasource {
   @override
   Future<User> getUser(String uid) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await _db.collection('users').doc(uid).get();
-    logger.d(snapshot.data());
     return User.fromMap(snapshot.data()!);
   }
 

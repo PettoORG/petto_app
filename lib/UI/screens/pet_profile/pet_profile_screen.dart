@@ -185,7 +185,6 @@ class _BasicInformation extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(pet.age, style: textStyle.bodySmall!.copyWith(color: color.primary)),
-              Text('years'.tr(), style: textStyle.bodySmall!.copyWith(color: color.primary)),
             ],
           ),
           title: 'age'.tr(),

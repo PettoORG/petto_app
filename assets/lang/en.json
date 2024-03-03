@@ -87,6 +87,26 @@
     "petSize": "Pet size",
     "pettips": "Pettips",
     "petto": "Petto",
+    "days": {
+        "many": "{} days",
+        "one": "{} day",
+        "other": "{} days"
+    },
+    "years": {
+        "many": "{} years",
+        "one": "{} year",
+        "other": "{} years"
+    },
+    "weeks": {
+        "many": "{} weeks",
+        "one": "{} week",
+        "other": "{} weeks"
+    },
+    "months": {
+        "many": "{} months",
+        "one": "{} month",
+        "other": "{} months"
+    },
     "pettoHelpsYourPet": "Petto helps ensure your pet is healthy, happy, and well-cared for.",
     "pettoProvidesTips": "Petto provides you with useful information about the health, nutrition, and training of your furry friend",
     "pettoRemindsYou": "Petto reminds you of the veterinarian, vaccinations, and important events for your furry friend",
@@ -123,6 +143,5 @@
     "veterinarySession": "Veterinary session",
     "warningDataLoss": "If you proceed, you will lose all your data and won't be able to recover it",
     "welcomeBack": "Welcome back!",
-    "years": "Years",
     "yourWellCaredPet": "Your well-cared pet"
 }

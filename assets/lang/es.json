@@ -87,20 +87,24 @@
     "passwordsNotMatch": "Las contraseñas no coinciden",
     "pendingApplications": "Aplicaciones pendientes",
     "days": {
-        "many": "{days} días",
-        "one": "{days} día"
+        "many": "{} días",
+        "one": "{} día",
+        "other": "{} días"
     },
     "years": {
-        "many": "{years} years",
-        "one": "{years} year"
+        "many": "{} años",
+        "one": "{} año",
+        "other": "{} años"
     },
     "weeks": {
-        "many": "{weeks} semanas",
-        "one": "{weeks} semana"
+        "many": "{} semanas",
+        "one": "{} semana",
+        "other": "{} semanas"
     },
     "months": {
-        "many": "{months} meses",
-        "one": "{months} mes"
+        "many": "{} meses",
+        "one": "{} mes",
+        "other": "{} meses"
     },
     "petBreed": "Raza",
     "petDateOfBirth": "Fecha de nacimiento",
