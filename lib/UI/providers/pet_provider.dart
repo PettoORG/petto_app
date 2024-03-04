@@ -8,7 +8,14 @@ import 'package:petto_app/utils/utils.dart';
 
 class PetProvider extends ChangeNotifier {
   final PetRepository _petRepository = PetRepositoryImpl(FirestorePetDatasource());
-  List<Pet> pets = [];
+
+  List<Pet> _pets = [];
+  List<Pet> get pets => _pets;
+  set pets(List<Pet> pets) {
+    _pets = pets;
+    print('HOLA');
+    notifyListeners();
+  }
 
   int _currentPet = 0;
   int get currentPet => _currentPet;

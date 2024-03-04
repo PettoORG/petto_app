@@ -30,13 +30,6 @@ class UserProfileView extends StatelessWidget {
           onTap: () {
             context.pushNamed('notifications-settings');
           }),
-      //TODO: IMPLEMENTAR SOPORTE
-
-      // _CardModel(
-      //   title: 'support'.tr(context: context),
-      //   icon: BoxIcons.bx_support,
-      //   onTap: () => context.pushNamed('suport'),
-      // ),
       _CardModel(
           title: 'securityPolicies'.tr(context: context),
           icon: BoxIcons.bx_shield_quarter,

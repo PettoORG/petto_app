@@ -163,13 +163,10 @@ class AppTheme {
               borderRadius: BorderRadius.circular(5.w),
             ),
             errorStyle: const TextStyle(color: darkPrimary)),
-        textTheme: TextTheme(
-          titleLarge: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
-          titleMedium: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
-          titleSmall: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
-          bodyLarge: TextStyle(fontSize: 14.sp),
-          bodyMedium: TextStyle(fontSize: 12.sp),
-          bodySmall: TextStyle(fontSize: 11.sp),
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
+          titleMedium: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
+          titleSmall: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
         ),
       );
 }
