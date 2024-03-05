@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
@@ -124,14 +123,7 @@ class _HomeViewState extends State<HomeView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //TODO: IMPLEMENTAR PANTALLAS DE REGISTRO Y SEGUIMIENTO
-
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: List.generate(options.length, (index) => GlobalPetOptionCard(option: options[index])),
-                  // ),
-                  // SizedBox(height: 2.h),
-                  _RemindersTitle(pet: pets[petProvider.currentPet]),
+                  const _RemindersTitle(),
                   (reminders.isEmpty)
                       ? const NoPendingReminders()
                       : Column(
@@ -229,8 +221,7 @@ class _Pettips extends StatelessWidget {
 }
 
 class _RemindersTitle extends StatelessWidget {
-  final Pet pet;
-  const _RemindersTitle({required this.pet});
+  const _RemindersTitle();
 
   @override
   Widget build(BuildContext context) {
@@ -247,9 +238,7 @@ class _RemindersTitle extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return _AddReminderDialog(
-                    pet: pet,
-                  );
+                  return const _AddReminderBuilder();
                 },
               );
             },
@@ -262,19 +251,52 @@ class _RemindersTitle extends StatelessWidget {
   }
 }
 
-class _AddReminderDialog extends StatefulWidget {
-  final Pet pet;
-  const _AddReminderDialog({required this.pet});
+class _AddReminderBuilder extends StatefulWidget {
+  const _AddReminderBuilder();
 
   @override
-  State<_AddReminderDialog> createState() => _AddReminderDialogState();
+  State<_AddReminderBuilder> createState() => _AddReminderBuilderState();
 }
 
-class _AddReminderDialogState extends State<_AddReminderDialog> {
+class _AddReminderBuilderState extends State<_AddReminderBuilder> {
+  @override
+  Widget build(BuildContext context) {
+    ColorScheme colors = Theme.of(context).colorScheme;
+    ReminderProvider reminderProvider = context.read<ReminderProvider>();
+    if (reminderProvider.categories.isNotEmpty) return const _ReminderDialog();
+    return FutureBuilder(
+      future: reminderProvider.getCategories(context.locale.languageCode),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: PettoLoading(color: colors.primary, size: 20.w),
+          );
+        } else if (snapshot.hasError) {
+          return const Center(child: Text("Error al cargar las categorías"));
+        } else if (snapshot.hasData) {
+          return const _ReminderDialog();
+        } else {
+          return const Text("No hay datos disponibles");
+        }
+      },
+    );
+    //
+  }
+}
+
+class _ReminderDialog extends StatefulWidget {
+  const _ReminderDialog();
+
+  @override
+  State<_ReminderDialog> createState() => _ReminderDialogState();
+}
+
+class _ReminderDialogState extends State<_ReminderDialog> {
   TextEditingController dateController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late Category category;
 
   @override
   void dispose() {
@@ -287,6 +309,19 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
   Widget build(BuildContext context) {
     TextTheme textStyle = Theme.of(context).textTheme;
     ColorScheme colors = Theme.of(context).colorScheme;
+    PetProvider petProvider = context.read<PetProvider>();
+    ReminderProvider reminderProvider = context.read<ReminderProvider>();
+    Pet pet = petProvider.pets[petProvider.currentPet];
+
+    List<DropdownMenuItem<Category>> dropdownItems = reminderProvider.categories
+        .map(
+          (category) => DropdownMenuItem<Category>(
+            value: category,
+            child: Text(category.text),
+          ),
+        )
+        .toList();
+
     return AlertDialog(
       backgroundColor: colors.background,
       surfaceTintColor: colors.surface,
@@ -306,12 +341,7 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
             await context
                 .read<ReminderProvider>()
                 .addReminder(
-                  widget.pet.id,
-                  widget.pet.image!,
-                  titleController.text,
-                  bodyController.text,
-                  dateController.text,
-                )
+                    pet.id, pet.image!, titleController.text, bodyController.text, dateController.text, category.text)
                 .then(
                   (_) => context.pop(),
                 )
@@ -322,80 +352,87 @@ class _AddReminderDialogState extends State<_AddReminderDialog> {
           child: Text('accept'.tr()),
         ),
       ],
-      content: SizedBox(
-        height: 50.h,
-        child: Form(
-          key: formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'addReminderForPet'.tr(args: [widget.pet.name]),
-                style: textStyle.titleMedium,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 2.h),
-              TextFormField(
-                controller: titleController,
-                validator: (value) => FormValidators.reminderTitle(value),
-                style: Theme.of(context).inputDecorationTheme.labelStyle,
-                onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                decoration: InputDecoration(
-                  label: Text('reminderTitle'.tr()),
+      content: SingleChildScrollView(
+        child: SizedBox(
+          height: 55.h,
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'addReminderForPet'.tr(args: [pet.name]),
+                  style: textStyle.titleMedium,
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              SizedBox(height: 2.h),
-              TextFormField(
-                controller: bodyController,
-                validator: (value) => FormValidators.reminderBody(value),
-                style: Theme.of(context).inputDecorationTheme.labelStyle,
-                onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                decoration: InputDecoration(
-                  label: Text('description'.tr()),
+                SizedBox(height: 2.h),
+                DropdownButtonFormField(
+                  decoration: const InputDecoration(label: Text('categorie')),
+                  items: dropdownItems,
+                  onChanged: (cat) => category = cat!,
                 ),
-              ),
-              SizedBox(height: 2.h),
-              TextFormField(
-                controller: dateController,
-                style: Theme.of(context).inputDecorationTheme.labelStyle,
-                validator: (value) => FormValidators.date(value),
-                readOnly: true,
-                onTap: () async {
-                  DateTime now = DateTime.now();
-                  DateTime lastDate = DateTime(now.year + 100, now.month, now.day);
-                  DateTime firstDate = DateTime(now.year, now.month, now.day + 1);
-                  DateTime? selectedDate = await showDatePicker(
-                    context: context,
-                    initialDate: firstDate,
-                    firstDate: firstDate,
-                    lastDate: lastDate,
-                    builder: (BuildContext context, Widget? child) {
-                      return Theme(
-                        data: ThemeData.light().copyWith(
-                          primaryColor: colors.surface,
-                          colorScheme: ColorScheme.dark(
-                            primary: colors.primary,
-                            onPrimary: colors.surface,
-                            surface: colors.surface,
-                            onSurface: colors.primary,
+                SizedBox(height: 2.h),
+                TextFormField(
+                  controller: titleController,
+                  validator: (value) => FormValidators.reminderTitle(value),
+                  style: Theme.of(context).inputDecorationTheme.labelStyle,
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                  decoration: InputDecoration(
+                    label: Text('reminderTitle'.tr()),
+                  ),
+                ),
+                SizedBox(height: 2.h),
+                TextFormField(
+                  controller: bodyController,
+                  validator: (value) => FormValidators.reminderBody(value),
+                  style: Theme.of(context).inputDecorationTheme.labelStyle,
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                  decoration: InputDecoration(
+                    label: Text('description'.tr()),
+                  ),
+                ),
+                SizedBox(height: 2.h),
+                TextFormField(
+                  controller: dateController,
+                  style: Theme.of(context).inputDecorationTheme.labelStyle,
+                  validator: (value) => FormValidators.date(value),
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime now = DateTime.now();
+                    DateTime lastDate = DateTime(now.year + 100, now.month, now.day);
+                    DateTime firstDate = DateTime(now.year, now.month, now.day + 1);
+                    DateTime? selectedDate = await showDatePicker(
+                      context: context,
+                      initialDate: firstDate,
+                      firstDate: firstDate,
+                      lastDate: lastDate,
+                      builder: (BuildContext context, Widget? child) {
+                        return Theme(
+                          data: ThemeData.light().copyWith(
+                            primaryColor: colors.surface,
+                            colorScheme: ColorScheme.dark(
+                              primary: colors.primary,
+                              onPrimary: colors.surface,
+                              surface: colors.surface,
+                              onSurface: colors.primary,
+                            ),
                           ),
-                        ),
-                        child: child!,
-                      );
-                    },
-                  );
-                  if (selectedDate != null) {
-                    String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
-                    dateController.text = formattedDate;
-                  }
-                },
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(BoxIcons.bx_calendar),
-                  label: Text('date'.tr()),
-                ),
-              )
-            ],
+                          child: child!,
+                        );
+                      },
+                    );
+                    if (selectedDate != null) {
+                      String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+                      dateController.text = formattedDate;
+                    }
+                  },
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(BoxIcons.bx_calendar),
+                    label: Text('date'.tr()),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -416,10 +453,6 @@ class _SliverAppbar extends StatelessWidget {
         'petto'.tr(),
         style: textStyle.titleLarge!.copyWith(fontFamily: 'Pacifico-Regular'),
       ),
-      // actions: [
-      //   IconButton(onPressed: () => context.pushNamed('notifications'), icon: const Icon(BoxIcons.bx_bell)),
-      //   SizedBox(width: 1.w)
-      // ],
     );
   }
 }

@@ -5,7 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/config/app_router.dart';
 import 'package:petto_app/firebase_options.dart';
-import 'package:petto_app/infrastructure/datasources/firestore_reminder_datasource.dart';
 import 'package:petto_app/utils/local_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -15,7 +14,6 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await LocalStorage.configPrefs();
-  await FirestoreReminderDatasource.init();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(EasyLocalization(

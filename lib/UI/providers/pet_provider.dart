@@ -13,7 +13,6 @@ class PetProvider extends ChangeNotifier {
   List<Pet> get pets => _pets;
   set pets(List<Pet> pets) {
     _pets = pets;
-    print('HOLA');
     notifyListeners();
   }
 
