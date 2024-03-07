@@ -5,7 +5,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/config/app_router.dart';
 import 'package:petto_app/firebase_options.dart';
-import 'package:petto_app/utils/local_storage.dart';
+import 'package:petto_app/services/services.dart';
+import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -13,6 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await NotificationsService.initialize();
   await LocalStorage.configPrefs();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
