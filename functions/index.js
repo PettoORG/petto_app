@@ -1,78 +1,54 @@
-// const {onRequest} = require("firebase-functions/v2/https");
-// const logger = require("firebase-functions/logger");
 const {schedule} = require("firebase-functions/v2");
 const admin = require("firebase-admin");
 
 admin.initializeApp();
 
-exports.scheduleWeeklyReminders = schedule("every monday 05:00").timeZone("UTC")
-    .onRun(async (context) =>{
-      const startOfWeek = getStartOfWeek();
-      const endOfWeek = getEndOfWeek();
+exports.dailyReminderNotifications = schedule("every day 07:00").timeZone("UTC")
+    .onRun(async (context) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
       const usersSnapshot = await admin.firestore().collection("users").get();
 
-      for (const userDoc of usersSnapshot.docs) {
+      usersSnapshot.forEach(async (userDoc) => {
         const remindersSnapshot = await userDoc.ref
             .collection("reminders").get();
-        for (const reminderDoc of remindersSnapshot.docs) {
+        remindersSnapshot.forEach(async (reminderDoc) => {
           const reminder = reminderDoc.data();
-          const reminderDate = parseReminderDate(reminder.reminderDate);
+          const reminderDate = reminder.reminderDate.toDate();
+          reminderDate.setHours(0, 0, 0, 0);
 
-          if (reminderDate >= startOfWeek && reminderDate < endOfWeek) {
-            const notificationTime = new Date(reminderDate);
-            notificationTime.setHours(7, 0, 0);
-
-            console.log(`Programando notificación para 
-            ${userDoc.id} en ${notificationTime}`);
+          if (reminderDate.getTime() === today.getTime() &&
+          reminder.FCMToken) {
+            await sendPushNotification(
+                reminder.FCMToken,
+                reminder.title,
+                reminder.description,
+            );
           }
-        }
-      }
-      console.log("Revisión de recordatorios semanal completada.");
+        });
+      });
+      console.log("Revisión diaria de recordatorios " +
+      "para envío de notificaciones completada.");
     });
 
 /**
- * Calcula el inicio de la semana actual.
- *
- * @return {Date} El inicio de la semana (lunes a las 00:00:00 horas).
- */
-function getStartOfWeek() {
-  const now = new Date();
-  const dayOffset = now.getDay() === 0 ? -6 : 1;
-  const startOfWeek = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() - now.getDay() + dayOffset,
-  );
-  startOfWeek.setHours(0, 0, 0, 0);
-  return startOfWeek;
-}
+ * Envía una notificación push a un dispositivo específico.
+ * @param {Object} reminder - El recordatorio.
+*/
+async function sendPushNotification(reminder) {
+  const message = {
+    token: reminder.token,
+    notification: {
+      title: reminder.title,
+      body: reminder.body,
+    },
+  };
 
-/**
- * Calcula el final de la semana actual.
- *
- * @return {Date} El final de la semana (domingo a las 23:59:59 horas).
- */
-function getEndOfWeek() {
-  const now = new Date();
-  const dayAdjustment = 7 - now.getDay();
-  const endOfWeek = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + dayAdjustment,
-  );
-  endOfWeek.setHours(23, 59, 59, 999);
-  return endOfWeek;
-}
-
-/**
- * Convierte una cadena de fecha en el formato "dd-MM-yyyy" a un objeto Date.
- *
- * @param {string} dateString - La cadena de fecha en el formato "dd-MM-yyyy".
- * @return {Date} La fecha convertida como objeto Date.
- */
-function parseReminderDate(dateString) {
-  const dateParts = dateString.split("-").map((num) => parseInt(num, 10));
-  const [day, month, year] = dateParts;
-  return new Date(year, month - 1, day, 7);
-  // Ajuste para que todos los recordatorios sean a las 7 AM
+  try {
+    await admin.messaging().send(message);
+    console.log("Notificación enviada con éxito.");
+  } catch (error) {
+    console.error("Error al enviar la notificación:", error);
+  }
 }
