@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:petto_app/domain/entities/entities.dart';
 import 'package:sizer/sizer.dart';
@@ -10,6 +11,7 @@ class GlobalReminderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
     TextTheme textStyles = Theme.of(context).textTheme;
+    String formattedDate = DateFormat('dd-MM-yyyy').format(reminder.reminderDate);
     return Padding(
       padding: EdgeInsets.only(bottom: 1.h),
       child: InkWell(
@@ -34,7 +36,7 @@ class GlobalReminderCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(3.w),
                 child: Image.network(
-                  reminder.image,
+                  reminder.image!,
                   fit: BoxFit.cover,
                   height: 17.w,
                   width: 17.w,
@@ -45,14 +47,14 @@ class GlobalReminderCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(reminder.date, style: textStyles.titleSmall),
+                    Text(formattedDate, style: textStyles.titleSmall),
                     Text(
                       reminder.title,
                       style: textStyles.titleSmall,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      reminder.body,
+                      reminder.description,
                       style: textStyles.bodyMedium,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,

@@ -12,5 +12,5 @@ abstract class ReminderRepository extends ReminderDatasource {
   Future<List<Reminder>> getReminders();
 
   @override
-  Future<List<Category>> getCategories(String locale);
+  Future<List<ReminderCategory>> getCategories(String locale);
 }

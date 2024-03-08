@@ -10,7 +10,7 @@ class ReminderProvider extends ChangeNotifier {
 
   List<Reminder> reminders = [];
 
-  List<Category> categories = [];
+  List<ReminderCategory> categories = [];
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -19,25 +19,27 @@ class ReminderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addReminder(String petId, String image, String title, String body, String date, String category) async {
+  Future<void> addReminder(
+      String petId, String image, String title, String description, DateTime reminderDate, String category) async {
     int insertionIndex = 0;
 
     Reminder reminder = Reminder(
       petId: petId,
       image: image,
+      type: 'reminder',
       id: '',
       title: title,
       category: category,
-      body: body,
+      description: description,
       payload: '',
-      date: date,
+      reminderDate: reminderDate,
     );
     try {
       await requestNotificationPermission();
       isLoading = true;
       await _datasource.addReminder(reminder);
       for (int i = 0; i < reminders.length; i++) {
-        if (DateTime.parse(reminder.date).isAfter(DateTime.parse(reminders[i].date))) {
+        if (reminder.reminderDate.isAfter(reminders[i].reminderDate)) {
           insertionIndex = i + 1;
         } else {
           break;
@@ -52,7 +54,7 @@ class ReminderProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<Category>> getCategories(String locale) async {
+  Future<List<ReminderCategory>> getCategories(String locale) async {
     try {
       categories = await _datasource.getCategories(locale);
       return categories;
@@ -67,7 +69,7 @@ class ReminderProvider extends ChangeNotifier {
       DateTime now = DateTime.now();
       // Filter reminders that have a date prior to DateTime.now().
       List<Reminder> remindersToDelete = reminders.where((reminder) {
-        DateTime reminderDate = DateTime.parse(reminder.date);
+        DateTime reminderDate = reminder.reminderDate;
         return reminderDate.isBefore(DateTime(now.year, now.month, now.day));
       }).toList();
       // Delete the filtered reminders.
@@ -76,7 +78,7 @@ class ReminderProvider extends ChangeNotifier {
         reminders.remove(reminder);
       }
       // Sort the remaining reminders by date.
-      reminders.sort((a, b) => DateTime.parse(a.date).compareTo(DateTime.parse(b.date)));
+      reminders.sort((a, b) => a.reminderDate.compareTo(b.reminderDate));
     } catch (e) {
       rethrow;
     }

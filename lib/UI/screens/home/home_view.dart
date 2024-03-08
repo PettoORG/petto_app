@@ -296,7 +296,7 @@ class _ReminderDialogState extends State<_ReminderDialog> {
   TextEditingController bodyController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  late Category category;
+  late ReminderCategory category;
 
   @override
   void dispose() {
@@ -313,9 +313,9 @@ class _ReminderDialogState extends State<_ReminderDialog> {
     ReminderProvider reminderProvider = context.read<ReminderProvider>();
     Pet pet = petProvider.pets[petProvider.currentPet];
 
-    List<DropdownMenuItem<Category>> dropdownItems = reminderProvider.categories
+    List<DropdownMenuItem<ReminderCategory>> dropdownItems = reminderProvider.categories
         .map(
-          (category) => DropdownMenuItem<Category>(
+          (category) => DropdownMenuItem<ReminderCategory>(
             value: category,
             child: Text(category.text),
           ),
@@ -341,7 +341,13 @@ class _ReminderDialogState extends State<_ReminderDialog> {
             await context
                 .read<ReminderProvider>()
                 .addReminder(
-                    pet.id, pet.image!, titleController.text, bodyController.text, dateController.text, category.text)
+                  pet.id,
+                  pet.image!,
+                  titleController.text,
+                  bodyController.text,
+                  DateTime.parse(dateController.text),
+                  category.text,
+                )
                 .then(
                   (_) => context.pop(),
                 )
@@ -422,7 +428,7 @@ class _ReminderDialogState extends State<_ReminderDialog> {
                       },
                     );
                     if (selectedDate != null) {
-                      String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+                      String formattedDate = DateFormat('dd-MM-yyy').format(selectedDate);
                       dateController.text = formattedDate;
                     }
                   },

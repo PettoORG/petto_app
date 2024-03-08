@@ -11,8 +11,8 @@ class FirestoreReminderDatasource extends ReminderDatasource {
 
   @override
   Future<void> addReminder(Reminder reminder) async {
-    // TODO: implement addReminder
-    throw UnimplementedError();
+    DocumentReference ref = await _db.collection('users').doc(_getUid()).collection('reminders').add(reminder.toMap());
+    await _db.collection('users').doc(_getUid()).collection('reminders').doc(ref.id).update({'id': ref.id});
   }
 
   @override
@@ -33,12 +33,12 @@ class FirestoreReminderDatasource extends ReminderDatasource {
   }
 
   @override
-  Future<List<Category>> getCategories(String locale) async {
+  Future<List<ReminderCategory>> getCategories(String locale) async {
     DocumentSnapshot document = await _db.collection('configuration').doc('reminders').get();
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     Map<String, dynamic> categoriesMap = data[locale];
-    List<Category> categories = categoriesMap.entries.map((entry) {
-      return Category(text: entry.value['text'], value: entry.key);
+    List<ReminderCategory> categories = categoriesMap.entries.map((entry) {
+      return ReminderCategory(text: entry.value['text'], value: entry.key);
     }).toList();
     return categories;
   }
