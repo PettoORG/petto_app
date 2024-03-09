@@ -13,8 +13,6 @@ class Reminder extends GeneralNotification {
     required super.title,
     required super.description,
     required super.id,
-    required super.type,
-    required super.payload,
     super.image,
     super.name,
   });
@@ -22,8 +20,6 @@ class Reminder extends GeneralNotification {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'type': type,
-      'payload': payload,
       'title': title,
       'description': description,
       'petId': petId,
@@ -37,8 +33,6 @@ class Reminder extends GeneralNotification {
   factory Reminder.fromMap(Map<String, dynamic> map) {
     return Reminder(
       id: map['id'],
-      type: map['type'],
-      payload: map['payload'],
       title: map['title'],
       description: map['description'],
       petId: map['petId'],

@@ -26,12 +26,10 @@ class ReminderProvider extends ChangeNotifier {
     Reminder reminder = Reminder(
       petId: petId,
       image: image,
-      type: 'reminder',
       id: '',
       title: title,
       category: category,
       description: description,
-      payload: '',
       reminderDate: reminderDate,
     );
     try {
