@@ -1,15 +1,13 @@
-const {schedule} = require("firebase-functions/v2/scheduler");
+const {onSchedule} = require("firebase-functions/v2/scheduler");
 const admin = require("firebase-admin");
 
 admin.initializeApp();
 
-exports.dailyReminderNotifications = schedule("every day 07:00").timeZone("UTC")
-    .onRun(async (context) => {
+exports.dailyReminderNotifications = onSchedule(
+    "every day 07:00", async () => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-
       const usersSnapshot = await admin.firestore().collection("users").get();
-
       usersSnapshot.forEach(async (userDoc) => {
         const remindersSnapshot = await userDoc.ref
             .collection("reminders").get();
@@ -17,7 +15,6 @@ exports.dailyReminderNotifications = schedule("every day 07:00").timeZone("UTC")
           const reminder = reminderDoc.data();
           const reminderDate = reminder.reminderDate.toDate();
           reminderDate.setHours(0, 0, 0, 0);
-
           if (reminderDate.getTime() === today.getTime() &&
           reminder.FCMToken) {
             await sendPushNotification(
