@@ -337,6 +337,8 @@ class _ReminderDialogState extends State<_ReminderDialog> {
         ),
         TextButton(
           onPressed: () async {
+            DateFormat format = DateFormat("dd-MM-yyyy");
+            DateTime dateTime = format.parse(dateController.text);
             if (!FormValidators.isValidForm(formKey)) return;
             await context
                 .read<ReminderProvider>()
@@ -345,7 +347,7 @@ class _ReminderDialogState extends State<_ReminderDialog> {
                   pet.image!,
                   titleController.text,
                   bodyController.text,
-                  DateTime.parse(dateController.text),
+                  dateTime,
                   category.text,
                 )
                 .then(
