@@ -32,13 +32,13 @@ void main() async {
         ChangeNotifierProvider(create: (context) => PetProvider()),
         ChangeNotifierProvider(create: (context) => ReminderProvider()),
       ],
-      child: const MyApp(),
+      child: const PettoApp(),
     ),
   ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class PettoApp extends StatelessWidget {
+  const PettoApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,15 +3,15 @@ import 'package:sizer/sizer.dart';
 
 class GlobalPetOptionCard extends StatelessWidget {
   final OptionModel option;
-
-  const GlobalPetOptionCard({super.key, required this.option});
+  final Function()? onTap;
+  const GlobalPetOptionCard({super.key, required this.option, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         InkWell(
-          onTap: () {},
+          onTap: onTap,
           borderRadius: BorderRadius.circular(4.w),
           child: Ink(
               height: 16.w,
@@ -20,7 +20,9 @@ class GlobalPetOptionCard extends StatelessWidget {
                 color: option.color,
                 borderRadius: BorderRadius.circular(4.w),
               ),
-              child: option.child),
+              child: Center(
+                child: option.child,
+              )),
         ),
         SizedBox(height: 1.h),
         Text(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
+import 'package:petto_app/UI/widgets/shared/global_card_section.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:petto_app/domain/entities/entities.dart';
@@ -117,6 +118,17 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 );
               }),
+            ),
+            SizedBox(height: 1.h),
+            GlobalPetOptionCard(
+              option: OptionModel(
+                child: const Icon(BoxIcons.bx_health),
+                title: 'health'.tr(),
+                color: colors.primary,
+              ),
+              onTap: () {
+                context.pushNamed('health');
+              },
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),

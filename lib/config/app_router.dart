@@ -65,6 +65,11 @@ final appRouter = GoRouter(initialLocation: '/splash', routes: [
       //   builder: (context, state) => const NotificationsScreen(),
       // ),
       GoRoute(
+        name: HealthScreen.name,
+        path: 'health',
+        builder: (context, state) => const HealthScreen(),
+      ),
+      GoRoute(
         name: TCScreen.name,
         path: 'tc',
         builder: (context, state) => const TCScreen(),

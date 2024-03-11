@@ -29,6 +29,7 @@ class AppTheme {
           ),
         ),
         appBarTheme: AppBarTheme(
+          centerTitle: true,
           backgroundColor: lightBackground,
           surfaceTintColor: lightBackground,
           titleTextStyle:
@@ -113,6 +114,7 @@ class AppTheme {
           ),
         ),
         appBarTheme: AppBarTheme(
+          centerTitle: true,
           backgroundColor: darkBackground,
           surfaceTintColor: darkBackground,
           titleTextStyle: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
