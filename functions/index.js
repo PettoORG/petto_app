@@ -3,31 +3,34 @@ const admin = require("firebase-admin");
 
 admin.initializeApp();
 
-exports.dailyReminderNotifications = onSchedule(
-    "every day 07:00", async () => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const usersSnapshot = await admin.firestore().collection("users").get();
-      usersSnapshot.forEach(async (userDoc) => {
-        const remindersSnapshot = await userDoc.ref
-            .collection("reminders").get();
-        remindersSnapshot.forEach(async (reminderDoc) => {
-          const reminder = reminderDoc.data();
-          const reminderDate = reminder.reminderDate.toDate();
-          reminderDate.setHours(0, 0, 0, 0);
-          if (reminderDate.getTime() === today.getTime() &&
-          reminder.fcmToken) {
-            await sendPushNotification(
-                reminder.fcmToken,
-                reminder.title,
-                reminder.description,
-            );
-          }
+exports.dailyReminderNotifications = onSchedule("every day 07:00", async () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const usersSnapshot = await admin.firestore().collection("users").get();
+  const reminderPromises = [];
+
+  usersSnapshot.forEach((userDoc) => {
+    const remindersSnapshotPromise = userDoc.ref.collection("reminders")
+        .get().then((remindersSnapshot) => {
+          remindersSnapshot.forEach((reminderDoc) => {
+            const reminder = reminderDoc.data();
+            const reminderDate = reminder.reminderDate.toDate();
+            reminderDate.setHours(0, 0, 0, 0);
+            if (reminderDate.getTime() === today.getTime() &&
+            reminder.fcmToken) {
+              return sendPushNotification(reminder);
+            }
+          });
         });
-      });
-      console.log("Revisión diaria de recordatorios " +
-      "para envío de notificaciones completada.");
-    });
+
+    reminderPromises.push(remindersSnapshotPromise);
+  });
+
+  await Promise.all(reminderPromises);
+  console.log("Revisión diaria de recordatorios" +
+  "para envío de notificaciones completada.");
+});
 
 /**
  * Envía una notificación push a un dispositivo específico.
@@ -38,7 +41,12 @@ async function sendPushNotification(reminder) {
     token: reminder.fcmToken,
     notification: {
       title: reminder.title,
-      body: reminder.body,
+      body: reminder.description,
+    },
+    data: {
+      id: reminder.id,
+      category: reminder.category,
+      petId: reminder.petId,
     },
   };
 
