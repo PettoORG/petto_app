@@ -3,6 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:petto_app/domain/entities/entities.dart';
 import 'package:petto_app/infrastructure/datasources/firestore_reminder_datasource.dart';
 import 'package:petto_app/infrastructure/repositories/reminder_repository_impl.dart';
+import 'package:petto_app/services/services.dart';
 import 'package:petto_app/utils/logger_prints.dart';
 
 class ReminderProvider extends ChangeNotifier {
@@ -28,6 +29,7 @@ class ReminderProvider extends ChangeNotifier {
       image: image,
       id: '',
       title: title,
+      fcmToken: await NotificationsService.getFcmToken(),
       category: category,
       description: description,
       reminderDate: reminderDate,

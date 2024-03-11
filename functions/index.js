@@ -16,9 +16,9 @@ exports.dailyReminderNotifications = onSchedule(
           const reminderDate = reminder.reminderDate.toDate();
           reminderDate.setHours(0, 0, 0, 0);
           if (reminderDate.getTime() === today.getTime() &&
-          reminder.FCMToken) {
+          reminder.fcmToken) {
             await sendPushNotification(
-                reminder.FCMToken,
+                reminder.fcmToken,
                 reminder.title,
                 reminder.description,
             );
@@ -35,7 +35,7 @@ exports.dailyReminderNotifications = onSchedule(
 */
 async function sendPushNotification(reminder) {
   const message = {
-    token: reminder.token,
+    token: reminder.fcmToken,
     notification: {
       title: reminder.title,
       body: reminder.body,

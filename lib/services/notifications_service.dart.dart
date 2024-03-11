@@ -65,4 +65,9 @@ class NotificationsService {
   static void _onMessage(RemoteMessage event) {}
 
   static void _onMessageOpenedApp(RemoteMessage event) {}
+
+  static Future<String> getFcmToken() async {
+    final String token = await _firebaseMesaging.getToken() ?? '';
+    return token;
+  }
 }
