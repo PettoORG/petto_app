@@ -1,5 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:go_router/go_router.dart';
+import 'package:petto_app/config/app_router.dart';
 import 'package:petto_app/utils/utils.dart';
 
 class NotificationsService {
@@ -10,6 +12,11 @@ class NotificationsService {
     await _firebaseMesaging.requestPermission();
     final String? token = await _firebaseMesaging.getToken();
     logger.d("DEVICE FCM TOKEN: $token");
+  }
+
+  static Future<String> getFcmToken() async {
+    final String token = await _firebaseMesaging.getToken() ?? '';
+    return token;
   }
 
   static Future _localNotiInit() async {
@@ -28,7 +35,8 @@ class NotificationsService {
   }
 
   static void _onNotificationTap(NotificationResponse notificationResponse) {
-    logger.d("onNotificationTap");
+    final context = navigatorKey.currentContext;
+    if (context != null) context.pushNamed('notifications');
   }
 
   static Future showSimpleNotification({
@@ -59,15 +67,16 @@ class NotificationsService {
   }
 
   static Future _firebaseBackgroundMessage(RemoteMessage message) async {
-    if (message.notification != null) logger.d("Some Notification recived");
+    final context = navigatorKey.currentContext;
+    if (context != null) context.pushNamed('notifications');
   }
 
-  static void _onMessage(RemoteMessage event) {}
+  static void _onMessage(RemoteMessage message) {
+    showSimpleNotification(title: message.notification!.title!, body: message.notification!.body!, payload: '');
+  }
 
-  static void _onMessageOpenedApp(RemoteMessage event) {}
-
-  static Future<String> getFcmToken() async {
-    final String token = await _firebaseMesaging.getToken() ?? '';
-    return token;
+  static void _onMessageOpenedApp(RemoteMessage message) async {
+    final context = navigatorKey.currentContext;
+    if (context != null) context.pushNamed('notifications');
   }
 }

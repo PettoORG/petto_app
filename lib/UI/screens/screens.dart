@@ -1,3 +1,5 @@
+export 'package:petto_app/UI/screens/add_reminder_screen.dart';
+
 export 'package:petto_app/UI/screens/pettips_screen.dart';
 
 export 'package:petto_app/UI/screens/pet_profile/pet_profile_editor_screen.dart';
