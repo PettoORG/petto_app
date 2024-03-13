@@ -109,7 +109,7 @@ class _RegisterViewState extends State<RegisterView> {
               SizedBox(
                 height: 4.h,
               ),
-              GlobalGeneralButton(
+              PettoGeneralButton(
                 isLoading: context.watch<AuthenticationProvider>().isLoading,
                 text: 'register'.tr(),
                 onPressed: context.watch<AuthenticationProvider>().isLoading

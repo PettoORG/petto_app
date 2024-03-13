@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/onboarding_default_option.dart';
-import 'package:petto_app/UI/widgets/shared/global_general_button.dart';
+import 'package:petto_app/UI/widgets/shared/petto_general_button.dart';
 import 'package:petto_app/domain/entities/pet.dart';
 import 'package:petto_app/services/image_pick_service.dart';
 import 'package:petto_app/utils/form_validatros.dart';
@@ -133,7 +133,7 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
             bottom: 3.h,
             left: 0,
             right: 0,
-            child: GlobalGeneralButton(
+            child: PettoGeneralButton(
               isLoading: context.watch<PetProvider>().isLoading,
               text: 'save'.tr(),
               onPressed: () async {

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
-class GlobalGeneralButton extends StatelessWidget {
+class PettoGeneralButton extends StatelessWidget {
   final Function()? onPressed;
   final String text;
   final bool isLoading;
-  const GlobalGeneralButton({super.key, this.onPressed, required this.text, this.isLoading = false});
+  const PettoGeneralButton({super.key, this.onPressed, required this.text, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class GlobalGeneralButton extends StatelessWidget {
             ? PettoLoading(color: Theme.of(context).colorScheme.primary, size: 10.w)
             : Text(
                 text,
-                style: Theme.of(context).textTheme.bodySmall,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
               ),
       ),
     );

@@ -119,7 +119,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ),
                   SizedBox(height: 3.h),
-                  GlobalGeneralButton(
+                  PettoGeneralButton(
                     isLoading: context.watch<AuthenticationProvider>().isLoading,
                     text: 'save'.tr(),
                     onPressed: isEdited()

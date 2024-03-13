@@ -1,4 +1,4 @@
-export 'package:petto_app/UI/screens/add_reminder_screen.dart';
+export 'package:petto_app/UI/screens/add_reminder_flow/add_reminder_screen.dart';
 
 export 'package:petto_app/UI/screens/pettips_screen.dart';
 

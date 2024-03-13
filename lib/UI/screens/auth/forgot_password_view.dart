@@ -103,7 +103,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     ),
                   ),
                   SizedBox(height: 5.h),
-                  GlobalGeneralButton(
+                  PettoGeneralButton(
                     isLoading: context.watch<AuthenticationProvider>().isLoading,
                     text: buttonText,
                     onPressed: _timerActive

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:petto_app/UI/providers/connection_status_provider.dart';
-import 'package:petto_app/UI/widgets/shared/global_general_button.dart';
+import 'package:petto_app/UI/widgets/shared/petto_general_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +44,7 @@ class OfflineScreen extends StatelessWidget {
             SizedBox(
               height: 4.h,
             ),
-            GlobalGeneralButton(
+            PettoGeneralButton(
                 text: 'tryAgain'.tr(),
                 onPressed: () async {
                   final bool isOnline = await context.read<ConnectionProvider>().checkInternetConnection();

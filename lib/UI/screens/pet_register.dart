@@ -125,7 +125,7 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                   }
                 }),
                 SizedBox(height: 3.h),
-                GlobalGeneralButton(
+                PettoGeneralButton(
                   isLoading: context.watch<PetProvider>().isLoading,
                   text: 'save'.tr(),
                   onPressed: () async {

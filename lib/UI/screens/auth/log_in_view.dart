@@ -113,7 +113,7 @@ class _LoginViewState extends State<LoginView> {
                 ],
               ),
               SizedBox(height: 4.h),
-              GlobalGeneralButton(
+              PettoGeneralButton(
                 isLoading: (context.watch<AuthenticationProvider>().isLoading ||
                     context.watch<PetProvider>().isLoading ||
                     context.watch<ReminderProvider>().isLoading),

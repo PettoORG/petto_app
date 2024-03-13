@@ -93,7 +93,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
               ),
               SizedBox(height: 3.h),
-              GlobalGeneralButton(
+              PettoGeneralButton(
                 isLoading: context.watch<AuthenticationProvider>().isLoading,
                 text: 'save'.tr(),
                 onPressed: () {
