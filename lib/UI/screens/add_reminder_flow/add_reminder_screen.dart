@@ -159,6 +159,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                   ),
                   SizedBox(height: 1.h),
                   InkWell(
+                    onTap: () => context.pushNamed('reminder-frecuency'),
                     child: Ink(
                       padding: EdgeInsets.all(3.w),
                       width: double.infinity,
@@ -217,7 +218,6 @@ class _PetSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
-    TextTheme textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: () {},
       borderRadius: BorderRadius.circular(5.w),
@@ -275,15 +275,5 @@ class _SliverAppBar extends StatelessWidget {
         icon: const Icon(Icons.arrow_back_ios_new_rounded),
       ),
     );
-  }
-}
-
-class _Title extends StatelessWidget {
-  final String title;
-  const _Title(this.title);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(title, style: Theme.of(context).textTheme.titleMedium);
   }
 }
