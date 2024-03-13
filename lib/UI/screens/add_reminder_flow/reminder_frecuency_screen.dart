@@ -20,7 +20,7 @@ class ReminderFrecuencyScreen extends StatelessWidget {
                   // ignore: prefer_const_constructors
                   title: Text('No repetir'),
                 ),
-                Divider()
+                const Divider()
               ],
             ),
           ),
