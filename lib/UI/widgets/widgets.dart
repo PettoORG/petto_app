@@ -1,3 +1,5 @@
+export 'package:petto_app/UI/widgets/reminder_frecuency_selctor.dart';
+
 export 'package:petto_app/UI/widgets/shared/dont_have_pet.dart';
 
 export 'package:petto_app/UI/widgets/shared/no_pending_reminders.dart';
