@@ -21,25 +21,33 @@ class ReminderProvider extends ChangeNotifier {
   }
 
   Future<void> addReminder(
-      String petId, String image, String title, String description, DateTime reminderDate, String category) async {
+    String petId,
+    String image,
+    String title,
+    String description,
+    DateTime reminderDate,
+    String category,
+    RepeatConfig repeatConfig,
+  ) async {
     int insertionIndex = 0;
 
     Reminder reminder = Reminder(
       petId: petId,
       image: image,
+      repeatConfig: repeatConfig,
       id: '',
       title: title,
       fcmToken: await NotificationsService.getFcmToken(),
       category: category,
       description: description,
-      reminderDate: reminderDate,
+      startTime: reminderDate,
     );
     try {
       await requestNotificationPermission();
       isLoading = true;
       await _datasource.addReminder(reminder);
       for (int i = 0; i < reminders.length; i++) {
-        if (reminder.reminderDate.isAfter(reminders[i].reminderDate)) {
+        if (reminder.startTime.isAfter(reminders[i].startTime)) {
           insertionIndex = i + 1;
         } else {
           break;
@@ -69,7 +77,7 @@ class ReminderProvider extends ChangeNotifier {
       DateTime now = DateTime.now();
       // Filter reminders that have a date prior to DateTime.now().
       List<Reminder> remindersToDelete = reminders.where((reminder) {
-        DateTime reminderDate = reminder.reminderDate;
+        DateTime reminderDate = reminder.startTime;
         return reminderDate.isBefore(DateTime(now.year, now.month, now.day));
       }).toList();
       // Delete the filtered reminders.
@@ -78,7 +86,7 @@ class ReminderProvider extends ChangeNotifier {
         reminders.remove(reminder);
       }
       // Sort the remaining reminders by date.
-      reminders.sort((a, b) => a.reminderDate.compareTo(b.reminderDate));
+      reminders.sort((a, b) => a.startTime.compareTo(b.startTime));
     } catch (e) {
       rethrow;
     }

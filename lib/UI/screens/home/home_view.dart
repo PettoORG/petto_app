@@ -6,7 +6,6 @@ import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/UI/widgets/widgets.dart';
 import 'package:petto_app/config/constants/colors.dart';
 import 'package:petto_app/domain/entities/entities.dart';
-import 'package:petto_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shimmer/shimmer.dart';
@@ -234,14 +233,7 @@ class _RemindersTitle extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return const _AddReminderBuilder();
-                },
-              );
-            },
+            onPressed: () => context.pushNamed('add-reminder'),
             icon: Icon(
               BoxIcons.bx_plus_circle,
               color: color.primary,
@@ -251,202 +243,202 @@ class _RemindersTitle extends StatelessWidget {
   }
 }
 
-class _AddReminderBuilder extends StatefulWidget {
-  const _AddReminderBuilder();
+// class _AddReminderBuilder extends StatefulWidget {
+//   const _AddReminderBuilder();
 
-  @override
-  State<_AddReminderBuilder> createState() => _AddReminderBuilderState();
-}
+//   @override
+//   State<_AddReminderBuilder> createState() => _AddReminderBuilderState();
+// }
 
-class _AddReminderBuilderState extends State<_AddReminderBuilder> {
-  @override
-  Widget build(BuildContext context) {
-    ColorScheme colors = Theme.of(context).colorScheme;
-    ReminderProvider reminderProvider = context.read<ReminderProvider>();
-    if (reminderProvider.categories.isNotEmpty) return const _ReminderDialog();
-    return FutureBuilder(
-      future: reminderProvider.getCategories(context.locale.languageCode),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: PettoLoading(color: colors.primary, size: 20.w),
-          );
-        } else if (snapshot.hasError) {
-          return const Center(child: Text("Error al cargar las categorías"));
-        } else if (snapshot.hasData) {
-          return const _ReminderDialog();
-        } else {
-          return const Text("No hay datos disponibles");
-        }
-      },
-    );
-    //
-  }
-}
+// class _AddReminderBuilderState extends State<_AddReminderBuilder> {
+//   @override
+//   Widget build(BuildContext context) {
+//     ColorScheme colors = Theme.of(context).colorScheme;
+//     ReminderProvider reminderProvider = context.read<ReminderProvider>();
+//     if (reminderProvider.categories.isNotEmpty) return const _ReminderDialog();
+//     return FutureBuilder(
+//       future: reminderProvider.getCategories(context.locale.languageCode),
+//       builder: (context, snapshot) {
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return Center(
+//             child: PettoLoading(color: colors.primary, size: 20.w),
+//           );
+//         } else if (snapshot.hasError) {
+//           return const Center(child: Text("Error al cargar las categorías"));
+//         } else if (snapshot.hasData) {
+//           return const _ReminderDialog();
+//         } else {
+//           return const Text("No hay datos disponibles");
+//         }
+//       },
+//     );
+//     //
+//   }
+// }
 
-class _ReminderDialog extends StatefulWidget {
-  const _ReminderDialog();
+// class _ReminderDialog extends StatefulWidget {
+//   const _ReminderDialog();
 
-  @override
-  State<_ReminderDialog> createState() => _ReminderDialogState();
-}
+//   @override
+//   State<_ReminderDialog> createState() => _ReminderDialogState();
+// }
 
-class _ReminderDialogState extends State<_ReminderDialog> {
-  TextEditingController dateController = TextEditingController();
-  TextEditingController bodyController = TextEditingController();
-  TextEditingController titleController = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  late ReminderCategory category;
+// class _ReminderDialogState extends State<_ReminderDialog> {
+//   TextEditingController dateController = TextEditingController();
+//   TextEditingController bodyController = TextEditingController();
+//   TextEditingController titleController = TextEditingController();
+//   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+//   late ReminderCategory category;
 
-  @override
-  void dispose() {
-    dateController.clear();
-    dateController.dispose();
-    super.dispose();
-  }
+//   @override
+//   void dispose() {
+//     dateController.clear();
+//     dateController.dispose();
+//     super.dispose();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    TextTheme textStyle = Theme.of(context).textTheme;
-    ColorScheme colors = Theme.of(context).colorScheme;
-    PetProvider petProvider = context.read<PetProvider>();
-    ReminderProvider reminderProvider = context.read<ReminderProvider>();
-    Pet pet = petProvider.pets[petProvider.currentPet];
+//   @override
+//   Widget build(BuildContext context) {
+//     TextTheme textStyle = Theme.of(context).textTheme;
+//     ColorScheme colors = Theme.of(context).colorScheme;
+//     PetProvider petProvider = context.read<PetProvider>();
+//     ReminderProvider reminderProvider = context.read<ReminderProvider>();
+//     Pet pet = petProvider.pets[petProvider.currentPet];
 
-    List<DropdownMenuItem<ReminderCategory>> dropdownItems = reminderProvider.categories
-        .map(
-          (category) => DropdownMenuItem<ReminderCategory>(
-            value: category,
-            child: Text(category.text),
-          ),
-        )
-        .toList();
+//     List<DropdownMenuItem<ReminderCategory>> dropdownItems = reminderProvider.categories
+//         .map(
+//           (category) => DropdownMenuItem<ReminderCategory>(
+//             value: category,
+//             child: Text(category.text),
+//           ),
+//         )
+//         .toList();
 
-    return AlertDialog(
-      backgroundColor: colors.background,
-      surfaceTintColor: colors.surface,
-      shadowColor: colors.shadow,
-      elevation: 10,
-      actionsPadding: EdgeInsets.only(bottom: 1.h),
-      contentPadding: EdgeInsets.fromLTRB(6.w, 6.w, 6.w, 0.0),
-      actionsAlignment: MainAxisAlignment.spaceAround,
-      actions: [
-        TextButton(
-          onPressed: () => context.pop(),
-          child: Text('cancel'.tr()),
-        ),
-        TextButton(
-          onPressed: () async {
-            DateFormat format = DateFormat("dd-MM-yyyy");
-            DateTime dateTime = format.parse(dateController.text);
-            if (!FormValidators.isValidForm(formKey)) return;
-            await context
-                .read<ReminderProvider>()
-                .addReminder(
-                  pet.id,
-                  pet.image!,
-                  titleController.text,
-                  bodyController.text,
-                  dateTime,
-                  category.text,
-                )
-                .then(
-                  (_) => context.pop(),
-                )
-                .catchError(
-                  (e) => showToast('error'.tr(), context),
-                );
-          },
-          child: Text('accept'.tr()),
-        ),
-      ],
-      content: SingleChildScrollView(
-        child: SizedBox(
-          height: 55.h,
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'addReminderForPet'.tr(args: [pet.name]),
-                  style: textStyle.titleMedium,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 2.h),
-                DropdownButtonFormField(
-                  decoration: const InputDecoration(label: Text('categorie')),
-                  items: dropdownItems,
-                  onChanged: (cat) => category = cat!,
-                ),
-                SizedBox(height: 2.h),
-                TextFormField(
-                  controller: titleController,
-                  validator: (value) => FormValidators.reminderTitle(value),
-                  style: Theme.of(context).inputDecorationTheme.labelStyle,
-                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                  decoration: InputDecoration(
-                    label: Text('reminderTitle'.tr()),
-                  ),
-                ),
-                SizedBox(height: 2.h),
-                TextFormField(
-                  controller: bodyController,
-                  validator: (value) => FormValidators.reminderBody(value),
-                  style: Theme.of(context).inputDecorationTheme.labelStyle,
-                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                  decoration: InputDecoration(
-                    label: Text('description'.tr()),
-                  ),
-                ),
-                SizedBox(height: 2.h),
-                TextFormField(
-                  controller: dateController,
-                  style: Theme.of(context).inputDecorationTheme.labelStyle,
-                  validator: (value) => FormValidators.date(value),
-                  readOnly: true,
-                  onTap: () async {
-                    DateTime now = DateTime.now();
-                    DateTime lastDate = DateTime(now.year + 100, now.month, now.day);
-                    DateTime firstDate = DateTime(now.year, now.month, now.day + 1);
-                    DateTime? selectedDate = await showDatePicker(
-                      context: context,
-                      initialDate: firstDate,
-                      firstDate: firstDate,
-                      lastDate: lastDate,
-                      builder: (BuildContext context, Widget? child) {
-                        return Theme(
-                          data: ThemeData.light().copyWith(
-                            primaryColor: colors.surface,
-                            colorScheme: ColorScheme.dark(
-                              primary: colors.primary,
-                              onPrimary: colors.surface,
-                              surface: colors.surface,
-                              onSurface: colors.primary,
-                            ),
-                          ),
-                          child: child!,
-                        );
-                      },
-                    );
-                    if (selectedDate != null) {
-                      String formattedDate = DateFormat('dd-MM-yyy').format(selectedDate);
-                      dateController.text = formattedDate;
-                    }
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(BoxIcons.bx_calendar),
-                    label: Text('date'.tr()),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//     return AlertDialog(
+//       backgroundColor: colors.background,
+//       surfaceTintColor: colors.surface,
+//       shadowColor: colors.shadow,
+//       elevation: 10,
+//       actionsPadding: EdgeInsets.only(bottom: 1.h),
+//       contentPadding: EdgeInsets.fromLTRB(6.w, 6.w, 6.w, 0.0),
+//       actionsAlignment: MainAxisAlignment.spaceAround,
+//       actions: [
+//         TextButton(
+//           onPressed: () => context.pop(),
+//           child: Text('cancel'.tr()),
+//         ),
+//         TextButton(
+//           onPressed: () async {
+//             DateFormat format = DateFormat("dd-MM-yyyy");
+//             DateTime dateTime = format.parse(dateController.text);
+//             if (!FormValidators.isValidForm(formKey)) return;
+//             await context
+//                 .read<ReminderProvider>()
+//                 .addReminder(
+//                   pet.id,
+//                   pet.image!,
+//                   titleController.text,
+//                   bodyController.text,
+//                   dateTime,
+//                   category.text,
+//                 )
+//                 .then(
+//                   (_) => context.pop(),
+//                 )
+//                 .catchError(
+//                   (e) => showToast('error'.tr(), context),
+//                 );
+//           },
+//           child: Text('accept'.tr()),
+//         ),
+//       ],
+//       content: SingleChildScrollView(
+//         child: SizedBox(
+//           height: 55.h,
+//           child: Form(
+//             key: formKey,
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 Text(
+//                   'addReminderForPet'.tr(args: [pet.name]),
+//                   style: textStyle.titleMedium,
+//                   textAlign: TextAlign.center,
+//                 ),
+//                 SizedBox(height: 2.h),
+//                 DropdownButtonFormField(
+//                   decoration: const InputDecoration(label: Text('categorie')),
+//                   items: dropdownItems,
+//                   onChanged: (cat) => category = cat!,
+//                 ),
+//                 SizedBox(height: 2.h),
+//                 TextFormField(
+//                   controller: titleController,
+//                   validator: (value) => FormValidators.reminderTitle(value),
+//                   style: Theme.of(context).inputDecorationTheme.labelStyle,
+//                   onTapOutside: (event) => FocusScope.of(context).unfocus(),
+//                   decoration: InputDecoration(
+//                     label: Text('reminderTitle'.tr()),
+//                   ),
+//                 ),
+//                 SizedBox(height: 2.h),
+//                 TextFormField(
+//                   controller: bodyController,
+//                   validator: (value) => FormValidators.reminderBody(value),
+//                   style: Theme.of(context).inputDecorationTheme.labelStyle,
+//                   onTapOutside: (event) => FocusScope.of(context).unfocus(),
+//                   decoration: InputDecoration(
+//                     label: Text('description'.tr()),
+//                   ),
+//                 ),
+//                 SizedBox(height: 2.h),
+//                 TextFormField(
+//                   controller: dateController,
+//                   style: Theme.of(context).inputDecorationTheme.labelStyle,
+//                   validator: (value) => FormValidators.date(value),
+//                   readOnly: true,
+//                   onTap: () async {
+//                     DateTime now = DateTime.now();
+//                     DateTime lastDate = DateTime(now.year + 100, now.month, now.day);
+//                     DateTime firstDate = DateTime(now.year, now.month, now.day + 1);
+//                     DateTime? selectedDate = await showDatePicker(
+//                       context: context,
+//                       initialDate: firstDate,
+//                       firstDate: firstDate,
+//                       lastDate: lastDate,
+//                       builder: (BuildContext context, Widget? child) {
+//                         return Theme(
+//                           data: ThemeData.light().copyWith(
+//                             primaryColor: colors.surface,
+//                             colorScheme: ColorScheme.dark(
+//                               primary: colors.primary,
+//                               onPrimary: colors.surface,
+//                               surface: colors.surface,
+//                               onSurface: colors.primary,
+//                             ),
+//                           ),
+//                           child: child!,
+//                         );
+//                       },
+//                     );
+//                     if (selectedDate != null) {
+//                       String formattedDate = DateFormat('dd-MM-yyy').format(selectedDate);
+//                       dateController.text = formattedDate;
+//                     }
+//                   },
+//                   decoration: InputDecoration(
+//                     prefixIcon: const Icon(BoxIcons.bx_calendar),
+//                     label: Text('date'.tr()),
+//                   ),
+//                 )
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _SliverAppbar extends StatelessWidget {
   const _SliverAppbar();

@@ -7,7 +7,7 @@ import 'package:petto_app/domain/entities/pettip.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
-  initialLocation: '/add-reminder',
+  initialLocation: '/splash',
   navigatorKey: navigatorKey,
   routes: [
     GoRoute(
@@ -45,16 +45,10 @@ final appRouter = GoRouter(
           builder: (context, state) => const SuportScreen(),
         ),
         GoRoute(
-            name: AddReminderScreen.name,
-            path: 'add-reminder',
-            builder: (context, state) => const AddReminderScreen(),
-            routes: [
-              GoRoute(
-                name: ReminderFrecuencyScreen.name,
-                path: 'reminder-frecuency',
-                builder: (context, state) => const ReminderFrecuencyScreen(),
-              ),
-            ]),
+          name: AddReminderScreen.name,
+          path: 'add-reminder',
+          builder: (context, state) => const AddReminderScreen(),
+        ),
         GoRoute(
           name: PettipsScreen.name,
           path: 'pettips',

@@ -11,7 +11,7 @@ class GlobalReminderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
     TextTheme textStyles = Theme.of(context).textTheme;
-    String formattedDate = DateFormat('dd-MM-yyyy').format(reminder.reminderDate);
+    String formattedDate = DateFormat('dd-MM-yyyy').format(reminder.startTime);
     return Padding(
       padding: EdgeInsets.only(bottom: 1.h),
       child: InkWell(
