@@ -69,10 +69,10 @@ enum RepeatType {
 
 class RepeatConfig {
   final RepeatType type;
-  final List<DateTime>? times; // Para múltiples veces al día
-  final int? repeatEvery; // Para personalizado, ej: cada 2 días
-  final List<int>? daysOfWeek; // Para semanal personalizado, ej: [1, 3, 5]
-  final List<int>? daysOfMonth; // Para mensual personalizado, ej: [1, 15, 20]
+  final List<DateTime>? times;
+  final int? repeatEvery;
+  final List<int>? daysOfWeek;
+  final List<int>? daysOfMonth;
 
   RepeatConfig({
     required this.type,

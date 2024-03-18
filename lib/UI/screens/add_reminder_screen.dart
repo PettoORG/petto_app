@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:petto_app/UI/providers/providers.dart';
@@ -42,6 +41,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    PetProvider petProvider = context.read<PetProvider>();
     ColorScheme colors = Theme.of(context).colorScheme;
     ReminderProvider reminderProvider = context.read<ReminderProvider>();
     List<DropdownMenuItem<ReminderCategory>> dropdownItems = reminderProvider.categories
@@ -226,14 +226,61 @@ class _PetSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PetProvider petProvider = context.read<PetProvider>();
+    List<Pet> pets = petProvider.pets;
+    Pet currentPet = context.watch<PetProvider>().pets[petProvider.currentPet];
     ColorScheme colors = Theme.of(context).colorScheme;
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        showModalBottomSheet(
+          isScrollControlled: true,
+          context: context,
+          builder: (context) => SizedBox(
+            height: 11.5.h * pets.length,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.all(2.h),
+                  height: 1.h,
+                  width: 20.w,
+                  decoration: BoxDecoration(color: colors.primary, borderRadius: BorderRadius.circular(3.w)),
+                ),
+                ...List.generate(
+                  pets.length,
+                  (index) => InkWell(
+                    onTap: () {
+                      petProvider.currentPet = index;
+                      context.pop();
+                    },
+                    child: Ink(
+                      padding: EdgeInsets.all(3.w),
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(3.w),
+                              child: Image.network(pets[index].image!, height: 5.5.h)),
+                          SizedBox(width: 3.w),
+                          Text(
+                            pets[index].name,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const Spacer(),
+                          const Icon(BoxIcons.bx_chevron_right)
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
       borderRadius: BorderRadius.circular(5.w),
       child: Ink(
         padding: EdgeInsets.all(3.w),
         width: double.infinity,
-        height: 8.h,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceVariant,
           borderRadius: BorderRadius.circular(5.w),
@@ -247,23 +294,22 @@ class _PetSelector extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
+            ClipRRect(
+              borderRadius: BorderRadius.circular(3.w),
+              child: Image.network(
+                currentPet.image!,
                 height: 5.5.h,
-                width: 5.5.h,
-                decoration: BoxDecoration(color: colors.primaryContainer, borderRadius: BorderRadius.circular(1.h)),
-                child: Icon(Icons.abc, color: colors.primary)),
+              ),
+            ),
             SizedBox(
               width: 3.w,
             ),
             Text(
-              'Pet Name',
-              style: Theme.of(context).textTheme.titleSmall,
+              currentPet.name,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             const Spacer(),
-            Icon(
-              BoxIcons.bx_chevron_down,
-              size: 7.w,
-            )
+            const Icon(BoxIcons.bx_chevron_down)
           ],
         ),
       ),
