@@ -69,7 +69,6 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                       TextFormField(
                         controller: titleController,
                         validator: (value) => FormValidators.reminderTitle(value),
-                        style: Theme.of(context).inputDecorationTheme.labelStyle,
                         onTapOutside: (event) => FocusScope.of(context).unfocus(),
                         decoration: InputDecoration(
                           prefixIcon: const Icon(BoxIcons.bx_alarm),
@@ -82,7 +81,6 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                       TextFormField(
                         onTapOutside: (event) => FocusScope.of(context).unfocus(),
                         controller: dateController,
-                        style: Theme.of(context).inputDecorationTheme.labelStyle,
                         validator: (value) => FormValidators.date(value),
                         readOnly: true,
                         onTap: () async {
@@ -123,7 +121,6 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                       TextFormField(
                         onTapOutside: (event) => FocusScope.of(context).unfocus(),
                         controller: timeController,
-                        style: Theme.of(context).inputDecorationTheme.labelStyle,
                         validator: (value) => FormValidators.date(value),
                         readOnly: true,
                         onTap: () async {
@@ -194,7 +191,6 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                       TextFormField(
                         onTapOutside: (event) => FocusScope.of(context).unfocus(),
                         controller: descriptionController,
-                        style: Theme.of(context).inputDecorationTheme.labelStyle,
                         maxLines: 5,
                         decoration: InputDecoration(
                           label: Text('description'.tr()),
@@ -223,6 +219,7 @@ class _CategorySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextTheme textTheme = Theme.of(context).textTheme;
     ReminderProvider reminderProvider = context.read<ReminderProvider>();
     List<DropdownMenuItem<ReminderCategory>> dropdownItems = reminderProvider.categories
         .map(
@@ -233,12 +230,10 @@ class _CategorySelector extends StatelessWidget {
         )
         .toList();
     return DropdownButtonFormField(
-      icon: Icon(
-        BoxIcons.bx_chevron_down,
-        size: 8.w,
-      ),
-      items: dropdownItems,
       onChanged: (cat) {},
+      items: dropdownItems,
+      style: textTheme.bodyLarge,
+      icon: Icon(BoxIcons.bx_chevron_down, size: 8.w),
       decoration: const InputDecoration(
         label: Text('categorie'),
         prefixIcon: Icon(

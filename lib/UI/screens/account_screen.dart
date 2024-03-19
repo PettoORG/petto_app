@@ -79,7 +79,6 @@ class _AccountScreenState extends State<AccountScreen> {
                     controller: nameController,
                     validator: (value) => FormValidators.name(value),
                     autocorrect: true,
-                    style: Theme.of(context).textTheme.bodyMedium,
                     onTapOutside: (event) => FocusScope.of(context).unfocus(),
                     decoration: const InputDecoration(
                       prefixIcon: Icon(BoxIcons.bx_user),
@@ -96,7 +95,6 @@ class _AccountScreenState extends State<AccountScreen> {
                     validator: (value) => FormValidators.email(value),
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: true,
-                    style: textStyle.bodyMedium,
                     onTapOutside: (event) => FocusScope.of(context).unfocus(),
                     decoration: const InputDecoration(
                       prefixIcon: Icon(BoxIcons.bx_user),
@@ -214,7 +212,6 @@ class _ReAuthDialog extends StatelessWidget {
             SizedBox(height: 3.h),
             TextFormField(
               controller: passwordController,
-              style: Theme.of(context).textTheme.bodyMedium,
               validator: (value) => FormValidators.password(value),
               decoration: InputDecoration(
                 prefixIcon: const Icon(BoxIcons.bx_lock),

@@ -119,7 +119,6 @@ class _PetProfileEditorScreenState extends State<PetProfileEditorScreen> {
                       ),
                       SizedBox(height: 1.h),
                       TextFormField(
-                        style: Theme.of(context).textTheme.bodyMedium,
                         decoration: InputDecoration(prefixIcon: const Icon(Icons.pets), labelText: 'microchip'.tr()),
                       ),
                       SizedBox(height: 12.h),
@@ -311,7 +310,6 @@ class _PetWeightSection extends StatelessWidget {
                     LengthLimitingTextInputFormatter(4)
                   ],
                   validator: (value) => FormValidators.weight(value),
-                  style: Theme.of(context).inputDecorationTheme.labelStyle,
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: const InputDecoration(
@@ -372,7 +370,6 @@ class _DatePetPickerState extends State<_DatePetPicker> {
           Text(widget.title, style: Theme.of(context).textTheme.titleMedium),
           SizedBox(height: 1.h),
           TextFormField(
-            style: Theme.of(context).inputDecorationTheme.labelStyle,
             controller: dateController,
             validator: (value) => FormValidators.date(value),
             readOnly: true,

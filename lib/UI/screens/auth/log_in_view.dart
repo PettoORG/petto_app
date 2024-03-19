@@ -72,7 +72,6 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(height: 2.h),
               TextFormField(
                 controller: emailController,
-                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) => FormValidators.email(value),
                 decoration: InputDecoration(prefixIcon: const Icon(BoxIcons.bx_envelope), labelText: 'email'.tr()),
@@ -81,7 +80,6 @@ class _LoginViewState extends State<LoginView> {
               TextFormField(
                 controller: passwordController,
                 obscureText: !_passwordVisible,
-                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) => FormValidators.password(value),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),

@@ -69,7 +69,6 @@ class _RegisterViewState extends State<RegisterView> {
               SizedBox(height: 2.h),
               TextFormField(
                 controller: nameController,
-                style: Theme.of(context).textTheme.bodyMedium,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_user),
                   labelText: 'name'.tr(),
@@ -79,7 +78,6 @@ class _RegisterViewState extends State<RegisterView> {
               SizedBox(height: 1.5.h),
               TextFormField(
                 controller: emailController,
-                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_envelope),
@@ -92,7 +90,6 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               TextFormField(
                 controller: passwordController,
-                style: Theme.of(context).textTheme.bodyMedium,
                 obscureText: !_passwordVisible,
                 validator: (value) => FormValidators.password(value),
                 decoration: InputDecoration(

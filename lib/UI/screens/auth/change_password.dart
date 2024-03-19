@@ -53,7 +53,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             children: [
               TextFormField(
                 controller: oldPassWord,
-                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) => FormValidators.password(value),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
@@ -67,7 +66,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               SizedBox(height: 3.h),
               TextFormField(
                 controller: newPassWord,
-                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) => FormValidators.password(value),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),
@@ -81,7 +79,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               SizedBox(height: 3.h),
               TextFormField(
                 controller: confirmNewPassWord,
-                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) => FormValidators.confirmPassword(value, newPassWord.text),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(BoxIcons.bx_lock),

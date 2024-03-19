@@ -58,7 +58,6 @@ class AppTheme {
             filled: true,
             fillColor: lightSurfaceVariant,
             prefixIconColor: lightTextColor2,
-            labelStyle: TextStyle(fontSize: 12.sp, color: lightTextColor2),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: lightShadowColor),
               borderRadius: BorderRadius.circular(5.w),
@@ -141,7 +140,6 @@ class AppTheme {
             filled: true,
             fillColor: darkSurfaceVariant,
             prefixIconColor: darkTextColor2,
-            labelStyle: TextStyle(fontSize: 12.sp, color: darkTextColor2),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: darkShadowColor),
               borderRadius: BorderRadius.circular(5.w),

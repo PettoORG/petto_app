@@ -81,7 +81,6 @@ class _PetRegisterScreenState extends State<PetRegisterScreen> {
                 TextFormField(
                   controller: petName,
                   validator: (value) => FormValidators.name(value),
-                  style: Theme.of(context).inputDecorationTheme.labelStyle,
                   onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.pets),
@@ -290,7 +289,6 @@ class _PetWeightSection extends StatelessWidget {
               LengthLimitingTextInputFormatter(4)
             ],
             validator: (value) => FormValidators.weight(value),
-            style: Theme.of(context).inputDecorationTheme.labelStyle,
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
             decoration: InputDecoration(
@@ -337,7 +335,6 @@ class _BirthPetPickerState extends State<_BirthPetPicker> {
   Widget build(BuildContext context) {
     ColorScheme color = Theme.of(context).colorScheme;
     return TextFormField(
-      style: Theme.of(context).inputDecorationTheme.labelStyle,
       controller: dateController,
       validator: (value) => FormValidators.date(value),
       readOnly: true,
