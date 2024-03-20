@@ -51,22 +51,6 @@ class Reminder extends GeneralNotification {
   }
 }
 
-class ReminderCategory {
-  final String text;
-  final String value;
-  ReminderCategory({required this.text, required this.value});
-}
-
-enum RepeatType {
-  none,
-  multipleTimesADay,
-  daily,
-  weekly,
-  monthly,
-  yearly,
-  custom,
-}
-
 class RepeatConfig {
   final RepeatType type;
   final List<DateTime>? times;
@@ -81,4 +65,14 @@ class RepeatConfig {
     this.daysOfWeek,
     this.daysOfMonth,
   });
+}
+
+enum RepeatType {
+  none,
+  multipleTimesADay,
+  daily,
+  weekly,
+  monthly,
+  yearly,
+  custom,
 }

@@ -1,3 +1,5 @@
+export 'package:petto_app/domain/entities/reminder_configuration.dart';
+
 export 'package:petto_app/domain/entities/reminder.dart';
 
 export 'package:petto_app/domain/entities/pet.dart';

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:petto_app/UI/providers/providers.dart';
 import 'package:petto_app/domain/entities/entities.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class ReminderFrecuencyModal extends StatefulWidget {
@@ -33,19 +35,15 @@ class _FrecuencySelectorView extends StatefulWidget {
 }
 
 class _FrecuencySelectorViewState extends State<_FrecuencySelectorView> {
-  List<Map<String, dynamic>> repeatOptions = [
-    {'text': 'No se repite', 'value': RepeatType.none, 'isSelected': true},
-    {'text': 'Varias veces al día', 'value': RepeatType.multipleTimesADay, 'icon': true},
-    {'text': 'Cada día', 'value': RepeatType.daily},
-    {'text': 'Cada semana', 'value': RepeatType.weekly},
-    {'text': 'Cada mes', 'value': RepeatType.monthly},
-    {'text': 'Cada año', 'value': RepeatType.yearly},
-    {'text': 'Personalizado', 'value': RepeatType.custom, 'icon': true},
-  ];
+  String selectedFrequencyValue = 'none';
 
   @override
   Widget build(BuildContext context) {
+    ReminderProvider reminderProvider = context.watch<ReminderProvider>();
     ColorScheme colors = Theme.of(context).colorScheme;
+
+    List<ReminderFrecuency> frequencies = reminderProvider.reminderConfig!.frequencies;
+
     return Column(
       children: [
         Container(
@@ -55,24 +53,91 @@ class _FrecuencySelectorViewState extends State<_FrecuencySelectorView> {
           decoration: BoxDecoration(color: colors.primary, borderRadius: BorderRadius.circular(3.w)),
         ),
         Expanded(
-          child: GridView.count(
+          child: GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            crossAxisSpacing: 2.h,
-            mainAxisSpacing: 2.h,
-            childAspectRatio: 2,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 2,
+              crossAxisSpacing: 2.h,
+              mainAxisSpacing: 2.h,
+            ),
             padding: EdgeInsets.symmetric(horizontal: 5.w),
-            crossAxisCount: 2,
-            children: List.generate(
-              repeatOptions.length,
-              (index) => _FrecuencyCard(
-                repeatOptions[index],
-                () {
-                  for (int i = 0; i < repeatOptions.length; i++) {
-                    repeatOptions[i]['isSelected'] = i == index;
-                  }
-                  setState(() {});
+            itemCount: frequencies.length,
+            itemBuilder: (context, index) {
+              return _FrecuencyCard(
+                frequency: frequencies[index],
+                isSelected: selectedFrequencyValue == frequencies[index].value,
+                onTap: () {
+                  setState(() {
+                    selectedFrequencyValue = frequencies[index].value;
+                  });
                 },
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _FrecuencyCard extends StatelessWidget {
+  final ReminderFrecuency frequency;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _FrecuencyCard({required this.frequency, required this.isSelected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    ColorScheme colors = Theme.of(context).colorScheme;
+    TextTheme textTheme = Theme.of(context).textTheme;
+    return Stack(
+      children: [
+        if (isSelected)
+          Positioned(
+            bottom: -4.w,
+            right: -4.w,
+            child: Transform.rotate(
+              angle: -0.3, // Ajusta el ángulo según necesites
+              child: SvgPicture.asset(
+                'assets/svgs/pet-footprint.svg',
+                width: 25.w,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.primary,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+          ),
+        InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(3.w),
+          child: Ink(
+            width: double.infinity,
+            height: double.infinity,
+            padding: EdgeInsets.all(3.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(3.w),
+              color: colors.surface,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 5,
+                  color: colors.shadow,
+                  offset: const Offset(0, 0),
+                ),
+              ],
+            ),
+            child: Expanded(
+              child: Center(
+                child: Text(
+                  frequency.text,
+                  style: textTheme.titleMedium,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),
@@ -152,9 +217,7 @@ class _CustomFrecuencySelectorState extends State<_CustomFrecuencySelector> {
                     ),
                   ],
                 ),
-                const Divider(
-                  height: 30,
-                ),
+                const Divider(height: 30),
               ],
             ),
           ),
@@ -343,71 +406,6 @@ class __RepeatTimesPerDaySelectorState extends State<_RepeatTimesPerDaySelector>
           ),
         ],
       ),
-    );
-  }
-}
-
-class _FrecuencyCard extends StatelessWidget {
-  final dynamic option;
-  final Function()? onTap;
-  const _FrecuencyCard(this.option, this.onTap);
-
-  @override
-  Widget build(BuildContext context) {
-    ColorScheme colors = Theme.of(context).colorScheme;
-    TextTheme textTheme = Theme.of(context).textTheme;
-    return Stack(
-      children: [
-        (option['isSelected'] == true)
-            ? Positioned(
-                bottom: -4.w,
-                right: -4.w,
-                child: Transform.rotate(
-                  angle: -19.5,
-                  child: SvgPicture.asset(
-                    'assets/svgs/pet-footprint.svg',
-                    width: 25.w,
-                    colorFilter: ColorFilter.mode(
-                      Theme.of(context).colorScheme.primary,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-              )
-            : const SizedBox.shrink(),
-        InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(3.w),
-          child: Ink(
-            height: double.infinity,
-            padding: EdgeInsets.all(3.w),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3.w),
-              color: colors.surface,
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 5,
-                  color: Theme.of(context).colorScheme.shadow,
-                  offset: const Offset(0, 0),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    option['text'],
-                    style: textTheme.titleMedium,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -22,7 +22,7 @@ class ReminderRepositoryImpl extends ReminderRepository {
   }
 
   @override
-  Future<List<ReminderCategory>> getCategories(String locale) async {
-    return await datasource.getCategories(locale);
+  Future<ReminderConfig> getReminderConfig(String locale) async {
+    return await datasource.getReminderConfig(locale);
   }
 }

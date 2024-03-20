@@ -33,14 +33,23 @@ class FirestoreReminderDatasource extends ReminderDatasource {
   }
 
   @override
-  Future<List<ReminderCategory>> getCategories(String locale) async {
+  Future<ReminderConfig> getReminderConfig(String locale) async {
     DocumentSnapshot document = await _db.collection('configuration').doc('reminders').get();
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-    Map<String, dynamic> categoriesMap = data[locale];
+
+    //Categories
+    Map<String, dynamic> categoriesMap = data['categories'][locale];
     List<ReminderCategory> categories = categoriesMap.entries.map((entry) {
       return ReminderCategory(text: entry.value['text'], value: entry.key);
     }).toList();
-    return categories;
+
+    //Frecuencies
+    Map<String, dynamic> frequenciesMap = data['frequencies'][locale];
+    List<ReminderFrecuency> frequencies = frequenciesMap.entries.map((entry) {
+      return ReminderFrecuency(text: entry.value['text'], value: entry.key);
+    }).toList();
+
+    return ReminderConfig(categories: categories, frequencies: frequencies);
   }
 
   String _getUid() {

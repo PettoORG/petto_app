@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -46,7 +45,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
         const _SliverAppBar(),
         SliverToBoxAdapter(
           child: FutureBuilder(
-            future: reminderProvider.getCategories(context.locale.languageCode),
+            future: reminderProvider.getReminderConfig(context.locale.languageCode),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -54,8 +53,6 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                 );
               } else if (snapshot.hasError) {
                 return const Center(child: Text("Error al cargar datos"));
-              } else if (snapshot.data == null) {
-                return const Text("No hay datos disponibles");
               } else {
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
@@ -221,7 +218,7 @@ class _CategorySelector extends StatelessWidget {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     ReminderProvider reminderProvider = context.read<ReminderProvider>();
-    List<DropdownMenuItem<ReminderCategory>> dropdownItems = reminderProvider.categories
+    List<DropdownMenuItem<ReminderCategory>> dropdownItems = reminderProvider.reminderConfig!.categories
         .map(
           (category) => DropdownMenuItem<ReminderCategory>(
             value: category,

@@ -11,7 +11,7 @@ class ReminderProvider extends ChangeNotifier {
 
   List<Reminder> reminders = [];
 
-  List<ReminderCategory> categories = [];
+  ReminderConfig? reminderConfig;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -62,10 +62,9 @@ class ReminderProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<ReminderCategory>> getCategories(String locale) async {
+  Future<void> getReminderConfig(String locale) async {
     try {
-      categories = await _datasource.getCategories(locale);
-      return categories;
+      reminderConfig = await _datasource.getReminderConfig(locale);
     } catch (e) {
       rethrow;
     }
